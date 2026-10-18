@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASENO Admin</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: #171b13;
+      color: #f5f1e8;
+      font-family: Arial, sans-serif;
+    }
+    .panel {
+      width: 100%;
+      max-width: 400px;
+      padding: 30px 24px;
+      border: 1px solid #505541;
+      border-radius: 14px;
+      background: #22271c;
+    }
+    .brand {
+      color: #d4ddba;
+      letter-spacing: 5px;
+      font-size: 25px;
+      font-weight: 700;
+    }
+    p { color: #c2c6b9; line-height: 1.6; }
+    label { display: block; margin: 18px 0 8px; }
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #555c48;
+      border-radius: 7px;
+      background: #171b13;
+      color: white;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: 0;
+      border-radius: 7px;
+      background: #d4ddba;
+      color: #171b13;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .note { font-size: 12px; }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <div class="brand">ASENO</div>
+    <p>STORE MANAGEMENT<br>Admin Dashboard</p>
+
+    <form id="loginForm">
+      <label for="email">Admin email</label>
+      <input id="email" type="email" autocomplete="username"
+        placeholder="Enter your admin email" required>
+
+      <label for="password">Password</label>
+      <input id="password" type="password"
+        autocomplete="current-password"
+        placeholder="Enter your password" required>
+
+      <button type="submit">Sign in</button>
+    </form>
+
+    <p id="message" role="status"></p>
+    <p class="note">Secure admin access will be connected in the next setup step.</p>
+  </main>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      document.getElementById("message").textContent =
+        "Login is not connected yet. Please complete the secure setup.";
+    });
+  </script>
+</body>
+</html>
