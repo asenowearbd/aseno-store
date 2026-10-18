@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ASENO Admin</title>
+  <title>ASENO Admin Login</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -19,7 +19,7 @@
     .panel {
       width: 100%;
       max-width: 400px;
-      padding: 30px 24px;
+      padding: 28px 24px;
       border: 1px solid #505541;
       border-radius: 14px;
       background: #22271c;
@@ -27,8 +27,8 @@
     .brand {
       color: #d4ddba;
       letter-spacing: 5px;
-      font-size: 25px;
-      font-weight: 700;
+      font-size: 27px;
+      font-weight: bold;
     }
     p { color: #c2c6b9; line-height: 1.6; }
     label { display: block; margin: 18px 0 8px; }
@@ -51,8 +51,9 @@
       color: #171b13;
       font-size: 16px;
       font-weight: bold;
+      cursor: pointer;
     }
-    .note { font-size: 12px; }
+    #message { overflow-wrap: anywhere; }
   </style>
 </head>
 <body>
@@ -62,27 +63,84 @@
 
     <form id="loginForm">
       <label for="email">Admin email</label>
-      <input id="email" type="email" autocomplete="username"
-        placeholder="Enter your admin email" required>
+      <input id="email" type="email"
+        autocomplete="username" required>
 
       <label for="password">Password</label>
       <input id="password" type="password"
-        autocomplete="current-password"
-        placeholder="Enter your password" required>
+        autocomplete="current-password" required>
 
-      <button type="submit">Sign in</button>
+      <button id="loginButton" type="submit">Sign in</button>
     </form>
 
     <p id="message" role="status"></p>
-    <p class="note">Secure admin access will be connected in the next setup step.</p>
+    <section id="dashboard" hidden>
+      <h3>Welcome to ASENO</h3>
+      <p>Admin login successful. Your account is authorized.</p>
+      <button id="logoutButton" type="button">Sign out</button>
+    </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
+    const db = window.supabase.createClient(
+      'https://rksonvrxckilhbgdkfbk.supabase.co',
+      'sb_publishable_yvsxXpmXI-7Okxf0xMU6gQ_kbitp4DG'
+    );
+
+    const form = document.getElementById('loginForm');
+    const message = document.getElementById('message');
+    const button = document.getElementById('loginButton');
+    const dashboard = document.getElementById('dashboard');
+
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      document.getElementById("message").textContent =
-        "Login is not connected yet. Please complete the secure setup.";
+      button.disabled = true;
+      message.textContent = 'Signing in...';
+
+      try {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        const { data, error } = await db.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        const { data: admin, error: adminError } = await db
+          .from('admin_users')
+          .select('user_id')
+          .eq('user_id', data.user.id)
+          .maybeSingle();
+
+        if (adminError) throw adminError;
+
+        if (!admin) {
+          await db.auth.signOut();
+          throw new Error('This account is not authorized as an admin.');
+        }
+
+        form.hidden = true;
+        dashboard.hidden = false;
+        message.textContent = 'Login successful.';
+      } catch (error) {
+        message.textContent = error.message ||
+          'Unable to sign in. Please try again.';
+      } finally {
+        button.disabled = false;
+      }
     });
+
+    document.getElementById('logoutButton')
+      .addEventListener('click', async () => {
+        await db.auth.signOut();
+        dashboard.hidden = true;
+        form.hidden = false;
+        document.getElementById('password').value = '';
+        message.textContent = 'You have signed out.';
+      });
   </script>
 </body>
 </html>
