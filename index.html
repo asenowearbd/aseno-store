@@ -10,76 +10,28 @@
 :root{--bg:#f5f3eb;--ink:#20251c;--olive:#343d2b;--muted:#77796e;--line:#deded2;--white:#fff}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
 .topbar{background:var(--olive);color:#f5f3eb;text-align:center;padding:9px;font-size:11px;letter-spacing:1.5px}
 header{display:flex;align-items:center;justify-content:space-between;padding:19px 5%;border-bottom:1px solid var(--line);background:var(--bg)}
-.logo{font-size:28px;font-weight:900;letter-spacing:5px}
-.logo small{display:block;font-size:9px;letter-spacing:4px;text-align:center;margin-top:4px}
-.nav{display:flex;gap:20px;font-size:12px}
-.cartbtn{border:1px solid var(--ink);background:transparent;padding:10px 14px;font-size:12px}
-.hero{background:#20271c;color:#f7f5ec;padding:60px 7% 55px;position:relative;overflow:hidden}
-.hero:after{content:"A";position:absolute;right:3%;top:-70px;font-size:330px;font-weight:900;color:#ffffff08;pointer-events:none}
-.eyebrow{font-size:10px;letter-spacing:3px;color:#c5cbb5}
-.hero h1{font-size:clamp(43px,9vw,88px);line-height:.94;letter-spacing:-3px;margin:23px 0;max-width:680px}
-.hero p{color:#d3d6cb;max-width:410px;line-height:1.8;font-size:14px}
-.btn{display:inline-block;background:var(--bg);color:var(--ink);border:0;padding:15px 23px;font-weight:bold;font-size:11px;letter-spacing:1px;margin-top:18px}
-.hero-note{margin-top:40px;font-size:10px;letter-spacing:2px;color:#c5cbb5}
-section{padding:43px 5%}
-.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:22px}
-.sectionhead h2{font-size:25px;letter-spacing:-1px;margin:0 0 7px}
-.sectionhead p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}
-.count{font-size:10px;letter-spacing:1px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.product{min-width:0}
-.productart{position:relative;aspect-ratio:4/5;background:#e8e6dc;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.productart.dark{background:#d8d8ce}
-.shirt{width:68%;height:68%;filter:drop-shadow(0 12px 9px #0002);position:relative}
-.shirt svg{width:100%;height:100%}
-.tag{position:absolute;top:10px;left:10px;background:#f5f3eb;padding:7px 8px;font-size:8px;letter-spacing:1px}
-.arttext{position:absolute;bottom:13px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:3px;color:#888}
-.productinfo{padding:13px 0 19px}
-.productname{font-size:13px;font-weight:700;margin-bottom:6px}
-.productdesc{font-size:10px;color:var(--muted);line-height:1.5;min-height:28px}
-.price{font-size:14px;font-weight:700;margin:10px 0}
-.oldprice{font-size:11px;color:var(--muted);font-weight:400}
-.quick{width:100%;background:transparent;border:1px solid var(--ink);padding:12px 5px;font-size:10px;letter-spacing:1px}
-.quick:hover{background:var(--ink);color:white}
-.colours{display:flex;gap:7px;margin:10px 0}
-.swatch{width:17px;height:17px;border-radius:50%;border:1px solid #aaa;display:inline-block}
-.custombox{background:#e7e6db;padding:28px;margin-top:10px}
-.custombox h3{font-size:24px;margin:0 0 9px}
-.custombox p{font-size:13px;color:#62665a;line-height:1.7;max-width:520px}
-.custombox .btn{background:var(--olive);color:white}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.feature{border-top:1px solid var(--line);padding:18px 0}
-.feature strong{font-size:11px;letter-spacing:1px}
-.feature p{font-size:11px;color:var(--muted);line-height:1.6}
-footer{background:#20271c;color:#f5f3eb;padding:35px 5%}
-footer .logo{font-size:24px}
-footer p{font-size:11px;color:#c5cbb5;line-height:1.8}
-.footerrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.footlinks{display:flex;gap:15px;font-size:11px;align-items:center}
-.overlay{display:none;position:fixed;inset:0;background:#0008;z-index:9}
-.overlay.show{display:block}
-.panel{position:fixed;right:0;top:0;bottom:0;width:min(440px,100%);background:var(--bg);z-index:10;padding:22px;overflow:auto;transform:translateX(105%);transition:.25s}
-.panel.show{transform:translateX(0)}
-.panelhead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}
-.close{background:transparent;border:0;font-size:25px}
-.field{display:block;margin:16px 0}
-.field label{display:block;font-size:11px;font-weight:bold;margin-bottom:7px}
-.field input,.field select{width:100%;padding:13px;border:1px solid var(--line);background:white;border-radius:0}
-.field small{color:var(--muted);font-size:10px}
-.choice{display:flex;flex-wrap:wrap;gap:8px}
-.choice button{padding:10px 13px;border:1px solid var(--line);background:transparent;font-size:11px}
-.choice button.selected{background:var(--olive);color:white;border-color:var(--olive)}
-.panelprice{font-size:22px;font-weight:bold;margin:20px 0}
-.primary{width:100%;padding:15px;background:var(--olive);color:white;border:0;font-weight:bold;letter-spacing:1px;margin-top:10px}
-.secondary{width:100%;padding:13px;background:transparent;border:1px solid var(--ink);margin-top:9px}
-.cartitem{padding:15px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.7}
-.cartitem button{border:0;background:transparent;text-decoration:underline;font-size:10px}
-.total{display:flex;justify-content:space-between;font-weight:bold;margin:20px 0}
+.logo{font-size:28px;font-weight:900;letter-spacing:5px}.logo small{display:block;font-size:9px;letter-spacing:4px;text-align:center;margin-top:4px}
+.nav{display:flex;gap:20px;font-size:12px}.cartbtn{border:1px solid var(--ink);background:transparent;padding:10px 14px;font-size:12px}
+.hero{background:#20271c;color:#f7f5ec;padding:60px 7% 55px;position:relative;overflow:hidden}.hero:after{content:"A";position:absolute;right:3%;top:-70px;font-size:330px;font-weight:900;color:#ffffff08;pointer-events:none}
+.eyebrow{font-size:10px;letter-spacing:3px;color:#c5cbb5}.hero h1{font-size:clamp(43px,9vw,88px);line-height:.94;letter-spacing:-3px;margin:23px 0;max-width:680px}
+.hero p{color:#d3d6cb;max-width:410px;line-height:1.8;font-size:14px}.btn{display:inline-block;background:var(--bg);color:var(--ink);border:0;padding:15px 23px;font-weight:bold;font-size:11px;letter-spacing:1px;margin-top:18px}
+.hero-note{margin-top:40px;font-size:10px;letter-spacing:2px;color:#c5cbb5}section{padding:43px 5%}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:22px}.sectionhead h2{font-size:25px;letter-spacing:-1px;margin:0 0 7px}.sectionhead p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}.count{font-size:10px;letter-spacing:1px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.product{min-width:0}.productart{position:relative;aspect-ratio:4/5;background:#e8e6dc;display:flex;align-items:center;justify-content:center;overflow:hidden}.shirt{width:68%;height:68%;filter:drop-shadow(0 12px 9px #0002);position:relative}.shirt svg{width:100%;height:100%}
+.productphoto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.tag{position:absolute;top:10px;left:10px;background:#f5f3eb;padding:7px 8px;font-size:8px;letter-spacing:1px;z-index:1}.arttext{position:absolute;bottom:13px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:3px;color:#888}
+.productinfo{padding:13px 0 19px}.productname{font-size:13px;font-weight:700;margin-bottom:6px}.productdesc{font-size:10px;color:var(--muted);line-height:1.5;min-height:28px}.price{font-size:14px;font-weight:700;margin:10px 0}.oldprice{font-size:11px;color:var(--muted);font-weight:400}
+.quick{width:100%;background:transparent;border:1px solid var(--ink);padding:12px 5px;font-size:10px;letter-spacing:1px}.quick:hover{background:var(--ink);color:white}.colours{display:flex;gap:7px;margin:10px 0}.swatch{width:17px;height:17px;border-radius:50%;border:1px solid #aaa;display:inline-block}
+.custombox{background:#e7e6db;padding:28px;margin-top:10px}.custombox h3{font-size:24px;margin:0 0 9px}.custombox p{font-size:13px;color:#62665a;line-height:1.7;max-width:520px}.custombox .btn{background:var(--olive);color:white}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.feature{border-top:1px solid var(--line);padding:18px 0}.feature strong{font-size:11px;letter-spacing:1px}.feature p{font-size:11px;color:var(--muted);line-height:1.6}
+footer{background:#20271c;color:#f5f3eb;padding:35px 5%}footer .logo{font-size:24px}footer p{font-size:11px;color:#c5cbb5;line-height:1.8}.footerrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footlinks{display:flex;gap:15px;font-size:11px;align-items:center}
+.overlay{display:none;position:fixed;inset:0;background:#0008;z-index:9}.overlay.show{display:block}.panel{position:fixed;right:0;top:0;bottom:0;width:min(440px,100%);background:var(--bg);z-index:10;padding:22px;overflow:auto;transform:translateX(105%);transition:.25s}.panel.show{transform:translateX(0)}
+.panelhead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}.close{background:transparent;border:0;font-size:25px}.field{display:block;margin:16px 0}.field label{display:block;font-size:11px;font-weight:bold;margin-bottom:7px}.field input,.field select{width:100%;padding:13px;border:1px solid var(--line);background:white;border-radius:0}
+.field small{color:var(--muted);font-size:10px}.choice{display:flex;flex-wrap:wrap;gap:8px}.choice button{padding:10px 13px;border:1px solid var(--line);background:transparent;font-size:11px}.choice button.selected{background:var(--olive);color:white;border-color:var(--olive)}
+.panelprice{font-size:22px;font-weight:bold;margin:20px 0}.primary{width:100%;padding:15px;background:var(--olive);color:white;border:0;font-weight:bold;letter-spacing:1px;margin-top:10px}.secondary{width:100%;padding:13px;background:transparent;border:1px solid var(--ink);margin-top:9px}
+.cartitem{padding:15px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.7}.cartitem button{border:0;background:transparent;text-decoration:underline;font-size:10px}.total{display:flex;justify-content:space-between;font-weight:bold;margin:20px 0}
 #notice{display:none;position:fixed;bottom:15px;left:5%;right:5%;background:#20271c;color:white;padding:15px;text-align:center;font-size:12px;z-index:20}
 @media(min-width:900px){.hero{padding-top:85px;padding-bottom:75px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:520px){header{padding:15px 4%}.logo{font-size:23px;letter-spacing:3px}.nav{gap:10px;font-size:10px}.nav a:nth-child(2){display:none}.cartbtn{padding:9px}.hero{padding:48px 6%}.hero h1{letter-spacing:-2px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}section{padding:34px 4%}.sectionhead h2{font-size:21px}.count{font-size:9px}.productname{font-size:12px}.custombox{padding:23px 18px}.features{grid-template-columns:1fr}.feature{padding:12px 0}}
@@ -92,154 +44,89 @@ footer p{font-size:11px;color:#c5cbb5;line-height:1.8}
   <nav class="nav"><a href="#solid">SHOP</a><a href="#designs">DESIGNS</a><a href="#custom">CUSTOM PRINT</a></nav>
   <button class="cartbtn" onclick="openCart()">BAG (<span id="cartcount">0</span>)</button>
 </header>
-
 <main>
 <section class="hero">
-  <div class="eyebrow">ASENO / EVERYDAY UNIFORM</div>
-  <h1>SIMPLE.<br>CLEAN.<br>TIMELESS.</h1>
+  <div class="eyebrow">ASENO / EVERYDAY UNIFORM</div><h1>SIMPLE.<br>CLEAN.<br>TIMELESS.</h1>
   <p>Premium streetwear designed for your everyday rotation. Find your fit, choose your colour, make it yours.</p>
-  <a class="btn" href="#solid">EXPLORE COLLECTION ↘</a>
-  <div class="hero-note">SOLID BASICS · ORIGINAL DESIGNS · CUSTOM PRINTS</div>
+  <a class="btn" href="#solid">EXPLORE COLLECTION ↘</a><div class="hero-note">SOLID BASICS · ORIGINAL DESIGNS · CUSTOM PRINTS</div>
 </section>
-
-<section id="solid">
-  <div class="sectionhead"><div><h2>THE ESSENTIALS</h2><p>Clean fits. Everyday colours.</p></div><span class="count">01 / SOLID</span></div>
-  <div class="grid" id="solidgrid"></div>
-</section>
-
-<section id="designs">
-  <div class="sectionhead"><div><h2>ASENO DESIGNS</h2><p>Graphic tees with a statement.</p></div><span class="count">02 / GRAPHIC</span></div>
-  <div class="grid" id="designgrid"></div>
-</section>
-
-<section id="custom">
-  <div class="custombox">
-    <div class="eyebrow">YOUR IDEA. YOUR T-SHIRT.</div>
-    <h3>MAKE IT YOURS.</h3>
-    <p>Have a design in mind? Order a custom printed T-shirt. Share your artwork and preferred colour with us on WhatsApp. Custom orders start at ৳600.</p>
-    <a class="btn" href="https://wa.me/8801890542860?text=Hi%20ASENO%2C%20I%20want%20to%20order%20a%20custom%20printed%20T-shirt." target="_blank" rel="noopener">REQUEST CUSTOM PRINT ↗</a>
-  </div>
-</section>
-
-<section>
-  <div class="sectionhead"><div><h2>THE ASENO STANDARD</h2><p>Less noise. More character.</p></div></div>
-  <div class="features">
-    <div class="feature"><strong>01 / EVERYDAY FIT</strong><p>Relaxed silhouettes for your daily rotation.</p></div>
-    <div class="feature"><strong>02 / YOUR STYLE</strong><p>Choose your colour, size and design.</p></div>
-    <div class="feature"><strong>03 / MADE FOR YOU</strong><p>Custom print options for your own ideas.</p></div>
-  </div>
-</section>
+<section id="solid"><div class="sectionhead"><div><h2>THE ESSENTIALS</h2><p>Clean fits. Everyday colours.</p></div><span class="count">01 / SOLID</span></div><div class="grid" id="solidgrid"><p>Loading collection…</p></div></section>
+<section id="designs"><div class="sectionhead"><div><h2>ASENO DESIGNS</h2><p>Graphic tees with a statement.</p></div><span class="count">02 / GRAPHIC</span></div><div class="grid" id="designgrid"></div></section>
+<section id="custom"><div class="custombox"><div class="eyebrow">YOUR IDEA. YOUR T-SHIRT.</div><h3>MAKE IT YOURS.</h3><p>Have a design in mind? Order a custom printed T-shirt. Share your artwork and preferred colour with us on WhatsApp. Custom orders start at ৳600.</p><a class="btn" href="https://wa.me/8801890542860?text=Hi%20ASENO%2C%20I%20want%20to%20order%20a%20custom%20printed%20T-shirt." target="_blank" rel="noopener">REQUEST CUSTOM PRINT ↗</a></div></section>
+<section><div class="sectionhead"><div><h2>THE ASENO STANDARD</h2><p>Less noise. More character.</p></div></div><div class="features"><div class="feature"><strong>01 / EVERYDAY FIT</strong><p>Relaxed silhouettes for your daily rotation.</p></div><div class="feature"><strong>02 / YOUR STYLE</strong><p>Choose your colour, size and design.</p></div><div class="feature"><strong>03 / MADE FOR YOU</strong><p>Custom print options for your own ideas.</p></div></div></section>
 </main>
-
-<footer>
-  <div class="footerrow">
-    <div><div class="logo">ASENO</div><p>SIMPLE. CLEAN. TIMELESS.<br>Premium streetwear from Bangladesh.</p></div>
-    <div class="footlinks"><a href="#solid">Shop</a><a href="#designs">Designs</a><a href="#custom">Custom prints</a></div>
-  </div>
-  <p>For orders and product questions, contact us on WhatsApp: 01890542860</p>
-  <p>© <span id="year"></span> ASENO. All rights reserved.</p>
-</footer>
-
+<footer><div class="footerrow"><div><div class="logo">ASENO</div><p>SIMPLE. CLEAN. TIMELESS.<br>Premium streetwear from Bangladesh.</p></div><div class="footlinks"><a href="#solid">Shop</a><a href="#designs">Designs</a><a href="#custom">Custom prints</a></div></div><p>For orders and product questions, contact us on WhatsApp: 01890542860</p><p>© <span id="year"></span> ASENO. All rights reserved.</p></footer>
 <div class="overlay" id="overlay" onclick="closePanels()"></div>
-<aside class="panel" id="productpanel">
-  <div class="panelhead"><strong>YOUR SELECTION</strong><button class="close" onclick="closePanels()">×</button></div>
-  <div id="productform"></div>
-</aside>
-<aside class="panel" id="cartpanel">
-  <div class="panelhead"><strong>YOUR BAG</strong><button class="close" onclick="closePanels()">×</button></div>
-  <div id="cartitems"></div>
-  <div class="total"><span>TOTAL</span><span id="carttotal">৳0</span></div>
-  <button class="primary" onclick="checkout()">ORDER VIA WHATSAPP</button>
-  <button class="secondary" onclick="closePanels()">CONTINUE SHOPPING</button>
-  <p style="font-size:10px;color:#77796e;line-height:1.7">Your order is sent to WhatsApp for confirmation. Delivery charges will be confirmed separately.</p>
-</aside>
-<div id="notice"></div>
-
+<aside class="panel" id="productpanel"><div class="panelhead"><strong>YOUR SELECTION</strong><button class="close" onclick="closePanels()">×</button></div><div id="productform"></div></aside>
+<aside class="panel" id="cartpanel"><div class="panelhead"><strong>YOUR BAG</strong><button class="close" onclick="closePanels()">×</button></div><div id="cartitems"></div><div class="total"><span>TOTAL</span><span id="carttotal">৳0</span></div><button class="primary" onclick="checkout()">ORDER VIA WHATSAPP</button><button class="secondary" onclick="closePanels()">CONTINUE SHOPPING</button><p style="font-size:10px;color:#77796e;line-height:1.7">Your order is sent to WhatsApp for confirmation. Delivery charges will be confirmed separately.</p></aside>
+<div id="notice" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const db=window.supabase.createClient(
+  'https://rksonvrxckilhbgdkfbk.supabase.co',
+  'sb_publishable_yvsxXpmXI-7Okxf0xMU6gQ_kbitp4DG'
+);
 const WHATSAPP="8801890542860";
 const sizes=["M","L","XL"];
-const solidColours=["Black","White","Maroon","Acid Wash Black"];
-const products=[
- {id:1,name:"Solid Oversized Tee",category:"SOLID ESSENTIAL",price:400,description:"Minimal everyday essential.",colours:solidColours},
+const defaultProducts=[
+ {id:1,name:"Solid Oversized Tee",category:"SOLID ESSENTIAL",price:400,description:"Minimal everyday essential.",colours:["Black","White","Maroon","Acid Wash Black"]},
  {id:2,name:"Wifey Graphic Tee",category:"ASENO DESIGN",price:550,description:"A statement graphic from ASENO.",colours:["Black","White","Acid Wash Black"]},
  {id:3,name:"Sniper Graphic Tee",category:"ASENO DESIGN",price:550,description:"Bold artwork. Relaxed streetwear.",colours:["Black","White","Maroon"]},
  {id:4,name:"Automotive Graphic Tee",category:"ASENO DESIGN",price:550,description:"Automotive-inspired graphic design.",colours:["Black","White","Acid Wash Black"]}
 ];
+let products=[...defaultProducts],cart=[],active=null,selectedColour="",selectedSize="M",qty=1;
 const colourHex={"Black":"#24251f","White":"#faf9f4","Maroon":"#681e32","Acid Wash Black":"#44463f"};
-let cart=[];
-let active=null;
-let selectedColour="";
-let selectedSize="M";
-let qty=1;
-function money(n){return "৳"+n.toLocaleString("en-BD")}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function money(n){return "৳"+Number(n||0).toLocaleString("en-BD")}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function shirtArt(colour,design){
- const c=colourHex[colour]||"#33352d";
- let graphic="";
- if(design==="Wifey") graphic='<text x="100" y="145" font-size="20" text-anchor="middle" fill="#f4a4c0" font-family="Georgia" font-style="italic">Wifey</text>';
- if(design==="Sniper") graphic='<text x="100" y="145" font-size="13" text-anchor="middle" fill="#eee" font-weight="bold">SNIPER</text>';
- if(design==="Automotive") graphic='<text x="100" y="145" font-size="11" text-anchor="middle" fill="#eee" font-weight="bold">86 / DRIVE</text>';
+ const c=colourHex[colour]||"#33352d";let graphic="";
+ if(design==="Wifey")graphic='<text x="100" y="145" font-size="20" text-anchor="middle" fill="#f4a4c0" font-family="Georgia" font-style="italic">Wifey</text>';
+ if(design==="Sniper")graphic='<text x="100" y="145" font-size="13" text-anchor="middle" fill="#eee" font-weight="bold">SNIPER</text>';
+ if(design==="Automotive")graphic='<text x="100" y="145" font-size="11" text-anchor="middle" fill="#eee" font-weight="bold">86 / DRIVE</text>';
  return `<svg viewBox="0 0 200 210" aria-label="${esc(colour)} T-shirt illustration"><path d="M64 26 L81 18 Q100 33 119 18 L136 26 L175 53 L153 84 L133 72 L137 190 L63 190 L67 72 L47 84 L25 53 Z" fill="${c}" stroke="#2223" stroke-width="1.5"/><path d="M81 18 Q100 51 119 18" fill="none" stroke="#9997" stroke-width="2"/>${graphic}</svg>`;
 }
 function productCard(p){
- const colour=p.colours[0];
- const design=p.id===2?"Wifey":p.id===3?"Sniper":p.id===4?"Automotive":"";
- return `<article class="product">
- <div class="productart"><span class="tag">${esc(p.category)}</span><div class="shirt">${shirtArt(colour,design)}</div><span class="arttext">ASENO / ${esc(colour.toUpperCase())}</span></div>
- <div class="productinfo"><div class="productname">${esc(p.name)}</div><div class="productdesc">${esc(p.description)}</div><div class="colours">${p.colours.slice(0,4).map(c=>`<span class="swatch" title="${esc(c)}" style="background:${colourHex[c]||"#444"}"></span>`).join("")}</div><div class="price">${money(p.price)}${p.id===4?' <span class="oldprice">starting</span>':''}</div><button class="quick" onclick="openProduct(${p.id})">SELECT OPTIONS +</button></div></article>`;
+ const colours=Array.isArray(p.colours)&&p.colours.length?p.colours:["Black","White","Maroon","Acid Wash Black"];
+ const colour=colours[0],id=String(p.id),design=/wifey/i.test(p.name)?"Wifey":/sniper/i.test(p.name)?"Sniper":/automotive|86/i.test(p.name)?"Automotive":"";
+ const art=p.image_url?`<img class="productphoto" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="shirt">${shirtArt(colour,design)}</div><span class="arttext">ASENO / ${esc(colour.toUpperCase())}</span>`;
+ return `<article class="product"><div class="productart"><span class="tag">${esc(p.category||"ASENO COLLECTION")}</span>${art}</div><div class="productinfo"><div class="productname">${esc(p.name)}</div><div class="productdesc">${esc(p.description||"Premium ASENO streetwear.")}</div><div class="colours">${colours.slice(0,4).map(c=>`<span class="swatch" title="${esc(c)}" style="background:${colourHex[c]||"#444"}"></span>`).join("")}</div><div class="price">${money(p.price)}</div><button class="quick" onclick="openProduct('${esc(id)}')">SELECT OPTIONS +</button></div></article>`;
 }
 function render(){
- document.getElementById("solidgrid").innerHTML=productCard(products[0]);
- document.getElementById("designgrid").innerHTML=products.slice(1).map(productCard).join("");
+ const solid=products.filter(p=>p.category==="SOLID ESSENTIAL"||p.category==="tshirt"||p.category==="solid");
+ const designs=products.filter(p=>!solid.includes(p));
+ document.getElementById("solidgrid").innerHTML=solid.length?solid.map(productCard).join(""):'<p>No essentials available yet.</p>';
+ document.getElementById("designgrid").innerHTML=designs.length?designs.map(productCard).join(""):'<p>New designs coming soon.</p>';
  document.getElementById("year").textContent=new Date().getFullYear();
 }
-function showNotice(s){
- const n=document.getElementById("notice");n.textContent=s;n.style.display="block";
- setTimeout(()=>n.style.display="none",2600);
+async function loadProducts(){
+ try{
+  const {data,error}=await db.from("products").select("id,name,description,category,price,image_url,is_active").eq("is_active",true).order("created_at",{ascending:true});
+  if(error)throw error;
+  if(data&&data.length){
+   products=data.map(p=>({...p,category:(p.category==="tshirt"?"SOLID ESSENTIAL":p.category==="custom"?"ASENO DESIGN":p.category),colours:["Black","White","Maroon","Acid Wash Black"]}));
+   render();
+  }else{render()}
+ }catch(e){console.error("ASENO product loading:",e);render();showNotice("Showing preview products. Database connection needs checking.");}
 }
+function showNotice(s){const n=document.getElementById("notice");n.textContent=s;n.style.display="block";clearTimeout(window.asenoNoticeTimer);window.asenoNoticeTimer=setTimeout(()=>n.style.display="none",3000)}
 function openProduct(id){
- active=products.find(p=>p.id===id);selectedColour=active.colours[0];selectedSize="M";qty=1;
- document.getElementById("productform").innerHTML=`
- <h2 style="font-size:23px">${esc(active.name)}</h2>
- <p style="font-size:12px;color:#77796e">${esc(active.description)}</p>
- <div class="field"><label>COLOUR</label><div class="choice">${active.colours.map((c,i)=>`<button class="${i===0?"selected":""}" onclick="chooseColour('${esc(c)}',this)">${esc(c)}</button>`).join("")}</div></div>
- <div class="field"><label>SIZE</label><div class="choice">${sizes.map((s,i)=>`<button class="${i===0?"selected":""}" onclick="chooseSize('${s}',this)">${s}</button>`).join("")}</div><small>Size chart: M — length 28", chest 40" · L — length 29", chest 42" · XL — length 30", chest 44". Please confirm these sample measurements before publishing.</small></div>
- <div class="field"><label>QUANTITY</label><div class="choice"><button onclick="changeQty(-1)">−</button><button id="qtyval">1</button><button onclick="changeQty(1)">+</button></div></div>
- <div class="panelprice" id="productprice">${money(active.price)}</div>
- <button class="primary" onclick="addToCart()">ADD TO BAG</button>
- <button class="secondary" onclick="buyNow()">ORDER NOW VIA WHATSAPP</button>
- <p style="font-size:10px;color:#77796e;line-height:1.7">Illustration is a placeholder. Product photos and actual size measurements should be added before launch.</p>`;
- document.getElementById("overlay").classList.add("show");
- document.getElementById("productpanel").classList.add("show");
+ active=products.find(p=>String(p.id)===String(id));if(!active){showNotice("This product is unavailable.");return}
+ active.colours=active.colours||["Black","White","Maroon","Acid Wash Black"];
+ selectedColour=active.colours[0];selectedSize="M";qty=1;
+ document.getElementById("productform").innerHTML=`<h2 style="font-size:23px">${esc(active.name)}</h2><p style="font-size:12px;color:#77796e">${esc(active.description||"Premium ASENO streetwear.")}</p>${active.image_url?`<img src="${esc(active.image_url)}" alt="${esc(active.name)}" style="width:100%;max-height:260px;object-fit:cover">`:""}<div class="field"><label>COLOUR</label><div class="choice">${active.colours.map((c,i)=>`<button class="${i===0?"selected":""}" onclick="chooseColour('${esc(c)}',this)">${esc(c)}</button>`).join("")}</div></div><div class="field"><label>SIZE</label><div class="choice">${sizes.map((s,i)=>`<button class="${i===0?"selected":""}" onclick="chooseSize('${s}',this)">${s}</button>`).join("")}</div><small>Sample size chart: M — length 28", chest 40" · L — length 29", chest 42" · XL — length 30", chest 44". Verify measurements before publishing.</small></div><div class="field"><label>QUANTITY</label><div class="choice"><button onclick="changeQty(-1)">−</button><button id="qtyval">1</button><button onclick="changeQty(1)">+</button></div></div><div class="panelprice" id="productprice">${money(active.price)}</div><button class="primary" onclick="addToCart()">ADD TO BAG</button><button class="secondary" onclick="buyNow()">ORDER NOW VIA WHATSAPP</button><p style="font-size:10px;color:#77796e;line-height:1.7">Product images are managed from the admin dashboard. Stock checking will be added with the secure checkout backend.</p>`;
+ document.getElementById("overlay").classList.add("show");document.getElementById("productpanel").classList.add("show");
 }
 function chooseColour(c,b){selectedColour=c;b.parentElement.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")}
 function chooseSize(s,b){selectedSize=s;b.parentElement.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")}
 function changeQty(n){qty=Math.max(1,Math.min(10,qty+n));document.getElementById("qtyval").textContent=qty;document.getElementById("productprice").textContent=money(active.price*qty)}
-function addToCart(){
- const found=cart.find(x=>x.id===active.id&&x.colour===selectedColour&&x.size===selectedSize);
- if(found)found.qty+=qty;else cart.push({id:active.id,name:active.name,price:active.price,colour:selectedColour,size:selectedSize,qty});
- updateCart();closePanels();showNotice("Added to your bag.");
-}
-function buyNow(){
- const p={id:active.id,name:active.name,price:active.price,colour:selectedColour,size:selectedSize,qty};
- cart.push(p);updateCart();closePanels();openCart();checkout();
-}
-function updateCart(){
- document.getElementById("cartcount").textContent=cart.reduce((a,x)=>a+x.qty,0);
- document.getElementById("carttotal").textContent=money(cart.reduce((a,x)=>a+x.price*x.qty,0));
- document.getElementById("cartitems").innerHTML=cart.length?cart.map((x,i)=>`<div class="cartitem"><strong>${esc(x.name)}</strong><br>Colour: ${esc(x.colour)} · Size: ${x.size} · Qty: ${x.qty}<br>${money(x.price*x.qty)} <button onclick="removeItem(${i})">Remove</button></div>`).join(""):'<p style="color:#77796e;font-size:13px">Your bag is empty.</p>';
-}
+function addToCart(){const found=cart.find(x=>String(x.id)===String(active.id)&&x.colour===selectedColour&&x.size===selectedSize);if(found)found.qty+=qty;else cart.push({id:active.id,name:active.name,price:Number(active.price),colour:selectedColour,size:selectedSize,qty});updateCart();closePanels();showNotice("Added to your bag.")}
+function buyNow(){cart.push({id:active.id,name:active.name,price:Number(active.price),colour:selectedColour,size:selectedSize,qty});updateCart();closePanels();openCart();checkout()}
+function updateCart(){document.getElementById("cartcount").textContent=cart.reduce((a,x)=>a+x.qty,0);document.getElementById("carttotal").textContent=money(cart.reduce((a,x)=>a+x.price*x.qty,0));document.getElementById("cartitems").innerHTML=cart.length?cart.map((x,i)=>`<div class="cartitem"><strong>${esc(x.name)}</strong><br>Colour: ${esc(x.colour)} · Size: ${esc(x.size)} · Qty: ${x.qty}<br>${money(x.price*x.qty)} <button onclick="removeItem(${i})">Remove</button></div>`).join(""):'<p style="color:#77796e;font-size:13px">Your bag is empty.</p>'}
 function removeItem(i){cart.splice(i,1);updateCart()}
 function openCart(){updateCart();document.getElementById("overlay").classList.add("show");document.getElementById("cartpanel").classList.add("show")}
 function closePanels(){document.getElementById("overlay").classList.remove("show");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("show"))}
-function checkout(){
- if(!cart.length){showNotice("Your bag is empty.");return}
- const total=cart.reduce((a,x)=>a+x.price*x.qty,0);
- const lines=cart.map((x,i)=>`${i+1}. ${x.name}\nColour: ${x.colour}\nSize: ${x.size}\nQty: ${x.qty}\nPrice: ${money(x.price*x.qty)}`).join("\n\n");
- const msg=`Hello ASENO! I want to place an order.\n\n${lines}\n\nSubtotal: ${money(total)}\n\nName:\nPhone:\nFull delivery address:\nDelivery area:\nPayment: Cash on Delivery\n\nPlease confirm my order and delivery charge.`;
- window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg),"_blank");
-}
-render();updateCart();
+function checkout(){if(!cart.length){showNotice("Your bag is empty.");return}const total=cart.reduce((a,x)=>a+x.price*x.qty,0);const lines=cart.map((x,i)=>`${i+1}. ${x.name}\nColour: ${x.colour}\nSize: ${x.size}\nQty: ${x.qty}\nPrice: ${money(x.price*x.qty)}`).join("\n\n");const msg=`Hello ASENO! I want to place an order.\n\n${lines}\n\nSubtotal: ${money(total)}\n\nName:\nPhone:\nFull delivery address:\nDelivery area:\nPayment: Cash on Delivery\n\nPlease confirm my order and delivery charge.`;window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg),"_blank","noopener")}
+render();updateCart();loadProducts();
 </script>
 </body>
-  </html>
+</html>
