@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ASENO Admin</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;padding:20px;background:#171b13;color:#f5f1e8;font-family:Arial,sans-serif}
-.panel{max-width:650px;margin:30px auto;padding:24px;background:#22271c;border:1px solid #505541;border-radius:14px}
+.panel{max-width:650px;margin:25px auto;padding:24px;background:#22271c;border:1px solid #505541;border-radius:14px}
 h1{color:#d4ddba;letter-spacing:4px}
 label{display:block;margin-top:16px}
 input,textarea,select{width:100%;padding:12px;margin-top:7px;background:#171b13;color:white;border:1px solid #555c48;border-radius:7px;font-size:16px}
 button{padding:13px;margin-top:18px;width:100%;border:0;border-radius:7px;background:#d4ddba;color:#171b13;font-weight:bold;font-size:16px}
-#manager{display:none}
 .note{color:#c2c6b9;line-height:1.5}
 </style>
 </head>
@@ -32,12 +31,11 @@ button{padding:13px;margin-top:18px;width:100%;border:0;border-radius:7px;backgr
 </form>
 </section>
 
-<section id="manager">
+<section id="manager" hidden>
 <h2>Product Management</h2>
-<p class="note">Admin access verified. Product saving will be connected next.</p>
 <form id="productForm">
 <label>Product name</label>
-<input id="productName" required placeholder="e.g. ASENO Oversized Tee">
+<input id="productName" required placeholder="ASENO Oversized Tee">
 <label>Price (BDT)</label>
 <input id="price" type="number" min="0" step="1" required placeholder="550">
 <label>Description</label>
@@ -49,10 +47,11 @@ button{padding:13px;margin-top:18px;width:100%;border:0;border-radius:7px;backgr
 <option value="tshirt">T-shirt</option>
 <option value="custom">Custom Print</option>
 </select>
-<button type="submit">Prepare Product</button>
+<button id="saveButton" type="submit">Save Product</button>
 </form>
-<p id="productMessage" class="note"></p>
-<button id="logoutButton">Sign out</button>
+<h3>Save result</h3>
+<p id="productMessage" class="note" role="status"></p>
+<button id="logoutButton" type="button">Sign out</button>
 </section>
 <p id="message" class="note" role="status"></p>
 </main>
@@ -83,23 +82,43 @@ if(!admin){
 await db.auth.signOut();
 throw new Error('This account is not authorized as an admin.');
 }
-document.getElementById('login').style.display='none';
-document.getElementById('manager').style.display='block';
+document.getElementById('login').hidden=true;
+document.getElementById('manager').hidden=false;
 msg.textContent='Login successful.';
 }catch(err){msg.textContent=err.message}
 finally{b.disabled=false}
 });
 
-document.getElementById('productForm').addEventListener('submit',e=>{
+document.getElementById('productForm').addEventListener('submit',async e=>{
 e.preventDefault();
-document.getElementById('productMessage').textContent=
-'Form ready. Product saving is not connected yet; do not treat this as a saved product.';
+const b=document.getElementById('saveButton');
+const result=document.getElementById('productMessage');
+b.disabled=true;
+result.textContent='Saving product...';
+try{
+const {data:sessionData}=await db.auth.getSession();
+if(!sessionData.session)throw new Error('Please sign in again.');
+const product={
+name:document.getElementById('productName').value.trim(),
+price:Number(document.getElementById('price').value),
+description:document.getElementById('description').value.trim()||null,
+image_url:document.getElementById('imageUrl').value.trim()||null,
+category:document.getElementById('category').value,
+is_active:true
+};
+const {data,error}=await db.from('products').insert(product).select().single();
+if(error)throw error;
+result.textContent='Product saved successfully! ID: '+data.id;
+document.getElementById('productForm').reset();
+}catch(err){
+result.textContent='Could not save: '+err.message;
+}finally{b.disabled=false}
 });
 
 document.getElementById('logoutButton').addEventListener('click',async()=>{
 await db.auth.signOut();
-document.getElementById('manager').style.display='none';
-document.getElementById('login').style.display='block';
+document.getElementById('manager').hidden=true;
+document.getElementById('login').hidden=false;
 document.getElementById('password').value='';
 msg.textContent='Signed out.';
 });
