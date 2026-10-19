@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track Order | ASENO</title>
+<style>
+body{margin:0;background:#f5f3eb;color:#25291d;font-family:Arial,sans-serif;padding:24px 16px}
+main{max-width:480px;margin:35px auto;background:#fff;padding:24px;border-radius:16px}
+h1{letter-spacing:2px}
+p{color:#666}
+input,button{box-sizing:border-box;width:100%;padding:14px;margin-top:12px;border-radius:8px;font-size:16px}
+input{border:1px solid #ccc}
+button{background:#343b26;color:white;border:0;font-weight:bold}
+#result{margin-top:22px;line-height:1.8;overflow-wrap:anywhere}
+a{color:#343b26}
+</style>
+</head>
+<body>
+<main>
+<h1>ASENO</h1>
+<p>ORDER TRACKING</p>
+<p>Enter your Order ID and phone number to check your order status.</p>
+
+<form id="trackForm">
+<input id="orderId" placeholder="Order ID" required>
+<input id="phone" type="tel" placeholder="Phone number used for order" required>
+<button type="submit">TRACK ORDER</button>
+</form>
+
+<div id="result" aria-live="polite"></div>
+<p><a href="./index.html">← Back to Store</a></p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const db = window.supabase.createClient(
+  'https://rksonvrxckilhbgdkfbk.supabase.co',
+  'sb_publishable_yvsxXpmXI-7Okxf0xMU6gQ_kbitp4DG'
+);
+
+const form = document.getElementById('trackForm');
+const result = document.getElementById('result');
+
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  result.textContent = 'Checking your order...';
+
+  const orderId = document.getElementById('orderId').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(orderId)) {
+    result.textContent = 'Please enter the complete Order ID.';
+    return;
+  }
+
+  const { data, error } = await db.rpc('track_store_order', {
+    p_order_id: orderId,
+    p_phone: phone
+  });
+
+  if (error) {
+    result.textContent = 'Unable to check order right now. Please try again later.';
+    return;
+  }
+
+  if (!data || !data.order) {
+    result.textContent = 'Order not found. Check your Order ID and phone number.';
+    return;
+  }
+
+  const order = data.order;
+  const items = Array.isArray(order.items) ? order.items : [];
+  const list = items.map(item =>
+    `${item.product_name} — ${item.color}, ${item.size} × ${item.quantity}`
+  ).join('\n');
+
+  result.innerHTML = '';
+  const heading = document.createElement('h3');
+  heading.textContent = 'Order Found ✓';
+  result.appendChild(heading);
+
+  const details = document.createElement('pre');
+  details.style.whiteSpace = 'pre-wrap';
+  details.textContent =
+    'Order ID: ' + order.id +
+    '\nStatus: ' + order.status +
+    '\nPayment: ' + (order.payment_method || 'N/A') +
+    '\nPayment status: ' + (order.payment_status || 'N/A') +
+    '\nTotal: ৳' + order.total_amount +
+    '\n\nItems:\n' + (list || 'No item details available');
+  result.appendChild(details);
+});
+</script>
+</body>
+</html>
