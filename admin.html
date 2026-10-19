@@ -1,127 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ASENO Admin</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;padding:20px;background:#171b13;color:#f5f1e8;font-family:Arial,sans-serif}
-.panel{max-width:650px;margin:25px auto;padding:24px;background:#22271c;border:1px solid #505541;border-radius:14px}
-h1{color:#d4ddba;letter-spacing:4px}
-label{display:block;margin-top:16px}
-input,textarea,select{width:100%;padding:12px;margin-top:7px;background:#171b13;color:white;border:1px solid #555c48;border-radius:7px;font-size:16px}
-button{padding:13px;margin-top:18px;width:100%;border:0;border-radius:7px;background:#d4ddba;color:#171b13;font-weight:bold;font-size:16px}
-.note{color:#c2c6b9;line-height:1.5}
-</style>
-</head>
-<body>
-<main class="panel">
-<h1>ASENO</h1>
-<p class="note">STORE MANAGEMENT · ADMIN DASHBOARD</p>
-
-<section id="login">
-<h2>Admin Login</h2>
-<form id="loginForm">
-<label>Email</label>
-<input id="email" type="email" required autocomplete="username">
-<label>Password</label>
-<input id="password" type="password" required autocomplete="current-password">
-<button id="loginButton">Sign in</button>
-</form>
-</section>
-
-<section id="manager" hidden>
-<h2>Product Management</h2>
-<form id="productForm">
-<label>Product name</label>
-<input id="productName" required placeholder="ASENO Oversized Tee">
-<label>Price (BDT)</label>
-<input id="price" type="number" min="0" step="1" required placeholder="550">
-<label>Description</label>
-<textarea id="description" placeholder="Product details"></textarea>
-<label>Product image URL</label>
-<input id="imageUrl" type="url" placeholder="https://...">
-<label>Category</label>
-<select id="category">
-<option value="tshirt">T-shirt</option>
-<option value="custom">Custom Print</option>
-</select>
-<button id="saveButton" type="submit">Save Product</button>
-</form>
-<h3>Save result</h3>
-<p id="productMessage" class="note" role="status"></p>
-<button id="logoutButton" type="button">Sign out</button>
-</section>
-<p id="message" class="note" role="status"></p>
-</main>
-
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ASENO Admin Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--olive:#333d27;--olive2:#596747;--cream:#f5f2e9;--paper:#fffdf8;--ink:#20231b;--muted:#74786d;--line:#dedfd5;--red:#a63b32;--green:#2e6b43}*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:var(--olive);color:#fff;font-weight:650}button.secondary{background:#e7e8df;color:var(--ink);border:1px solid var(--line)}button.danger{background:var(--red)}button.small{padding:7px 10px;font-size:13px}.wrap{max-width:1150px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--olive);color:white;padding:18px 20px;border-radius:16px;margin-bottom:16px}.brand{font-weight:900;letter-spacing:3px;font-size:22px}.sub{font-size:12px;opacity:.75;letter-spacing:1px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs button{background:#e6e7dd;color:var(--ink)}.tabs button.active{background:var(--olive);color:#fff}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:15px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:12px;font-weight:750;color:var(--muted)}input,textarea,select{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;background:white;color:var(--ink)}textarea{min-height:85px;resize:vertical}.full{grid-column:1/-1}.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.row.between{justify-content:space-between}.muted{color:var(--muted);font-size:13px}.notice{padding:11px 13px;border-radius:10px;background:#e9eddf;margin:10px 0}.error{background:#f7e4e1;color:#792c25}.success{background:#e0efe4;color:#245634}.hidden{display:none!important}.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:12px}.product{border:1px solid var(--line);border-radius:13px;padding:13px;background:white;min-width:0}.product img{width:100%;height:145px;object-fit:cover;border-radius:9px;background:#eee}.product h3{margin:9px 0 4px;font-size:16px}.pill{display:inline-block;background:#eceee5;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:750}.pill.off{background:#f6e2df;color:#852d26}.variantline{display:grid;grid-template-columns:1fr 1fr 80px auto;gap:7px;margin:8px 0}.variantline input{min-width:0;padding:8px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12px;color:var(--muted)}.login{max-width:430px;margin:8vh auto}.login h1{margin-top:0}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.empty{padding:22px;text-align:center;color:var(--muted)}@media(max-width:650px){.wrap{padding:10px}.card{padding:13px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.variantline{grid-template-columns:1fr 1fr 65px auto}.brand{font-size:19px}}
+</style></head>
+<body><div class="wrap">
+<div id="loginView" class="card login"><div class="brand" style="color:var(--olive)">ASENO</div><div class="sub" style="color:var(--muted);margin:3px 0 20px">ADMIN DASHBOARD</div><h1>Admin login</h1><p class="muted">Sign in with your authorized admin account.</p><form id="loginForm"><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username" required></div><div class="field" style="margin-top:10px"><label>Password</label><input id="password" type="password" autocomplete="current-password" required></div><button style="width:100%;margin-top:14px">Sign in</button></form><div id="loginMsg" class="notice hidden"></div></div>
+<div id="appView" class="hidden"><header class="top"><div><div class="brand">ASENO</div><div class="sub">STORE CONTROL CENTER</div></div><div class="row"><span id="who" class="muted" style="color:#e7e9df"></span><button id="logout" class="secondary">Log out</button></div></header>
+<div id="globalMsg" class="notice hidden"></div><nav class="tabs"><button class="active" data-tab="productsTab">Products & Stock</button><button data-tab="ordersTab">Orders</button><button data-tab="settingsTab">Store Settings</button></nav>
+<section id="productsTab"><div class="card"><div class="sectionhead"><div><h2 style="margin:0">Product management</h2><div class="muted">Add, edit, hide, or delete products. Manage stock by colour and size.</div></div><button id="newProduct">+ Add product</button></div></div>
+<div id="productFormCard" class="card hidden"><div class="sectionhead"><h2 id="formTitle" style="margin:0">Add product</h2><button id="cancelEdit" class="secondary">Close</button></div><form id="productForm"><input id="productId" type="hidden"><div class="grid" style="margin-top:14px"><div class="field"><label>Product name *</label><input id="pName" required maxlength="120"></div><div class="field"><label>Price (BDT) *</label><input id="pPrice" type="number" min="0" step="0.01" required></div><div class="field"><label>Category</label><select id="pCategory"><option value="tshirt">T-shirt / Solid</option><option value="custom">Graphic / Design</option><option value="hoodie">Hoodie</option><option value="other">Other</option></select></div><div class="field"><label>Image URL</label><input id="pImage" type="url" placeholder="https://..."></div><div class="field full"><label>Description</label><textarea id="pDescription"></textarea></div><div class="field"><label>Website visibility</label><select id="pActive"><option value="true">Visible on website</option><option value="false">Hidden / Deactivated</option></select></div></div>
+<div class="sectionhead" style="margin-top:18px"><div><h3 style="margin:0">Sizes, colours & stock</h3><div class="muted">Each row is one colour + size combination. Stock 0 means out of stock.</div></div><button id="addVariant" type="button" class="secondary">+ Add size/colour</button></div><div id="variantEditor" style="margin-top:8px"></div><div class="row" style="margin-top:18px"><button type="submit">Save product</button><button id="cancelEdit2" type="button" class="secondary">Cancel</button><span id="saveMsg" class="muted"></span></div></form></div>
+<div class="card"><div class="row between"><h2 style="margin:0">Your products</h2><button id="refreshProducts" class="secondary small">Refresh</button></div><div id="productList" class="products" style="margin-top:14px"><div class="empty">Loading products…</div></div></div></section>
+<section id="ordersTab" class="hidden"><div class="card"><div class="sectionhead"><div><h2 style="margin:0">Customer orders</h2><div class="muted">Review orders and update their status.</div></div><button id="refreshOrders" class="secondary">Refresh orders</button></div><div id="ordersList" class="tablewrap" style="margin-top:12px"><div class="empty">Loading orders…</div></div></div></section>
+<section id="settingsTab" class="hidden"><div class="card"><h2 style="margin-top:0">Payment settings</h2><p class="muted">These settings control the numbers shown during checkout. Saving them requires the store_settings table and matching admin policies to be set up first.</p><form id="settingsForm"><div class="grid"><div class="field"><label>bKash number</label><input id="bkashNumber" inputmode="tel" placeholder="01XXXXXXXXX"></div><div class="field"><label>Nagad number</label><input id="nagadNumber" inputmode="tel" placeholder="01XXXXXXXXX"></div><div class="field"><label>Cash on Delivery</label><select id="codEnabled"><option value="true">Enabled</option><option value="false">Disabled</option></select></div><div class="field"><label>bKash</label><select id="bkashEnabled"><option value="true">Enabled</option><option value="false">Disabled</option></select></div><div class="field"><label>Nagad</label><select id="nagadEnabled"><option value="true">Enabled</option><option value="false">Disabled</option></select></div></div><div class="row" style="margin-top:14px"><button type="submit">Save payment settings</button><span id="settingsMsg" class="muted"></span></div></form></div></section>
+</div></div>
 <script>
-const db=window.supabase.createClient(
-'https://rksonvrxckilhbgdkfbk.supabase.co',
-'sb_publishable_yvsxXpmXI-7Okxf0xMU6gQ_kbitp4DG'
-);
-const msg=document.getElementById('message');
-
-document.getElementById('loginForm').addEventListener('submit',async e=>{
-e.preventDefault();
-const b=document.getElementById('loginButton');
-b.disabled=true;
-msg.textContent='Signing in...';
-try{
-const {data,error}=await db.auth.signInWithPassword({
-email:document.getElementById('email').value.trim(),
-password:document.getElementById('password').value
-});
-if(error)throw error;
-const {data:admin,error:adminError}=await db.from('admin_users')
-.select('user_id').eq('user_id',data.user.id).maybeSingle();
-if(adminError)throw adminError;
-if(!admin){
-await db.auth.signOut();
-throw new Error('This account is not authorized as an admin.');
-}
-document.getElementById('login').hidden=true;
-document.getElementById('manager').hidden=false;
-msg.textContent='Login successful.';
-}catch(err){msg.textContent=err.message}
-finally{b.disabled=false}
-});
-
-document.getElementById('productForm').addEventListener('submit',async e=>{
-e.preventDefault();
-const b=document.getElementById('saveButton');
-const result=document.getElementById('productMessage');
-b.disabled=true;
-result.textContent='Saving product...';
-try{
-const {data:sessionData}=await db.auth.getSession();
-if(!sessionData.session)throw new Error('Please sign in again.');
-const product={
-name:document.getElementById('productName').value.trim(),
-price:Number(document.getElementById('price').value),
-description:document.getElementById('description').value.trim()||null,
-image_url:document.getElementById('imageUrl').value.trim()||null,
-category:document.getElementById('category').value,
-is_active:true
-};
-const {data,error}=await db.from('products').insert(product).select().single();
-if(error)throw error;
-result.textContent='Product saved successfully! ID: '+data.id;
-document.getElementById('productForm').reset();
-}catch(err){
-result.textContent='Could not save: '+err.message;
-}finally{b.disabled=false}
-});
-
-document.getElementById('logoutButton').addEventListener('click',async()=>{
-await db.auth.signOut();
-document.getElementById('manager').hidden=true;
-document.getElementById('login').hidden=false;
-document.getElementById('password').value='';
-msg.textContent='Signed out.';
-});
-</script>
-</body>
-</html>
+const SUPABASE_URL='https://rksonvrxckilhbgdkfbk.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_yvsxXpmXI-7Okxf0xMU6gQ_kbitp4DG';
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const $=id=>document.getElementById(id); let variantsDraft=[]; let productsCache=[]; let settingsCache={};
+function msg(el,text,kind=''){el.textContent=text;el.classList.remove('hidden','error','success');if(kind)el.classList.add(kind);}
+function globalMsg(text,kind=''){msg($('globalMsg'),text,kind);}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function checkAdmin(session){if(!session){$('loginView').classList.remove('hidden');$('appView').classList.add('hidden');return;}const {data,error}=await db.from('admin_users').select('user_id').eq('user_id',session.user.id).maybeSingle();if(error||!data){await db.auth.signOut();$('loginMsg').textContent='This account is not authorized as an admin.';$('loginMsg').classList.remove('hidden');return;} $('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('who').textContent=session.user.email||'';await Promise.all([loadProducts(),loadOrders(),loadSettings()]);}
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();const b=e.submitter;b.disabled=true;msg($('loginMsg'),'Signing in…');const {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});b.disabled=false;if(error){msg($('loginMsg'),error.message,'error');return;}await checkAdmin(data.session);});
+$('logout').onclick=async()=>{await db.auth.signOut();location.reload();};db.auth.getSession().then(({data})=>checkAdmin(data.session));
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));['productsTab','ordersTab','settingsTab'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.tab));});
+function renderVariantEditor(){ $('variantEditor').innerHTML=variantsDraft.length?variantsDraft.map((v,i)=>`<div class="variantline"><input aria-label="Colour" placeholder="Colour e.g. Black" value="${esc(v.color)}" data-v="${i}" data-k="color"><input aria-label="Size" placeholder="Size e.g. M" value="${esc(v.size)}" data-v="${i}" data-k="size"><input aria-label="Stock" type="number" min="0" step="1" placeholder="Stock" value="${Number(v.stock)||0}" data-v="${i}" data-k="stock"><button type="button" class="danger small" data-remove="${i}" aria-label="Remove row">×</button></div>`).join(''):'<div class="muted">No size/colour rows yet. Add at least one for stock tracking.</div>';}
+$('variantEditor').addEventListener('input',e=>{const i=e.target.dataset.v,k=e.target.dataset.k;if(i!==undefined&&k){variantsDraft[Number(i)][k]=k==='stock'?Math.max(0,parseInt(e.target.value||'0',10)):e.target.value;}});
+$('variantEditor').addEventListener('click',e=>{const i=e.target.dataset.remove;if(i!==undefined){variantsDraft.splice(Number(i),1);renderVariantEditor();}});
+$('addVariant').onclick=()=>{variantsDraft.push({color:'',size:'',stock:0});renderVariantEditor();};
+function resetProductForm(){ $('productForm').reset();$('productId').value='';$('pActive').value='true';variantsDraft=[];renderVariantEditor();$('formTitle').textContent='Add product';$('saveMsg').textContent='';$('productFormCard').classList.add('hidden');}
+$('newProduct').onclick=()=>{resetProductForm();$('productFormCard').classList.remove('hidden');$('productFormCard').scrollIntoView({behavior:'smooth'});};$('cancelEdit').onclick=resetProductForm;$('cancelEdit2').onclick=resetProductForm;
+async function loadProducts(){ $('productList').innerHTML='<div class="empty">Loading products…</div>';let {data,error}=await db.from('products').select('*').order('created_at',{ascending:false});if(error){$('productList').innerHTML='<div class="empty">Could not load products: '+esc(error.message)+'</div>';return;}productsCache=data||[];const ids=productsCache.map(p=>p.id);let vars=[];if(ids.length){const r=await db.from('product_variants').select('*').in('product_id',ids).order('color').order('size');if(!r.error)vars=r.data||[];}productsCache.forEach(p=>p._variants=vars.filter(v=>v.product_id===p.id));if(!productsCache.length){$('productList').innerHTML='<div class="empty">No products yet. Add your first product.</div>';return;}$('productList').innerHTML=productsCache.map(p=>`<article class="product"><img src="${esc(p.image_url||'')}" alt="" onerror="this.style.display='none'"><div class="row between" style="margin-top:8px"><span class="pill ${p.is_active?'':'off'}">${p.is_active?'VISIBLE':'HIDDEN'}</span><span class="muted">${esc(p.category||'tshirt')}</span></div><h3>${esc(p.name)}</h3><strong>৳${Number(p.price||0).toLocaleString('en-BD')}</strong><div class="muted" style="margin-top:5px">${esc(p.description||'No description')}</div><div style="margin-top:9px">${(p._variants||[]).length?(p._variants.map(v=>`<div class="row between muted"><span>${esc(v.color)} / ${esc(v.size)}</span><span>${v.stock===0?'<b style="color:var(--red)">Out of stock</b>':`Stock: ${v.stock}`}</span></div>`).join('')):'<div class="muted">No stock variants set</div>'}</div><div class="row" style="margin-top:12px"><button class="small" data-edit="${p.id}">Edit</button><button class="small secondary" data-toggle="${p.id}">${p.is_active?'Hide':'Show'}</button><button class="small danger" data-delete="${p.id}">Delete</button></div></article>`).join('');}
+$('productList').addEventListener('click',async e=>{const edit=e.target.dataset.edit,toggle=e.target.dataset.toggle,del=e.target.dataset.delete;if(edit){const p=productsCache.find(x=>x.id===edit);if(!p)return;$('productId').value=p.id;$('pName').value=p.name||'';$('pPrice').value=p.price;$('pCategory').value=p.category||'tshirt';$('pImage').value=p.image_url||'';$('pDescription').value=p.description||'';$('pActive').value=String(p.is_active);variantsDraft=(p._variants||[]).map(v=>({id:v.id,color:v.color,size:v.size,stock:v.stock}));renderVariantEditor();$('formTitle').textContent='Edit product';$('saveMsg').textContent='';$('productFormCard').classList.remove('hidden');$('productFormCard').scrollIntoView({behavior:'smooth'});}else if(toggle){const p=productsCache.find(x=>x.id===toggle);if(!p)return;const {error}=await db.from('products').update({is_active:!p.is_active}).eq('id',p.id);if(error)globalMsg('Could not update visibility: '+error.message,'error');else{globalMsg(p.is_active?'Product hidden from website.':'Product is visible on website.','success');await loadProducts();}}else if(del){const p=productsCache.find(x=>x.id===del);if(!p)return;if(!confirm(`Delete “${p.name}”? This removes its variant stock rows too. If it has order history, use Hide instead.`))return;const {error}=await db.from('products').delete().eq('id',p.id);if(error)globalMsg('Delete failed. Try Hide instead: '+error.message,'error');else{globalMsg('Product deleted.','success');await loadProducts();}}});
+$('productForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter;btn.disabled=true;$('saveMsg').textContent='Saving…';const id=$('productId').value;const payload={name:$('pName').value.trim(),price:Number($('pPrice').value),category:$('pCategory').value,image_url:$('pImage').value.trim()||null,description:$('pDescription').value.trim()||null,is_active:$('pActive').value==='true'};let result=id?await db.from('products').update(payload).eq('id',id).select('id').single():await db.from('products').insert(payload).select('id').single();if(result.error){$('saveMsg').textContent='Error: '+result.error.message;btn.disabled=false;return;}const productId=id||result.data.id;const clean=variantsDraft.filter(v=>v.color.trim()&&v.size.trim()).map(v=>({product_id:productId,color:v.color.trim(),size:v.size.trim(),stock:Math.max(0,parseInt(v.stock||0,10))}));const {data:existing,error:fetchErr}=await db.from('product_variants').select('id').eq('product_id',productId);if(fetchErr){$('saveMsg').textContent='Product saved, but could not load variants: '+fetchErr.message;btn.disabled=false;return;}const keep=new Set(variantsDraft.filter(v=>v.id&&v.color.trim()&&v.size.trim()).map(v=>v.id));const remove=(existing||[]).filter(v=>!keep.has(v.id)).map(v=>v.id);if(remove.length){const r=await db.from('product_variants').delete().in('id',remove);if(r.error){$('saveMsg').textContent='Product saved, but variant delete failed: '+r.error.message;btn.disabled=false;return;}}for(const v of clean){const old=variantsDraft.find(x=>x.id&&x.color.trim()===v.color&&x.size.trim()===v.size);if(old){const r=await db.from('product_variants').update({color:v.color,size:v.size,stock:v.stock}).eq('id',old.id);if(r.error){$('saveMsg').textContent='Product saved, but variant update failed: '+r.error.message;btn.disabled=false;return;}}else{const r=await db.from('product_variants').upsert(v,{onConflict:'product_id,color,size'});if(r.error){$('saveMsg').textContent='Product saved, but variant save failed: '+r.error.message;btn.disabled=false;return;}}}btn.disabled=false;resetProductForm();globalMsg('Product and stock saved.','success');await loadProducts();});
+$('refreshProducts').onclick=loadProducts;
+async function loadOrders(){const box=$('ordersList');box.innerHTML='<div class="empty">Loading orders…</div>';const {data,error}=await db.from('orders').select('*,order_items(*)').order('created_at',{ascending:false}).limit(100);if(error){box.innerHTML='<div class="empty">Orders table unavailable or permission missing: '+esc(error.message)+'</div>';return;}if(!data?.length){box.innerHTML='<div class="empty">No orders yet.</div>';return;}box.innerHTML=`<table><thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Update</th></tr></thead><tbody>${data.map(o=>`<tr><td><b>${esc(o.id.slice(0,8).toUpperCase())}</b><div class="muted">${esc(new Date(o.created_at).toLocaleString())}</div></td><td>${esc(o.customer_name)}<div>${esc(o.phone)}</div><div class="muted">${esc(o.address)}</div></td><td>${(o.order_items||[]).map(i=>`${esc(i.product_name)} · ${esc(i.color)}/${esc(i.size)} × ${i.quantity}`).join('<br>')||'—'}</td><td>৳${Number(o.total_amount||0).toLocaleString('en-BD')}</td><td>${esc(o.status)}</td><td><div class="row"><select data-status="${o.id}" style="min-width:130px"><option value="pending" ${o.status==='pending'?'selected':''}>Pending</option><option value="confirmed" ${o.status==='confirmed'?'selected':''}>Confirmed</option><option value="shipped" ${o.status==='shipped'?'selected':''}>Shipped</option><option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option><option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option></select><button class="small" data-saveorder="${o.id}">Save</button></div></td></tr>`).join('')}</tbody></table>`;}
+$('ordersList').addEventListener('click',async e=>{const id=e.target.dataset.saveorder;if(!id)return;const status=$('ordersList').querySelector(`[data-status="${id}"]`).value;const {error}=await db.from('orders').update({status}).eq('id',id);if(error)globalMsg('Could not update order: '+error.message,'error');else{globalMsg('Order status updated.','success');await loadOrders();}});$('refreshOrders').onclick=loadOrders;
+async function loadSettings(){const {data,error}=await db.from('store_settings').select('*').eq('id',1).maybeSingle();if(error){$('settingsMsg').textContent='Settings table is not set up yet.';return;}if(!data){$('settingsMsg').textContent='No settings saved yet. Save after setup.';return;}settingsCache=data;$('bkashNumber').value=data.bkash_number||'';$('nagadNumber').value=data.nagad_number||'';$('codEnabled').value=String(data.cod_enabled??true);$('bkashEnabled').value=String(data.bkash_enabled??true);$('nagadEnabled').value=String(data.nagad_enabled??true);$('settingsMsg').textContent='Settings loaded.';}
+$('settingsForm').addEventListener('submit',async e=>{e.preventDefault();$('settingsMsg').textContent='Saving…';const payload={id:1,bkash_number:$('bkashNumber').value.trim(),nagad_number:$('nagadNumber').value.trim(),cod_enabled:$('codEnabled').value==='true',bkash_enabled:$('bkashEnabled').value==='true',nagad_enabled:$('nagadEnabled').value==='true',updated_at:new Date().toISOString()};const {error}=await db.from('store_settings').upsert(payload,{onConflict:'id'});$('settingsMsg').textContent=error?'Not saved: '+error.message:'Saved. Checkout must read these settings too.';});
+</script></body></html>
