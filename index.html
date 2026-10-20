@@ -116,4 +116,114 @@ try{const dbItems=[];for(const x of itemsToOrder){if(String(x.id).startsWith('de
 const {data,error}=await db.rpc('place_store_order',{p_customer_name:name,p_phone:phone,p_address:address,p_payment_method:payment,p_payment_sender:payment==='cod'?null:sender,p_transaction_id:payment==='cod'?null:trx,p_items:dbItems,p_delivery_area:area,p_delivery_fee:fee});if(error)throw error;let oid=data?.order_id||data?.id||data;if(!isBuyNow)cart=[];checkoutItems=null;updateCart();['customerName','customerPhone','customerAddress','senderPhone','transactionId'].forEach(id=>document.getElementById(id).value='');document.getElementById('checkoutNotice').style.display='none';const success=document.getElementById('orderSuccess');success.style.display='block';success.className='notice success';success.innerHTML=`<strong>Order placed successfully!</strong><br>Your Order ID:<br><strong style="word-break:break-all">${esc(String(oid))}</strong><br>Product subtotal: ${money(itemsToOrder.reduce((a,x)=>a+x.price*x.qty,0))}<br>Delivery fee: ${money(fee)}<br>Grand total: ${money(itemsToOrder.reduce((a,x)=>a+x.price*x.qty,0)+fee)}<br>Save this ID and use it with your phone number to track your order.<br><a class="tracklink" href="track-order.html">TRACK YOUR ORDER ↗</a>`;await loadProducts()}catch(e){console.error(e);let msg=e.message==='DEMO_PRODUCTS'?'These are preview products, not database products. Add real products and colour/size stock in Admin Panel before placing an online order.':e.message==='VARIANT_MISSING'?'This product colour/size is not configured in stock yet. Please contact ASENO.':e.message==='INSUFFICIENT_STOCK'?'Sorry, the selected colour/size no longer has enough stock. Please update your bag and try again.':(e.message||'').includes('Store settings missing')?'Store settings are missing. Please contact ASENO.':(e.message||'').includes('Delivery fee mismatch')?'Delivery fee changed. Please refresh the page and try again.':'Order could not be submitted. Please confirm checkout SQL is installed and product stock is configured. No order was confirmed.';formMessage(msg,true)}finally{btn.disabled=false;btn.textContent='PLACE ORDER'}}
 async function loadCheckoutSettings(){try{const {data,error}=await db.from('store_settings').select('delivery_fee_city,delivery_fee_outside,cod_enabled,bkash_enabled,nagad_enabled,bkash_number,nagad_number').order('id',{ascending:true}).limit(1).maybeSingle();if(error)throw error;if(data){checkoutSettings={...checkoutSettings,...data};const a=document.getElementById('deliveryArea');a.options[0].text=`Chattogram City — ${money(checkoutSettings.delivery_fee_city)}`;a.options[1].text=`Outside Chattogram — ${money(checkoutSettings.delivery_fee_outside)}`;document.querySelector('label.payoption input[value="cod"]').closest('label').style.display=checkoutSettings.cod_enabled?'block':'none';document.querySelector('label.payoption input[value="bkash"]').closest('label').style.display=checkoutSettings.bkash_enabled?'block':'none';document.querySelector('label.payoption input[value="nagad"]').closest('label').style.display=checkoutSettings.nagad_enabled?'block':'none';if(!checkoutSettings.cod_enabled)document.querySelector('input[name=payment]:checked').checked=false;if(!checkoutSettings.cod_enabled){const first=document.querySelector('input[name=payment]');if(first)first.checked=true;paymentChanged();}}updateCart();}catch(e){console.warn('Could not load checkout settings; using defaults.',e)}}
 render();updateCart();loadProducts();loadCheckoutSettings();
+</script><style>
+/* ASENO social links */
+.aseno-socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+}
+.aseno-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: .2s;
+}
+.aseno-socials a:hover {
+  background: #3b4630;
+  transform: translateY(-2px);
+}
+
+/* Floating WhatsApp button */
+.aseno-whatsapp-float {
+  position: fixed;
+  right: 20px;
+  bottom: 22px;
+  z-index: 99999;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: #25D366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 5px 18px rgba(0,0,0,.28);
+  transition: transform .2s;
+}
+.aseno-whatsapp-float:hover {
+  transform: scale(1.08);
+}
+.aseno-whatsapp-float svg {
+  width: 34px;
+  height: 34px;
+  fill: currentColor;
+}
+@media (max-width: 600px) {
+  .aseno-whatsapp-float {
+    width: 56px;
+    height: 56px;
+    right: 15px;
+    bottom: 18px;
+  }
+}
+</style>
+
+<script>
+(function () {
+  function addAsenoSocials() {
+    const footer = document.querySelector("footer");
+
+    if (footer && !document.querySelector(".aseno-socials")) {
+      const socials = document.createElement("div");
+      socials.className = "aseno-socials";
+      socials.setAttribute("aria-label", "ASENO social media");
+
+      socials.innerHTML = `
+        <a href="https://www.instagram.com/aseno.__?exln=MW9sbXdnbDA1ZXNjZw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+        <a href="https://www.tiktok.com/@aseno.__?_r=1&_t=ZS-9Ai3BNNCDcy" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
+        <a href="https://www.facebook.com/share/1C8JvbCPcX/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+        <a href="https://wa.me/8801890542860?text=Hi%20ASENO%2C%20I%20need%20help%20with%20an%20order." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WhatsApp</a>
+      `;
+
+      footer.appendChild(socials);
+    }
+
+    if (!document.querySelector(".aseno-whatsapp-float")) {
+      const whatsapp = document.createElement("a");
+      whatsapp.className = "aseno-whatsapp-float";
+      whatsapp.href = "https://wa.me/8801890542860?text=Hi%20ASENO%2C%20I%20need%20help%20with%20an%20order.";
+      whatsapp.target = "_blank";
+      whatsapp.rel = "noopener noreferrer";
+      whatsapp.setAttribute("aria-label", "Chat with ASENO on WhatsApp");
+      whatsapp.title = "Chat with ASENO";
+
+      whatsapp.innerHTML = `
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 .8A15 15 0 0 0 3.1 23.5L1 31l7.7-2A15.1 15.1 0 1 0 16 .8Zm0 27.4a12.3 12.3 0 0 1-6.2-1.7l-.5-.3-4.6 1.2 1.2-4.5-.3-.5A12.3 12.3 0 1 1 16 28.2Zm6.8-9.2c-.4-.2-2.1-1-2.4-1.1-.3-.1-.6-.2-.8.2-.2.4-.9 1.1-1.1 1.3-.2.2-.4.3-.8.1-.4-.2-1.5-.5-2.9-1.8-1.1-1-1.8-2.1-2-2.5-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.5 0-.7l-1.1-2.6c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.8 5.2.8.3 1.4.5 1.9.7.8.2 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.2-.3-.3-.7-.5Z"/>
+        </svg>
+      `;
+
+      document.body.appendChild(whatsapp);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", addAsenoSocials);
+  } else {
+    addAsenoSocials();
+  }
+})();
 </script></body></html>
