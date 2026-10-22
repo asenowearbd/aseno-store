@@ -11,6 +11,13 @@
 section{padding:43px 5%}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:22px}.sectionhead h2{font-size:25px;margin:0 0 7px}.sectionhead p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}.count{font-size:10px;letter-spacing:1px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.product{min-width:0}.productart{position:relative;aspect-ratio:4/5;background:#e8e6dc;display:flex;align-items:center;justify-content:center;overflow:hidden}.shirt{width:68%;height:68%}.shirt svg{width:100%;height:100%}.productphoto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.tag{position:absolute;top:10px;left:10px;background:#f5f3eb;padding:7px 8px;font-size:8px;letter-spacing:1px;z-index:1}.arttext{position:absolute;bottom:13px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:3px;color:#888}.productinfo{padding:13px 0 19px}.productname{font-size:13px;font-weight:700;margin-bottom:6px}.productdesc{font-size:10px;color:var(--muted);line-height:1.5;min-height:28px}.price{font-size:14px;font-weight:700;margin:10px 0}.colours{display:flex;gap:7px;margin:10px 0}.swatch{width:17px;height:17px;border-radius:50%;border:1px solid #aaa;display:inline-block}.quick{width:100%;background:transparent;border:1px solid var(--ink);padding:12px 5px;font-size:10px;letter-spacing:1px}.quick:hover{background:var(--ink);color:white}
 .custombox{background:#e7e6db;padding:28px;margin-top:10px}.custombox h3{font-size:24px;margin:0 0 9px}.custombox p{font-size:13px;color:#62665a;line-height:1.7;max-width:520px}.custombox .btn{background:var(--olive);color:white}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.feature{border-top:1px solid var(--line);padding:18px 0}.feature strong{font-size:11px;letter-spacing:1px}.feature p{font-size:11px;color:var(--muted);line-height:1.6}footer{background:#20271c;color:#f5f3eb;padding:35px 5%}footer .logo{font-size:24px}footer p{font-size:11px;color:#c5cbb5;line-height:1.8}.footerrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footlinks{display:flex;gap:15px;font-size:11px;align-items:center}
 .overlay{display:none;position:fixed;inset:0;background:#0008;z-index:9}.overlay.show{display:block}.panel{position:fixed;right:0;top:0;bottom:0;width:min(460px,100%);background:var(--bg);z-index:10;padding:22px;overflow:auto;transform:translateX(105%);transition:.25s}.panel.show{transform:translateX(0)}.panelhead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}.close{background:transparent;border:0;font-size:25px}.field{display:block;margin:15px 0}.field label{display:block;font-size:11px;font-weight:bold;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--line);background:white;border-radius:0}.field small{color:var(--muted);font-size:10px}.choice{display:flex;flex-wrap:wrap;gap:8px}.choice button{padding:10px 13px;border:1px solid var(--line);background:transparent;font-size:11px}.choice button.selected{background:var(--olive);color:white}.choice button:disabled{opacity:.48;cursor:not-allowed;text-decoration:line-through;background:#e8e6dc;color:#77796e}.stock-label{display:block;font-size:10px;margin-top:5px;color:#477047}.stock-label.out{color:#b3261e;font-weight:bold}.stock-summary{font-size:10px;color:var(--muted);margin-top:7px}.panelprice{font-size:22px;font-weight:bold;margin:20px 0}.primary{width:100%;padding:15px;background:var(--olive);color:white;border:0;font-weight:bold;letter-spacing:1px;margin-top:10px}.secondary{width:100%;padding:13px;background:transparent;border:1px solid var(--ink);margin-top:9px}.cartitem{padding:15px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.7}.cartitem button{border:0;background:transparent;text-decoration:underline;font-size:10px}.total{display:flex;justify-content:space-between;font-weight:bold;margin:20px 0}.payoption{display:block;background:#e9e8df;padding:12px;margin:8px 0;font-size:12px}.notice{display:none;padding:12px;margin:12px 0;background:#e4e9dc;font-size:12px;line-height:1.5}.notice.error{background:#f2dfd9}.notice.success{background:#e4e9dc}.tracklink{display:inline-block;margin-top:8px;text-decoration:underline;font-weight:bold}#notice{position:fixed;bottom:15px;left:5%;right:5%;background:#20271c;color:white;padding:15px;text-align:center;font-size:12px;z-index:20;display:none}
+/* Product gallery */
+.product-gallery{margin:12px 0 18px}
+.product-gallery>img{display:block;width:100%;max-height:320px;object-fit:contain;background:#e8e6dc}
+.gallery-thumbs{display:flex;gap:8px;overflow-x:auto;padding:8px 1px}
+.gallery-thumb{flex:0 0 62px;padding:2px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer}
+.gallery-thumb img{display:block;width:56px;height:56px;object-fit:cover}
+.gallery-thumb.selected{border:2px solid #343d2b;padding:1px}
 @media(min-width:900px){.hero{padding-top:85px;padding-bottom:75px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:520px){header{padding:15px 4%}.logo{font-size:23px;letter-spacing:3px}.nav{gap:10px;font-size:10px}.nav a:nth-child(2){display:none}.cartbtn{padding:9px}.hero{padding:48px 6%}.hero h1{letter-spacing:-2px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}section{padding:34px 4%}.sectionhead h2{font-size:21px}.productname{font-size:12px}.custombox{padding:23px 18px}.features{grid-template-columns:1fr}}
 </style></head>
 <body>
@@ -44,11 +51,13 @@ const colourHex={Black:'#24251f',White:'#faf9f4',Maroon:'#681e32','Acid Wash Bla
 function money(n){return '৳'+Number(n||0).toLocaleString('en-BD',{maximumFractionDigits:2})}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function shirtArt(colour,design){let graphic=design==='Wifey'?'<text x="100" y="145" font-size="20" text-anchor="middle" fill="#f4a4c0" font-family="Georgia" font-style="italic">Wifey</text>':design==='Sniper'?'<text x="100" y="145" font-size="13" text-anchor="middle" fill="#eee" font-weight="bold">SNIPER</text>':design==='Automotive'?'<text x="100" y="145" font-size="11" text-anchor="middle" fill="#eee" font-weight="bold">86 / DRIVE</text>':'';return `<svg viewBox="0 0 200 210"><path d="M64 26 L81 18 Q100 33 119 18 L136 26 L175 53 L153 84 L133 72 L137 190 L63 190 L67 72 L47 84 L25 53 Z" fill="${colourHex[colour]||'#33352d'}" stroke="#2223" stroke-width="1.5"/><path d="M81 18 Q100 51 119 18" fill="none" stroke="#9997" stroke-width="2"/>${graphic}</svg>`}
-function card(p){let cs=p.colours||['Black','White','Maroon','Acid Wash Black'],c=cs[0],d=/wifey/i.test(p.name)?'Wifey':/sniper/i.test(p.name)?'Sniper':/automotive|86/i.test(p.name)?'Automotive':'';let art=p.image_url?`<img class="productphoto" src="${esc(p.image_url)}" alt="${esc(p.name)}" onerror="this.style.display='none'">`:`<div class="shirt">${shirtArt(c,d)}</div><span class="arttext">ASENO / ${esc(c.toUpperCase())}</span>`;return `<article class="product"><div class="productart"><span class="tag">${esc(p.category||'ASENO COLLECTION')}</span>${art}</div><div class="productinfo"><div class="productname">${esc(p.name)}</div><div class="productdesc">${esc(p.description||'Premium ASENO streetwear.')}</div><div class="colours">${cs.slice(0,4).map(c=>`<span class="swatch" title="${esc(c)}" style="background:${colourHex[c]||'#444'}"></span>`).join('')}</div><div class="price">${money(p.price)}</div><button class="quick" onclick="openProduct('${esc(p.id)}')">SELECT OPTIONS +</button></div></article>`}
+function card(p){let cs=p.colours||['Black','White','Maroon','Acid Wash Black'],c=cs[0],d=/wifey/i.test(p.name)?'Wifey':/sniper/i.test(p.name)?'Sniper':/automotive|86/i.test(p.name)?'Automotive':'';let imgs=productImages(p);let art=imgs.length?`<img class="productphoto" src="${esc(imgs[0])}" alt="${esc(p.name)}" onerror="this.style.display='none'">`:`<div class="shirt">${shirtArt(c,d)}</div><span class="arttext">ASENO / ${esc(c.toUpperCase())}</span>`;return `<article class="product"><div class="productart"><span class="tag">${esc(p.category||'ASENO COLLECTION')}</span>${art}</div><div class="productinfo"><div class="productname">${esc(p.name)}</div><div class="productdesc">${esc(p.description||'Premium ASENO streetwear.')}</div><div class="colours">${cs.slice(0,4).map(c=>`<span class="swatch" title="${esc(c)}" style="background:${colourHex[c]||'#444'}"></span>`).join('')}</div><div class="price">${money(p.price)}</div><button class="quick" onclick="openProduct('${esc(p.id)}')">SELECT OPTIONS +</button></div></article>`}
 function render(){let solid=products.filter(p=>['SOLID ESSENTIAL','tshirt','solid'].includes(p.category));let designs=products.filter(p=>!solid.includes(p));document.getElementById('solidgrid').innerHTML=solid.length?solid.map(card).join(''):'<p>No essentials available yet.</p>';document.getElementById('designgrid').innerHTML=designs.length?designs.map(card).join(''):'<p>New designs coming soon.</p>';document.getElementById('year').textContent=new Date().getFullYear()}
+function productImages(p){return [...new Set([p?.image_url,...(Array.isArray(p?.image_urls)?p.image_urls:[])].filter(url=>typeof url==='string'&&url.trim()))].slice(0,5)}
+function showGalleryImage(index){const images=productImages(active),main=document.getElementById('productGalleryMain');if(!main||!images[index])return;main.src=images[index];document.querySelectorAll('.gallery-thumb').forEach((button,i)=>{button.classList.toggle('selected',i===index);button.setAttribute('aria-pressed',i===index?'true':'false')})}
 async function loadProducts(){
  try{
-  const {data,error}=await db.from('products').select('id,name,description,category,price,image_url,is_active').eq('is_active',true).order('created_at',{ascending:true});
+  const {data,error}=await db.from('products').select('id,name,description,category,price,image_url,image_urls,is_active').eq('is_active',true).order('created_at',{ascending:true});
   if(error)throw error;
   if(data&&data.length){
    const ids=data.map(p=>p.id);
@@ -70,7 +79,8 @@ function stockFor(colour,size){const v=variantFor(colour,size);return v?Math.max
 async function openProduct(id){
  active=products.find(p=>String(p.id)===String(id));if(!active)return;
  selectedColour='';selectedSize='M';qty=1;activeVariants=[];stockLoading=true;
- document.getElementById('productform').innerHTML=`<h2>${esc(active.name)}</h2><p style="font-size:12px;color:#77796e">${esc(active.description||'Premium ASENO streetwear.')}</p>${active.image_url?`<img src="${esc(active.image_url)}" alt="${esc(active.name)}" style="width:100%;max-height:240px;object-fit:cover">`:''}<div class="field"><label>COLOUR</label><div class="choice" id="colourChoices">Loading stock…</div></div><div class="field"><label>SIZE</label><div class="choice" id="sizeChoices"></div><small>M: length 28\", chest 40\" · L: 29\"/42\" · XL: 30\"/44\" (inches)</small><p id="stockMessage" class="stock-label">Checking availability…</p></div><div class="field"><label>QUANTITY</label><div class="choice"><button onclick="changeQty(-1)">−</button><button id="qtyval">1</button><button onclick="changeQty(1)">+</button></div></div><div class="panelprice" id="productprice">${money(active.price)}</div><button class="primary" id="addToBagButton" onclick="addToCart()" disabled>ADD TO BAG</button><button class="secondary" id="buyNowButton" onclick="buyNow()" disabled>BUY IT NOW</button>`;
+ const galleryImages=productImages(active);
+ document.getElementById('productform').innerHTML=`<h2>${esc(active.name)}</h2><p style="font-size:12px;color:#77796e">${esc(active.description||'Premium ASENO streetwear.')}</p>${galleryImages.length?`<div class="product-gallery"><img id="productGalleryMain" src="${esc(galleryImages[0])}" alt="${esc(active.name)}">${galleryImages.length>1?`<div class="gallery-thumbs" aria-label="Product photos">${galleryImages.map((url,i)=>`<button type="button" class="gallery-thumb ${i===0?'selected':''}" aria-pressed="${i===0?'true':'false'}" onclick="showGalleryImage(${i})" aria-label="View product photo ${i+1}"><img src="${esc(url)}" alt=""></button>`).join('')}</div>`:''}</div>`:''}<div class="field"><label>COLOUR</label><div class="choice" id="colourChoices">Loading stock…</div></div><div class="field"><label>SIZE</label><div class="choice" id="sizeChoices"></div><small>M: length 28", chest 40" · L: 29"/42" · XL: 30"/44" (inches)</small><p id="stockMessage" class="stock-label">Checking availability…</p></div><div class="field"><label>QUANTITY</label><div class="choice"><button onclick="changeQty(-1)">−</button><button id="qtyval">1</button><button onclick="changeQty(1)">+</button></div></div><div class="panelprice" id="productprice">${money(active.price)}</div><button class="primary" id="addToBagButton" onclick="addToCart()" disabled>ADD TO BAG</button><button class="secondary" id="buyNowButton" onclick="buyNow()" disabled>BUY IT NOW</button>`;
  document.getElementById('overlay').classList.add('show');document.getElementById('productpanel').classList.add('show');
  try{
   const {data,error}=await db.from('product_variants').select('id,product_id,color,size,stock').eq('product_id',active.id);
@@ -136,136 +146,33 @@ updateCart();['customerName','customerPhone','customerAddress','senderPhone','tr
 async function loadCheckoutSettings(){try{const {data,error}=await db.from('store_settings').select('delivery_fee_city,delivery_fee_outside,cod_enabled,bkash_enabled,nagad_enabled,bkash_number,nagad_number').order('id',{ascending:true}).limit(1).maybeSingle();if(error)throw error;if(data){checkoutSettings={...checkoutSettings,...data};const a=document.getElementById('deliveryArea');a.options[0].text=`Chattogram City — ${money(checkoutSettings.delivery_fee_city)}`;a.options[1].text=`Outside Chattogram — ${money(checkoutSettings.delivery_fee_outside)}`;document.querySelector('label.payoption input[value="cod"]').closest('label').style.display=checkoutSettings.cod_enabled?'block':'none';document.querySelector('label.payoption input[value="bkash"]').closest('label').style.display=checkoutSettings.bkash_enabled?'block':'none';document.querySelector('label.payoption input[value="nagad"]').closest('label').style.display=checkoutSettings.nagad_enabled?'block':'none';if(!checkoutSettings.cod_enabled)document.querySelector('input[name=payment]:checked').checked=false;if(!checkoutSettings.cod_enabled){const first=document.querySelector('input[name=payment]');if(first)first.checked=true;paymentChanged();}}updateCart();}catch(e){console.warn('Could not load checkout settings; using defaults.',e)}}
 render();updateCart();loadProducts();loadCheckoutSettings();
 </script><style>
-.aseno-socials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px;
-  align-items: center;
-  margin: 24px 0;
-}
-.aseno-socials a {
-  box-sizing: border-box;
-  width: 76px;
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #454545;
-  border-radius: 0;
-  color: #bdbdbd;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-.aseno-socials a:hover {
-  border-color: #999;
-  color: #fff;
-}
-.aseno-socials svg {
-  width: 38px;
-  height: 38px;
-  display: block;
-}
-.aseno-whatsapp-float {
-  position: fixed;
-  right: 20px;
-  bottom: 22px;
-  z-index: 99999;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #25D366;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  box-shadow: 0 5px 18px #0004;
-}
-.aseno-whatsapp-float svg {
-  width: 36px;
-  height: 36px;
-  fill: currentColor;
-}
-@media(max-width:600px) {
-  .aseno-socials { gap: 12px; }
-  .aseno-socials a { width: 54px; height: 54px; }
-  .aseno-socials svg { width: 29px; height: 29px; }
-  .aseno-whatsapp-float {
-    width: 56px;
-    height: 56px;
-    right: 15px;
-    bottom: 18px;
-  }
-}
+.aseno-socials {display:flex;flex-wrap:wrap;gap:22px;align-items:center;margin:24px 0}
+.aseno-socials a{box-sizing:border-box;width:76px;height:76px;display:flex;align-items:center;justify-content:center;border:2px solid #454545;border-radius:0;color:#bdbdbd;text-decoration:none;flex-shrink:0}
+.aseno-socials a:hover{border-color:#999;color:#fff}.aseno-socials svg{width:38px;height:38px;display:block}
+.aseno-whatsapp-float{position:fixed;right:20px;bottom:22px;z-index:99999;width:60px;height:60px;border-radius:50%;background:#25D366;color:white;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 5px 18px #0004}
+.aseno-whatsapp-float svg{width:36px;height:36px;fill:currentColor}
+@media(max-width:600px){.aseno-socials{gap:12px}.aseno-socials a{width:54px;height:54px}.aseno-socials svg{width:29px;height:29px}.aseno-whatsapp-float{width:56px;height:56px;right:15px;bottom:18px}}
 </style>
-
 <script>
-(function () {
-  const message =
-    'https://wa.me/8801890542860?text=Hi%20ASENO%2C%20I%20need%20help%20with%20an%20order.';
-
-  function setup() {
-    const footer = document.querySelector('footer');
-
-    if (footer && !document.querySelector('.aseno-socials')) {
-      const box = document.createElement('div');
-      box.className = 'aseno-socials';
-      box.setAttribute('aria-label', 'ASENO social media');
-
-      box.innerHTML = `
-        <a href="https://www.instagram.com/aseno.__?exln=MW9sbXdnbDA1ZXNjZw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="3" y="3" width="18" height="18" rx="5"/>
-            <circle cx="12" cy="12" r="4"/>
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-
-        <a href="https://www.facebook.com/share/1C8JvbCPcX/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M13.5 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.3V13h2.8v8z"/>
-          </svg>
-        </a>
-
-        <a href="https://www.tiktok.com/@aseno.__?_r=1&_t=ZS-9Ai3BNNCDcy" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19.6 7.1a6.5 6.5 0 0 1-4.1-1.5v8.1a6.2 6.2 0 1 1-5.4-6.1v3.3a2.9 2.9 0 1 0 2.1 2.8V2.5h3.3c.2 2.1 1.9 3.9 4.1 4.1z"/>
-          </svg>
-        </a>
-
-        <a href="${message}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.5A8.5 8.5 0 1 1 20.5 11.5Z"/>
-            <path d="M8.5 8.2c.3-.6.6-.6.9-.6h.4c.2 0 .4.1.5.4l.8 1.9c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6.4.8 1.1 1.5 1.8 2 .7.5 1.4.8 1.8.9.3.1.5.1.7-.2l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.5 0 .4-.2 1.2-.8 1.6-.6.4-1.3.6-2 .4-1.1-.2-2.4-.8-3.8-2-1.6-1.4-2.6-3.1-2.9-4.2-.3-1.1 0-2 .5-2.4Z"/>
-          </svg>
-        </a>
-      `;
-
-      footer.appendChild(box);
-    }
-
-    if (!document.querySelector('.aseno-whatsapp-float')) {
-      const wa = document.createElement('a');
-      wa.className = 'aseno-whatsapp-float';
-      wa.href = message;
-      wa.target = '_blank';
-      wa.rel = 'noopener noreferrer';
-      wa.setAttribute('aria-label', 'Chat with ASENO on WhatsApp');
-
-      wa.innerHTML = `
-        <svg viewBox="0 0 32 32">
-          <path d="M16 .8A15 15 0 0 0 3.1 23.5L1 31l7.7-2A15.1 15.1 0 1 0 16 .8Zm0 27.4a12.3 12.3 0 0 1-6.2-1.7l-.5-.3-4.6 1.2 1.2-4.5-.3-.5A12.3 12.3 0 1 1 16 28.2Zm6.8-9.2c-.4-.2-2.1-1-2.4-1.1-.3-.1-.6-.2-.8.2-.2.4-.9 1.1-1.1 1.3-.2.2-.4.3-.8.1-.4-.2-1.5-.5-2.9-1.8-1.1-1-1.8-2.1-2-2.5-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.5 0-.7l-1.1-2.6c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.8 5.2.8.3 1.4.5 1.9.7.8.2 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.2-.3-.3-.7-.5Z"/>
-        </svg>
-      `;
-
-      document.body.appendChild(wa);
-    }
+(function(){
+ const message='https://wa.me/8801890542860?text=Hi%20ASENO%2C%20I%20need%20help%20with%20an%20order.';
+ function setup(){
+  const footer=document.querySelector('footer');
+  if(footer&&!document.querySelector('.aseno-socials')){
+   const box=document.createElement('div');box.className='aseno-socials';box.setAttribute('aria-label','ASENO social media');
+   box.innerHTML=`
+    <a href="https://www.instagram.com/aseno.__?exln=MW9sbXdnbDA1ZXNjZw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    <a href="https://www.facebook.com/share/1C8JvbCPcX/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.3V13h2.8v8z"/></svg></a>
+    <a href="https://www.tiktok.com/@aseno.__?_r=1&_t=ZS-9Ai3BNNCDcy" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 7.1a6.5 6.5 0 0 1-4.1-1.5v8.1a6.2 6.2 0 1 1-5.4-6.1v3.3a2.9 2.9 0 1 0 2.1 2.8V2.5h3.3c.2 2.1 1.9 3.9 4.1 4.1z"/></svg></a>
+    <a href="${message}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.5A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8.5 8.2c.3-.6.6-.6.9-.6h.4c.2 0 .4.1.5.4l.8 1.9c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6.4.8 1.1 1.5 1.8 2 .7.5 1.4.8 1.8.9.3.1.5.1.7-.2l.8-1c.2-.2.4-.3.6-.1l1.8.9c.3.1.4.3.4.5 0 .4-.2 1.2-.8 1.6-.6.4-1.3.6-2 .4-1.1-.2-2.4-.8-3.8-2-1.6-1.4-2.6-3.1-2.9-4.2-.3-1.1 0-2 .5-2.4Z"/></svg></a>`;
+   footer.appendChild(box);
   }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setup);
-  } else {
-    setup();
+  if(!document.querySelector('.aseno-whatsapp-float')){
+   const wa=document.createElement('a');wa.className='aseno-whatsapp-float';wa.href=message;wa.target='_blank';wa.rel='noopener noreferrer';wa.setAttribute('aria-label','Chat with ASENO on WhatsApp');
+   wa.innerHTML=`<svg viewBox="0 0 32 32"><path d="M16 .8A15 15 0 0 0 3.1 23.5L1 31l7.7-2A15.1 15.1 0 1 0 16 .8Zm0 27.4a12.3 12.3 0 0 1-6.2-1.7l-.5-.3-4.6 1.2 1.2-4.5-.3-.5A12.3 12.3 0 1 1 16 28.2Zm6.8-9.2c-.4-.2-2.1-1-2.4-1.1-.3-.1-.6-.2-.8.2-.2.4-.9 1.1-1.1 1.3-.2.2-.4.3-.8.1-.4-.2-1.5-.5-2.9-1.8-1.1-1-1.8-2.1-2-2.5-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.5 0-.7l-1.1-2.6c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.8 5.2.8.3 1.4.5 1.9.7.8.2 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.2-.3-.3-.7-.5Z"/></svg>`;
+   document.body.appendChild(wa);
   }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script></body></html>
