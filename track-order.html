@@ -44,7 +44,7 @@ document.getElementById('trackForm').addEventListener('submit', async function(e
   try {
     const {data, error} = await db
       .from('orders')
-      .select('id,created_at,status,total_amount,payment_method,payment_status,phone')
+      .select('id,order_code,created_at,status,total_amount,payment_method,payment_status,phone')
       .eq('phone', phone)
       .order('created_at', {ascending:false})
       .limit(50);
@@ -52,9 +52,9 @@ document.getElementById('trackForm').addEventListener('submit', async function(e
     if (error) throw error;
 
     const order = (data || []).find(o =>
-      String(o.id).toUpperCase() === orderId ||
-      String(o.id).replace(/-/g, '').slice(0, 8).toUpperCase() === orderId
-    );
+  String(o.order_code || '').toUpperCase() === orderId ||
+  String(o.id).replace(/-/g, '').slice(0, 8).toUpperCase() === orderId
+);
 
     if (!order) {
       result.textContent = 'Order not found. Please check your Order ID and phone number.';
@@ -76,7 +76,7 @@ document.getElementById('trackForm').addEventListener('submit', async function(e
     const details = document.createElement('pre');
     details.style.whiteSpace = 'pre-wrap';
     details.textContent =
-      'Order ID: ' + orderId +
+      'Order ID: ' + (order.order_code || orderId) +
       '\nStatus: ' + order.status +
       '\nTotal: ৳' + order.total_amount +
       '\nPayment: ' + (order.payment_method || 'N/A') +
