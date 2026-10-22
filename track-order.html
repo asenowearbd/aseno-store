@@ -10,8 +10,10 @@ main{max-width:480px;margin:35px auto;background:white;padding:24px;border-radiu
 h1{letter-spacing:2px}
 input,button{box-sizing:border-box;width:100%;padding:14px;margin-top:12px;border-radius:9px;font-size:16px}
 input{border:1px solid #ccc}
-button{background:#343b26;color:white;border:0;font-weight:bold}
+button{background:#343b26;color:white;border:0;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6}
 #result{margin-top:20px;overflow-wrap:anywhere;line-height:1.7}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;font-family:Arial,sans-serif}
 </style>
 </head>
 <body>
@@ -19,14 +21,17 @@ button{background:#343b26;color:white;border:0;font-weight:bold}
 <h1>ASENO</h1>
 <p>ORDER TRACKING</p>
 <p>Enter your Order ID and phone number.</p>
+
 <form id="trackForm">
-<input id="orderId" placeholder="Order ID (e.g. 5F48501C)" required>
+<input id="orderId" placeholder="Order ID (e.g. AS-123)" required>
 <input id="phone" type="tel" placeholder="Your order phone number" required>
 <button type="submit">TRACK ORDER</button>
 </form>
+
 <div id="result" aria-live="polite"></div>
 <p><a href="./index.html">← Back to Store</a></p>
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const db = window.supabase.createClient(
@@ -36,58 +41,60 @@ const db = window.supabase.createClient(
 
 document.getElementById('trackForm').addEventListener('submit', async function(e) {
   e.preventDefault();
+
+  const form = this;
   const result = document.getElementById('result');
-  const orderId = document.getElementById('orderId').value.trim().toUpperCase();
+  const button = form.querySelector('button[type="submit"]');
+  const orderId = document.getElementById('orderId').value.trim();
   const phone = document.getElementById('phone').value.trim();
+
   result.textContent = 'Checking order...';
+  button.disabled = true;
 
   try {
-    const {data, error} = await db
-      .from('orders')
-      .select('id,order_code,created_at,status,total_amount,payment_method,payment_status,phone')
-      .eq('phone', phone)
-      .order('created_at', {ascending:false})
-      .limit(50);
+    const { data, error } = await db.rpc('track_store_order', {
+      p_order_id: orderId,
+      p_phone: phone
+    });
 
     if (error) throw error;
 
-    const order = (data || []).find(o =>
-  String(o.order_code || '').toUpperCase() === orderId ||
-  String(o.id).replace(/-/g, '').slice(0, 8).toUpperCase() === orderId
-);
+    const order = data && data.order;
 
     if (!order) {
-      result.textContent = 'Order not found. Please check your Order ID and phone number.';
+      result.textContent =
+        'Order not found. Please check your Order ID and phone number.';
       return;
     }
 
-    const {data: items, error: itemError} = await db
-      .from('order_items')
-      .select('product_name,color,size,quantity')
-      .eq('order_id', order.id);
-
-    if (itemError) throw itemError;
-
     result.replaceChildren();
+
     const heading = document.createElement('h3');
     heading.textContent = 'Order Found ✓';
     result.appendChild(heading);
 
     const details = document.createElement('pre');
-    details.style.whiteSpace = 'pre-wrap';
+    const items = Array.isArray(order.items) ? order.items : [];
+
     details.textContent =
       'Order ID: ' + (order.order_code || orderId) +
-      '\nStatus: ' + order.status +
-      '\nTotal: ৳' + order.total_amount +
+      '\nStatus: ' + (order.status || 'N/A') +
+      '\nTotal: ৳' + (order.total_amount ?? 'N/A') +
       '\nPayment: ' + (order.payment_method || 'N/A') +
       '\nPayment status: ' + (order.payment_status || 'N/A') +
-      '\n\nItems:\n' + ((items || []).map(i =>
-        `${i.product_name} — ${i.color}, ${i.size} × ${i.quantity}`
+      '\n\nItems:\n' + (items.map(i =>
+        (i.product_name || 'Product') + ' — ' +
+        (i.color || '') + ', ' + (i.size || '') + ' × ' +
+        (i.quantity ?? 0)
       ).join('\n') || 'No items found');
+
     result.appendChild(details);
   } catch (err) {
-    console.error(err);
-    result.textContent = 'Could not check order. Database access may need configuration.';
+    console.error('Order tracking failed:', err);
+    result.textContent =
+      'Could not check order right now. Please try again later.';
+  } finally {
+    button.disabled = false;
   }
 });
 </script>
