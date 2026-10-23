@@ -86,7 +86,15 @@ function money(v){return '৳'+Number(v||0).toLocaleString('en-BD',{maximumFract
 function orderCode(o){return o.order_code||String(o.id).replace(/-/g,'').slice(0,8).toUpperCase()}
 function statusPill(s){s=String(s||'pending').toLowerCase();let cls=s==='delivered'?'good':s==='cancelled'?'off':['pending','confirmed'].includes(s)?'warn':'';return `<span class="pill ${cls}">${esc(s.replaceAll('_',' '))}</span>`}
 async function checkAdmin(session){if(!session){$('loginView').classList.remove('hidden');$('appView').classList.add('hidden');return}const {data,error}=await db.from('admin_users').select('user_id').eq('user_id',session.user.id).maybeSingle();if(error||!data){await db.auth.signOut();msg($('loginMsg'),'This account is not authorized as an admin.','error');return}$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('who').textContent=session.user.email||'';await Promise.all([loadProducts(),loadOrders(),loadSettings()])}
-$('loginForm').addEventListener('submit',async e=>{e.preventDefault();const b=e.submitter;b.disabled=true;msg($('loginMsg'),'Signing in…');const {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});b.disabled=false;if(error){msg($('loginMsg'),error.message,'error');return}await checkAdmin(data.session)});
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();const b=e.submitter;b.disabled=true;msg($('loginMsg'),'Signing in…');const {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});b.disabled=false;if (error) {
+  console.error('ASENO login error:', error);
+  msg(
+    $('loginMsg'),
+    'Login failed: ' + error.message,
+    'error'
+  );
+  return;
+}await checkAdmin(data.session)});
 $('logout').onclick=async()=>{await db.auth.signOut();location.reload()};db.auth.getSession().then(({data})=>checkAdmin(data.session));
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));['productsTab','ordersTab','settingsTab'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.tab))});
 function renderVariantEditor(){$('variantEditor').innerHTML=variantsDraft.length?variantsDraft.map((v,i)=>`<div class="variantline"><input aria-label="Colour" placeholder="Colour e.g. Black" value="${esc(v.color)}" data-v="${i}" data-k="color"><input aria-label="Size" placeholder="Size e.g. M" value="${esc(v.size)}" data-v="${i}" data-k="size"><input aria-label="Stock" type="number" min="0" step="1" placeholder="Stock" value="${Number(v.stock)||0}" data-v="${i}" data-k="stock"><button type="button" class="danger small" data-remove="${i}" aria-label="Remove row">×</button></div>`).join(''):'<div class="helper">No size/colour rows yet. Add at least one for stock tracking.</div>'}
