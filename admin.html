@@ -124,13 +124,20 @@ async function uploadSelectedProductImages() {
             contentType: file.type || 'image/jpeg'
           });
 
-        if (error) throw error;
+        if (error) {
+  console.error('ASENO Storage upload error:', error);
+  throw new Error(
+    `Upload failed: ${error.message || 'Unknown error'} | Status: ${error.statusCode || 'unknown'}`
+  );
+        }
 
         lastError = null;
         break;
       } catch (error) {
         lastError = error;
-
+        
+        console.error('ASENO upload attempt failed:', error);
+        
         if (attempt < 3) {
           await new Promise(resolve =>
             setTimeout(resolve, 700 * attempt)
@@ -138,17 +145,15 @@ async function uploadSelectedProductImages() {
         }
       }
     }
-
-    if (lastError) {
-      const detail = lastError.message || String(lastError);
-
-      if (/failed to fetch|network|load failed/i.test(detail)) {
-        throw new Error(
-          'Supabase Storage connection failed. Check internet and try again.'
-        );
+   
+      if (lastError) {
+  throw new Error(
+    'Name: ' + (lastError.name || 'unknown') +
+    ' | Message: ' + (lastError.message || String(lastError)) +
+    ' | Status: ' +
+    (lastError.statusCode || lastError.status || 'unknown')
+  );
       }
-
-      throw new Error(detail);
     }
 
     const { data } = db.storage
