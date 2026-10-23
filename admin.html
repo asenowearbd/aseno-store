@@ -21,12 +21,24 @@
 <nav class="tabs"><button class="active" data-tab="productsTab">Products & stock</button><button data-tab="ordersTab">Orders</button><button data-tab="settingsTab">Store settings</button></nav>
 <section id="productsTab"><div class="card"><div class="sectionhead"><div><div class="eyebrow">Catalog</div><h2>Product management</h2><div class="muted">Manage products, visibility and stock variants.</div></div><button id="newProduct">＋ Add product</button></div></div>
 <div id="productFormCard" class="card hidden"><div class="sectionhead"><div><div class="eyebrow">Catalog editor</div><h2 id="formTitle" style="margin:0">Add product</h2></div><button id="cancelEdit" class="secondary">Close</button></div><form id="productForm"><input id="productId" type="hidden"><div class="grid" style="margin-top:15px"><div class="field"><label for="pName">PRODUCT NAME *</label><input id="pName" required maxlength="120"></div><div class="field"><label for="pPrice">PRICE (BDT) *</label><input id="pPrice" type="number" min="0" step="0.01" required></div><div class="field"><label for="pCategory">CATEGORY</label><select id="pCategory"><option value="tshirt">T-shirt / Solid</option><option value="custom">Graphic / Design</option><option value="hoodie">Hoodie</option><option value="other">Other</option></select></div><div class="field full">
-  <label for="pImage">MAIN IMAGE URL</label>
-  <input id="pImage" type="url" placeholder="https://...">
+  <label for="pImage">MAIN IMAGE URL (OPTIONAL)</label>
+<input id="pImage" type="url" placeholder="Optional image URL">
 
-  <label for="pImages" style="margin-top:12px">ADDITIONAL IMAGE URLS (4–5 PHOTOS)</label>
-  <textarea id="pImages" placeholder="প্রতি লাইনে একটি করে ছবির URL দাও&#10;https://image-2.jpg&#10;https://image-3.jpg&#10;https://image-4.jpg&#10;https://image-5.jpg"></textarea>
-  <div class="muted">প্রথম ছবিটি Main Image হবে। বাকি ছবিগুলো আলাদা লাইনে দেবে।</div>
+<label for="pImageFiles" style="margin-top:12px">
+  PHONE GALLERY থেকে সর্বোচ্চ ৬টি ছবি বেছে নাও
+</label>
+<input id="pImageFiles" type="file" accept="image/*" multiple>
+
+<div class="muted">
+  Gallery থেকে সর্বোচ্চ ৬টি ছবি বেছে নাও। প্রতিটি ছবি সর্বোচ্চ 8MB।
+</div>
+
+<div id="imageUploadPreview"></div>
+
+<label for="pImages" style="margin-top:12px">
+  ADDITIONAL IMAGE URLS (OPTIONAL)
+</label>
+<textarea id="pImages" placeholder="ইচ্ছা করলে প্রতি লাইনে একটি image URL দাও"></textarea>
 </div><div class="field full"><label for="pDescription">DESCRIPTION</label><textarea id="pDescription"></textarea></div><div class="field"><label for="pActive">WEBSITE VISIBILITY</label><select id="pActive"><option value="true">Visible on website</option><option value="false">Hidden / deactivated</option></select></div></div><div class="separator"></div><div class="sectionhead"><div><h3 style="margin:0">Sizes, colours & stock</h3><div class="muted">Each row is one colour + size combination. Stock 0 means out of stock.</div></div><button id="addVariant" type="button" class="secondary">＋ Add variant</button></div><div id="variantEditor" style="margin-top:10px"></div><div class="row" style="margin-top:17px"><button type="submit">Save product</button><button id="cancelEdit2" type="button" class="secondary">Cancel</button><span id="saveMsg" class="muted"></span></div></form></div>
 <div class="card"><div class="sectionhead"><div><div class="eyebrow">Your catalog</div><h2>Your products</h2><div class="muted">Search and maintain your live catalog.</div></div><button id="refreshProducts" class="secondary small">↻ Refresh</button></div><div class="tools"><div class="searchbox"><input id="productSearch" type="search" placeholder="Search product name…"></div><select id="productFilter" aria-label="Filter products"><option value="all">All products</option><option value="active">Visible only</option><option value="hidden">Hidden only</option><option value="stockout">Out of stock</option></select><span class="muted count" id="productCount"></span></div><div id="productList" class="products"><div class="empty">Loading products…</div></div></div></section>
 <section id="ordersTab" class="hidden"><div class="card"><div class="sectionhead"><div><div class="eyebrow">Fulfillment</div><h2>Customer orders</h2><div class="muted">Search orders, verify payment and update delivery progress.</div></div><button id="refreshOrders" class="secondary">↻ Refresh orders</button></div><div class="tools"><div class="searchbox"><input id="orderSearch" type="search" placeholder="Search code, customer or phone…"></div><select id="orderFilter" aria-label="Filter orders"><option value="all">All statuses</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select><span class="muted count" id="orderCount"></span></div><div id="ordersList" class="tablewrap desktop-orders"><div class="empty">Loading orders…</div></div><div id="mobileOrdersList" class="mobile-order-list"><div class="empty">Loading orders…</div></div></div></section>
@@ -36,7 +48,37 @@
 const SUPABASE_URL='https://rksonvrxckilhbgdkfbk.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_yvsxXpmXI-7Okxf0xMU6gQ_kbitp4DG';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-const $=id=>document.getElementById(id);let variantsDraft=[],productsCache=[],ordersCache=[],settingsCache={};
+const $=id=>document.getElementById(id);let variantsDraft=[],productsCache=[],ordersCache=[],settingsCache={}; 
+const PRODUCT_IMAGE_BUCKET = 'product-images';
+const MAX_PRODUCT_IMAGES = 6;
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
+let productImageFiles = [];
+
+$('pImageFiles').addEventListener('change', function () {
+  const files = Array.from(this.files || []);
+  productImageFiles = [];
+
+  if (files.length > MAX_PRODUCT_IMAGES) {
+    alert('সর্বোচ্চ ৬টি ছবি বেছে নিতে পারবে।');
+    this.value = '';
+    return;
+  }
+
+  const invalid = files.find(file =>
+    !file.type.startsWith('image/') ||
+    file.size > MAX_IMAGE_BYTES
+  );
+
+  if (invalid) {
+    alert('শুধু image ফাইল দাও। প্রতিটি ছবি সর্বোচ্চ 8MB হতে পারবে।');
+    this.value = '';
+    return;
+  }
+
+  productImageFiles = files;
+  $('imageUploadPreview').textContent =
+    files.length + 'টি ছবি নির্বাচিত হয়েছে।';
+});
 function msg(el,text,kind=''){el.textContent=text;el.classList.remove('hidden','error','success');if(kind)el.classList.add(kind)}
 function globalMsg(text,kind=''){msg($('globalMsg'),text,kind);$('globalMsg').scrollIntoView({behavior:'smooth',block:'nearest'})}
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -61,15 +103,58 @@ $('productList').addEventListener('click',async e=>{const edit=e.target.dataset.
 $('pImages').value=(Array.isArray(p.image_urls)?p.image_urls:[])
   .filter(url=>url&&url!==p.image_url).join('\n');
 $('pDescription').value=p.description||'';$('pActive').value=String(p.is_active);variantsDraft=(p._variants||[]).map(v=>({id:v.id,color:v.color,size:v.size,stock:v.stock}));renderVariantEditor();$('formTitle').textContent='Edit product';$('saveMsg').textContent='';$('productFormCard').classList.remove('hidden');$('productFormCard').scrollIntoView({behavior:'smooth'})}else if(toggle){const p=productsCache.find(x=>x.id===toggle);if(!p)return;const {error}=await db.from('products').update({is_active:!p.is_active}).eq('id',p.id);if(error)globalMsg('Could not update visibility: '+error.message,'error');else{globalMsg(p.is_active?'Product hidden from website.':'Product is visible on website.','success');await loadProducts()}}else if(del){const p=productsCache.find(x=>x.id===del);if(!p)return;if(!confirm(`Delete “${p.name}”? This removes its variant stock rows too. If it has order history, use Hide instead.`))return;const {error}=await db.from('products').delete().eq('id',p.id);if(error)globalMsg('Delete failed. Try Hide instead: '+error.message,'error');else{globalMsg('Product deleted.','success');await loadProducts()}}});
-$('productForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter;btn.disabled=true;$('saveMsg').textContent='Saving…';const id=$('productId').value;
-const mainImage=$('pImage').value.trim();
-const extraImages=$('pImages').value
+async function uploadSelectedProductImages() {
+  const urls = [];
+
+  for (const file of productImageFiles) {
+    const ext = (file.name.split('.').pop() || 'jpg')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '') || 'jpg';
+
+    const path = 'products/' + crypto.randomUUID() + '.' + ext;
+
+    const { error } = await db.storage
+      .from('product-images')
+      .upload(path, file, {
+        upsert: false,
+        contentType: file.type || 'image/jpeg'
+      });
+
+    if (error) throw error;
+
+    const { data } = db.storage
+      .from('product-images')
+      .getPublicUrl(path);
+
+    urls.push(data.publicUrl);
+  }
+
+  return urls;
+} $('productForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter;btn.disabled=true;$('saveMsg').textContent='Saving…';const id=$('productId').value;
+const mainImageInput = $('pImage').value.trim();
+
+const extraImages = $('pImages').value
   .split(/\r?\n/)
-  .map(url=>url.trim())
+  .map(url => url.trim())
   .filter(Boolean);
 
-const imageUrls=[...new Set([mainImage,...extraImages].filter(Boolean))].slice(0,5);
+let uploadedImages = [];
 
+try {
+  uploadedImages = await uploadSelectedProductImages();
+} catch (error) {
+  $('saveMsg').textContent = 'Image upload failed: ' + error.message;
+  btn.disabled = false;
+  return;
+}
+
+const imageUrls = [...new Set([
+  mainImageInput || uploadedImages[0] || '',
+  ...uploadedImages,
+  ...extraImages
+].filter(Boolean))].slice(0, 6);
+
+const mainImage = mainImageInput || imageUrls[0] || '';
 const payload={
   name:$('pName').value.trim(),
   price:Number($('pPrice').value),
