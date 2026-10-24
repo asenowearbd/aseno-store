@@ -63,7 +63,6 @@ $('variantEditor').addEventListener('click',e=>{const i=e.target.dataset.remove;
 $('addVariant').onclick=()=>{variantsDraft.push({color:'',size:'',stock:0});renderVariantEditor();};
 function resetProductForm(){ $('productForm').reset();$('productId').value='';$('pActive').value='true';variantsDraft=[];currentImageUrls=[];selectedImageFiles=[];$('imagePreview').innerHTML='';renderVariantEditor();$('formTitle').textContent='Add product';$('saveMsg').textContent='';$('productFormCard').classList.add('hidden');}
 $('newProduct').onclick=()=>{resetProductForm();$('productFormCard').classList.remove('hidden');$('productFormCard').scrollIntoView({behavior:'smooth'});};$('cancelEdit').onclick=resetProductForm;$('cancelEdit2').onclick=resetProductForm;
-
 function normalizeImageUrls(p){
   if(Array.isArray(p?.image_urls))return p.image_urls.filter(x=>typeof x==='string'&&x.trim());
   if(typeof p?.image_urls==='string'&&p.image_urls.trim()){try{const a=JSON.parse(p.image_urls);if(Array.isArray(a))return a.filter(x=>typeof x==='string'&&x.trim());}catch(_){}}
@@ -97,11 +96,19 @@ async function uploadProductImages(files){
   }
   return urls;
 }
-
 async function loadProducts(){ $('productList').innerHTML='<div class="empty">Loading products…</div>';let {data,error}=await db.from('products').select('*').order('created_at',{ascending:false});if(error){$('productList').innerHTML='<div class="empty">Could not load products: '+esc(error.message)+'</div>';return;}productsCache=data||[];const ids=productsCache.map(p=>p.id);let vars=[];if(ids.length){const r=await db.from('product_variants').select('*').in('product_id',ids).order('color').order('size');if(!r.error)vars=r.data||[];}productsCache.forEach(p=>p._variants=vars.filter(v=>v.product_id===p.id));if(!productsCache.length){$('productList').innerHTML='<div class="empty">No products yet. Add your first product.</div>';return;}$('productList').innerHTML=productsCache.map(p=>`<article class="product"><img src="${esc(normalizeImageUrls(p)[0]||p.image_url||'')}" alt="" onerror="this.style.display='none'"><div class="row between" style="margin-top:8px"><span class="pill ${p.is_active?'':'off'}">${p.is_active?'VISIBLE':'HIDDEN'}</span><span class="muted">${esc(p.category||'tshirt')}</span></div><h3>${esc(p.name)}</h3><strong>৳${Number(p.price||0).toLocaleString('en-BD')}</strong><div class="muted" style="margin-top:5px">${esc(p.description||'No description')}</div><div style="margin-top:9px">${(p._variants||[]).length?(p._variants.map(v=>`<div class="row between muted"><span>${esc(v.color)} / ${esc(v.size)}</span><span>${v.stock===0?'<b style="color:var(--red)">Out of stock</b>':`Stock: ${v.stock}`}</span></div>`).join('')):'<div class="muted">No stock variants set</div>'}</div><div class="row" style="margin-top:12px"><button class="small" data-edit="${p.id}">Edit</button><button class="small secondary" data-toggle="${p.id}">${p.is_active?'Hide':'Show'}</button><button class="small danger" data-delete="${p.id}">Delete</button></div></article>`).join('');}
 $('productList').addEventListener('click',async e=>{const edit=e.target.dataset.edit,toggle=e.target.dataset.toggle,del=e.target.dataset.delete;if(edit){const p=productsCache.find(x=>x.id===edit);if(!p)return;$('productId').value=p.id;$('pName').value=p.name||'';$('pPrice').value=p.price;$('pCategory').value=p.category||'tshirt';currentImageUrls=normalizeImageUrls(p);selectedImageFiles=[];$('pImageFiles').value='';renderImagePreview(currentImageUrls,[]);$('pImage').value=p.image_url||currentImageUrls[0]||'';$('pDescription').value=p.description||'';$('pActive').value=String(p.is_active);variantsDraft=(p._variants||[]).map(v=>({id:v.id,color:v.color,size:v.size,stock:v.stock}));renderVariantEditor();$('formTitle').textContent='Edit product';$('saveMsg').textContent='';$('productFormCard').classList.remove('hidden');$('productFormCard').scrollIntoView({behavior:'smooth'});}else if(toggle){const p=productsCache.find(x=>x.id===toggle);if(!p)return;const {error}=await db.from('products').update({is_active:!p.is_active}).eq('id',p.id);if(error)globalMsg('Could not update visibility: '+error.message,'error');else{globalMsg(p.is_active?'Product hidden from website.':'Product is visible on website.','success');await loadProducts();}}else if(del){const p=productsCache.find(x=>x.id===del);if(!p)return;if(!confirm(`Delete “${p.name}”? This removes its variant stock rows too. If it has order history, use Hide instead.`))return;const {error}=await db.from('products').delete().eq('id',p.id);if(error)globalMsg('Delete failed. Try Hide instead: '+error.message,'error');else{globalMsg('Product deleted.','success');await loadProducts();}}});
 $('productForm').addEventListener('submit',async e=>{
   e.preventDefault();
+  const seenVariants=new Set();
+  for(const v of variantsDraft){
+    const color=String(v.color||'').trim(),size=String(v.size||'').trim();
+    if(!color&&!size)continue;
+    if(!color||!size){msg($('saveMsg'),'Every stock row needs both colour and size.','error');return;}
+    const key=color.toLowerCase()+'|'+size.toLowerCase();
+    if(seenVariants.has(key)){msg($('saveMsg'),`Duplicate variant: ${color} / ${size}. Keep only one row for this combination.`,'error');return;}
+    seenVariants.add(key);
+  }
   const btn=e.submitter||$('productForm').querySelector('button[type="submit"]');
   if(btn)btn.disabled=true;
   $('saveMsg').textContent='Saving product…';
@@ -118,16 +125,29 @@ $('productForm').addEventListener('submit',async e=>{
     const result=id?await db.from('products').update(payload).eq('id',id).select('id').single():await db.from('products').insert(payload).select('id').single();
     if(result.error)throw new Error('Product save failed: '+result.error.message);
     const productId=id||result.data.id;
-    const clean=variantsDraft.filter(v=>String(v.color||'').trim()&&String(v.size||'').trim()).map(v=>({product_id:productId,color:String(v.color).trim(),size:String(v.size).trim(),stock:Math.max(0,parseInt(v.stock||0,10))}));
-    const {data:existing,error:fetchErr}=await db.from('product_variants').select('id').eq('product_id',productId);
-    if(fetchErr)throw new Error('Product saved, but could not load variants: '+fetchErr.message);
-    const keep=new Set(variantsDraft.filter(v=>v.id&&String(v.color||'').trim()&&String(v.size||'').trim()).map(v=>v.id));
-    const remove=(existing||[]).filter(v=>!keep.has(v.id)).map(v=>v.id);
-    if(remove.length){const r=await db.from('product_variants').delete().in('id',remove);if(r.error)throw new Error('Product saved, but variant delete failed: '+r.error.message);}
+    const clean=variantsDraft.filter(v=>String(v.color||'').trim()&&String(v.size||'').trim()).map(v=>({product_id:productId,color:String(v.color).trim(),size:String(v.size).trim(),stock:Math.max(0,parseInt(v.stock||'0',10)||0)}));
+    const {data:existing,error:fetchErr}=await db.from('product_variants').select('*').eq('product_id',productId);
+    if(fetchErr)throw new Error('Product saved, but could not load stock: '+fetchErr.message);
+    const existingRows=existing||[];
+    const keyOf=v=>String(v.color||'').trim().toLowerCase()+'|'+String(v.size||'').trim().toLowerCase();
+    const usedIds=new Set();
     for(const v of clean){
-      const old=variantsDraft.find(x=>x.id&&String(x.color||'').trim()===v.color&&String(x.size||'').trim()===v.size);
-      const r=old?await db.from('product_variants').update({color:v.color,size:v.size,stock:v.stock}).eq('id',old.id):await db.from('product_variants').upsert(v,{onConflict:'product_id,color,size'});
-      if(r.error)throw new Error('Product saved, but stock variant failed: '+r.error.message);
+      const key=keyOf(v);
+      const old=existingRows.find(row=>keyOf(row)===key&&!usedIds.has(row.id));
+      if(old){
+        const {error}=await db.from('product_variants').update({color:v.color,size:v.size,stock:v.stock}).eq('id',old.id);
+        if(error)throw new Error('Stock update failed for '+v.color+' / '+v.size+': '+error.message);
+        usedIds.add(old.id);
+      }else{
+        const {error}=await db.from('product_variants').insert(v);
+        if(error)throw new Error('Could not add stock for '+v.color+' / '+v.size+': '+error.message);
+      }
+    }
+    const desiredKeys=new Set(clean.map(keyOf));
+    const removeIds=existingRows.filter(row=>!desiredKeys.has(keyOf(row))).map(row=>row.id);
+    if(removeIds.length){
+      const {error}=await db.from('product_variants').delete().in('id',removeIds);
+      if(error)throw new Error('Stock rows could not be removed: '+error.message);
     }
     resetProductForm();globalMsg('Product, gallery and stock saved.','success');await loadProducts();
   }catch(err){console.error('ASENO product save error:',err);msg($('saveMsg'),err?.message||String(err),'error');}
