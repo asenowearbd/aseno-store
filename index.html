@@ -143,17 +143,153 @@ selectedSize =
 renderStockOptions();
  }catch(e){console.error('Stock lookup failed:',e);stockLoading=false;document.getElementById('colourChoices').innerHTML='<span class="stock-label out">Stock unavailable</span>';document.getElementById('sizeChoices').innerHTML='';document.getElementById('stockMessage').textContent='Could not check stock. Please refresh and try again.';document.getElementById('addToBagButton').disabled=true;}
 }
-function renderStockOptions(){
- const colourBox=document.getElementById('colourChoices'),sizeBox=document.getElementById('sizeChoices');if(!colourBox||!sizeBox)return;
- const colours=[...new Set(activeVariants.map(v=>v.color).filter(Boolean))];
- if(!colours.length){colourBox.innerHTML='<span class="stock-label out">No colours available</span>';sizeBox.innerHTML='';return;}
- if(!colours.includes(selectedColour)||!sizes.some(sz=>stockFor(selectedColour,sz)>0))selectedColour=colours.find(c=>sizes.some(sz=>stockFor(c,sz)>0))||colours[0];
- colourBox.innerHTML=colours.map(c=>{const available=sizes.some(sz=>stockFor(c,sz)>0);return `<button class="${c===selectedColour?'selected':''}" ${available?'':'disabled'} onclick="chooseColour('${esc(c)}')">${esc(c)}${available?'':'<span class="stock-label out">SOLD OUT</span>'}</button>`}).join('');
- if(stockFor(selectedColour,selectedSize)<=0){selectedSize=sizes.find(sz=>stockFor(selectedColour,sz)>0)||sizes[0];}
- sizeBox.innerHTML=sizes.map(sz=>{const available=stockFor(selectedColour,sz)>0;return `<button class="${sz===selectedSize?'selected':''}" ${available?'':'disabled'} onclick="chooseSize('${sz}')">${sz}${available?'':'<span class="stock-label out">SOLD OUT</span>'}</button>`}).join('');
- const available=stockFor(selectedColour,selectedSize),msg=document.getElementById('stockMessage'),add=document.getElementById('addToBagButton'),buy=document.getElementById('buyNowButton');
- if(available>0){qty=Math.max(1,Math.min(qty,available));msg.className='stock-label';msg.textContent=`IN STOCK · ${available} available`;add.disabled=false;if(buy)buy.disabled=false;}else{qty=1;msg.className='stock-label out';msg.textContent='OUT OF STOCK';add.disabled=true;if(buy)buy.disabled=true;}
- document.getElementById('qtyval').textContent=qty;document.getElementById('productprice').textContent=money(active.price*qty);
+function normalizeVariantLabel(value) {
+  return String(value ?? '')
+    .trim()
+    .replace(/\s+/g, ' ')
+    .toLocaleLowerCase();
+}
+
+function variantFor(colour, size) {
+  const normalizedColour = normalizeVariantLabel(colour);
+  const normalizedSize = normalizeVariantLabel(size);
+
+  return activeVariants.find(v =>
+    normalizeVariantLabel(v.color) === normalizedColour &&
+    normalizeVariantLabel(v.size) === normalizedSize
+  );
+}
+
+function stockFor(colour, size) {
+  const variant = variantFor(colour, size);
+
+  return variant
+    ? Math.max(0, Number(variant.stock) || 0)
+    : 0;
+}
+
+function sizesForColour(colour) {
+  const normalizedColour = normalizeVariantLabel(colour);
+
+  return [
+    ...new Set(
+      activeVariants
+        .filter(v =>
+          normalizeVariantLabel(v.color) === normalizedColour &&
+          String(v.size ?? '').trim()
+        )
+        .map(v => String(v.size).trim().replace(/\s+/g, ' '))
+    )
+  ];
+}
+
+function renderStockOptions() {
+  const colourBox = document.getElementById('colourChoices');
+  const sizeBox = document.getElementById('sizeChoices');
+
+  if (!colourBox || !sizeBox) return;
+
+  const colours = [
+    ...new Map(
+      activeVariants
+        .map(v => String(v.color ?? '').trim().replace(/\s+/g, ' '))
+        .filter(Boolean)
+        .map(colour => [normalizeVariantLabel(colour), colour])
+    ).values()
+  ];
+
+  if (!colours.length) {
+    colourBox.innerHTML =
+      '<span class="stock-label out">No colours available</span>';
+
+    sizeBox.innerHTML = '';
+    selectedColour = '';
+    selectedSize = '';
+    return;
+  }
+
+  if (!colours.some(colour =>
+    normalizeVariantLabel(colour) ===
+    normalizeVariantLabel(selectedColour)
+  )) {
+    selectedColour = colours[0];
+  } else {
+    selectedColour = colours.find(colour =>
+      normalizeVariantLabel(colour) ===
+      normalizeVariantLabel(selectedColour)
+    );
+  }
+
+  const availableSizes = sizesForColour(selectedColour);
+
+  colourBox.innerHTML = colours.map(colour => {
+    const colourSizes = sizesForColour(colour);
+
+    const inStock = colourSizes.some(size =>
+      stockFor(colour, size) > 0
+    );
+
+    const isSelected =
+      normalizeVariantLabel(colour) ===
+      normalizeVariantLabel(selectedColour);
+
+    return `
+      <button
+        type="button"
+        class="${isSelected ? 'selected' : ''}"
+        ${inStock ? '' : 'disabled'}
+        onclick="chooseColour('${esc(colour)}')">
+        ${esc(colour)}
+        ${inStock
+          ? ''
+          : '<span class="stock-label out">SOLD OUT</span>'}
+      </button>
+    `;
+  }).join('');
+
+  if (!availableSizes.length) {
+    sizeBox.innerHTML =
+      '<span class="stock-label out">No sizes available</span>';
+
+    selectedSize = '';
+    return;
+  }
+
+  if (!availableSizes.some(size =>
+    normalizeVariantLabel(size) ===
+    normalizeVariantLabel(selectedSize)
+  )) {
+    selectedSize =
+      availableSizes.find(size =>
+        stockFor(selectedColour, size) > 0
+      ) || availableSizes[0];
+  } else {
+    selectedSize = availableSizes.find(size =>
+      normalizeVariantLabel(size) ===
+      normalizeVariantLabel(selectedSize)
+    );
+  }
+
+  sizeBox.innerHTML = availableSizes.map(size => {
+    const available = stockFor(selectedColour, size);
+
+    const isSelected =
+      normalizeVariantLabel(size) ===
+      normalizeVariantLabel(selectedSize);
+
+    return `
+      <button
+        type="button"
+        class="${isSelected ? 'selected' : ''}"
+        ${available > 0 ? '' : 'disabled'}
+        onclick="chooseSize('${esc(size)}')">
+        ${esc(size)}
+        ${available > 0
+          ? `<span class="stock-label">IN STOCK · ${available} available</span>`
+          : '<span class="stock-label out">SOLD OUT</span>'}
+      </button>
+    `;
+  }).join('');
 }
 function chooseColour(c){selectedColour=c;qty=1;renderStockOptions()}
 function chooseSize(sz){selectedSize=sz;qty=1;renderStockOptions()}
