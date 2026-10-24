@@ -41,7 +41,7 @@ section{padding:43px 5%}.sectionhead{display:flex;justify-content:space-between;
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const db=window.supabase.createClient('https://rksonvrxckilhbgdkfbk.supabase.co','sb_publishable_yvsxXpmXI-7Okxf0xMU6gQ_kbitp4DG');
-const sizes=['M','L','XL'], defaultProducts=[
+const defaultProducts=[
 {id:'demo1',name:'Solid Oversized Tee',category:'SOLID ESSENTIAL',price:400,description:'Minimal everyday essential.',colours:['Black','White','Maroon','Acid Wash Black']},
 {id:'demo2',name:'Wifey Graphic Tee',category:'ASENO DESIGN',price:550,description:'A statement graphic from ASENO.',colours:['Black','White','Acid Wash Black']},
 {id:'demo3',name:'Sniper Graphic Tee',category:'ASENO DESIGN',price:550,description:'Bold artwork. Relaxed streetwear.',colours:['Black','White','Maroon']},
@@ -74,13 +74,50 @@ async function loadProducts(){
  }catch(e){console.error('ASENO products/stock load failed:',e);render();toast('Could not load live stock. Please refresh or check database permissions.');}
 }
 function toast(s){let n=document.getElementById('notice');n.textContent=s;n.style.display='block';clearTimeout(window.nt);window.nt=setTimeout(()=>n.style.display='none',3500)}
-function variantFor(colour,size){return activeVariants.find(v=>v.color===colour&&v.size===size)}
-function stockFor(colour,size){const v=variantFor(colour,size);return v?Math.max(0,Number(v.stock)||0):0}
+function normalizeVariantLabel(value) {
+  return String(value ?? '')
+    .trim()
+    .replace(/\s+/g, ' ')
+    .toLocaleLowerCase();
+}
+
+function sizesForColour(colour) {
+  const selectedColour = normalizeVariantLabel(colour);
+
+  return [
+    ...new Set(
+      activeVariants
+        .filter(v =>
+          normalizeVariantLabel(v.color) === selectedColour
+        )
+        .map(v => String(v.size ?? '').trim())
+        .filter(Boolean)
+    )
+  ];
+}
+
+function variantFor(colour, size) {
+  const normalizedColour = normalizeVariantLabel(colour);
+  const normalizedSize = normalizeVariantLabel(size);
+
+  return activeVariants.find(v =>
+    normalizeVariantLabel(v.color) === normalizedColour &&
+    normalizeVariantLabel(v.size) === normalizedSize
+  );
+}
+
+function stockFor(colour, size) {
+  const variant = variantFor(colour, size);
+
+  return variant
+    ? Math.max(0, Number(variant.stock) || 0)
+    : 0;
+}
 async function openProduct(id){
  active=products.find(p=>String(p.id)===String(id));if(!active)return;
  selectedColour='';selectedSize='M';qty=1;activeVariants=[];stockLoading=true;
  const galleryImages=productImages(active);
- document.getElementById('productform').innerHTML=`<h2>${esc(active.name)}</h2><p style="font-size:12px;color:#77796e">${esc(active.description||'Premium ASENO streetwear.')}</p>${galleryImages.length?`<div class="product-gallery"><img id="productGalleryMain" src="${esc(galleryImages[0])}" alt="${esc(active.name)}">${galleryImages.length>1?`<div class="gallery-thumbs" aria-label="Product photos">${galleryImages.map((url,i)=>`<button type="button" class="gallery-thumb ${i===0?'selected':''}" aria-pressed="${i===0?'true':'false'}" onclick="showGalleryImage(${i})" aria-label="View product photo ${i+1}"><img src="${esc(url)}" alt=""></button>`).join('')}</div>`:''}</div>`:''}<div class="field"><label>COLOUR</label><div class="choice" id="colourChoices">Loading stock…</div></div><div class="field"><label>SIZE</label><div class="choice" id="sizeChoices"></div><small>M: length 28", chest 40" · L: 29"/42" · XL: 30"/44" (inches)</small><p id="stockMessage" class="stock-label">Checking availability…</p></div><div class="field"><label>QUANTITY</label><div class="choice"><button onclick="changeQty(-1)">−</button><button id="qtyval">1</button><button onclick="changeQty(1)">+</button></div></div><div class="panelprice" id="productprice">${money(active.price)}</div><button class="primary" id="addToBagButton" onclick="addToCart()" disabled>ADD TO BAG</button><button class="secondary" id="buyNowButton" onclick="buyNow()" disabled>BUY IT NOW</button>`;
+ document.getElementById('productform').innerHTML=`<h2>${esc(active.name)}</h2><p style="font-size:12px;color:#77796e">${esc(active.description||'Premium ASENO streetwear.')}</p>${galleryImages.length?`<div class="product-gallery"><img id="productGalleryMain" src="${esc(galleryImages[0])}" alt="${esc(active.name)}">${galleryImages.length>1?`<div class="gallery-thumbs" aria-label="Product photos">${galleryImages.map((url,i)=>`<button type="button" class="gallery-thumb ${i===0?'selected':''}" aria-pressed="${i===0?'true':'false'}" onclick="showGalleryImage(${i})" aria-label="View product photo ${i+1}"><img src="${esc(url)}" alt=""></button>`).join('')}</div>`:''}</div>`:''}<div class="field"><label>COLOUR</label><div class="choice" id="colourChoices">Loading stock…</div></div><div class="field"><label>SIZE</label><div class="choice" id="sizeChoices"></div><p id="stockMessage" class="stock-label">Checking availability…</p></div><div class="field"><label>QUANTITY</label><div class="choice"><button onclick="changeQty(-1)">−</button><button id="qtyval">1</button><button onclick="changeQty(1)">+</button></div></div><div class="panelprice" id="productprice">${money(active.price)}</div><button class="primary" id="addToBagButton" onclick="addToCart()" disabled>ADD TO BAG</button><button class="secondary" id="buyNowButton" onclick="buyNow()" disabled>BUY IT NOW</button>`;
  document.getElementById('overlay').classList.add('show');document.getElementById('productpanel').classList.add('show');
  try{
   const {data,error}=await db.from('product_variants').select('id,product_id,color,size,stock').eq('product_id',active.id);
@@ -89,9 +126,21 @@ async function openProduct(id){
   const dbColours=[...new Set(activeVariants.map(v=>v.color).filter(Boolean))];
   active.colours=dbColours;
   if(!activeVariants.length){document.getElementById('colourChoices').innerHTML='<span class="stock-label out">No colour/size stock configured</span>';document.getElementById('sizeChoices').innerHTML='';document.getElementById('stockMessage').textContent='Please contact ASENO.';return;}
-  selectedColour=dbColours.find(c=>sizes.some(sz=>stockFor(c,sz)>0))||dbColours[0];
-  selectedSize=sizes.find(sz=>stockFor(selectedColour,sz)>0)||sizes[0];
-  renderStockOptions();
+  selectedColour =
+  dbColours.find(colour =>
+    sizesForColour(colour).some(size =>
+      stockFor(colour, size) > 0
+    )
+  ) || dbColours[0];
+
+const availableSizes = sizesForColour(selectedColour);
+
+selectedSize =
+  availableSizes.find(size =>
+    stockFor(selectedColour, size) > 0
+  ) || availableSizes[0] || '';
+
+renderStockOptions();
  }catch(e){console.error('Stock lookup failed:',e);stockLoading=false;document.getElementById('colourChoices').innerHTML='<span class="stock-label out">Stock unavailable</span>';document.getElementById('sizeChoices').innerHTML='';document.getElementById('stockMessage').textContent='Could not check stock. Please refresh and try again.';document.getElementById('addToBagButton').disabled=true;}
 }
 function renderStockOptions(){
@@ -122,7 +171,30 @@ function paymentChanged(){let p=document.querySelector('input[name=payment]:chec
 function formMessage(t,err=false){let n=document.getElementById('checkoutNotice');n.textContent=t;n.className='notice'+(err?' error':'');n.style.display='block';if(!err&&document.getElementById('orderSuccess'))document.getElementById('orderSuccess').style.display='none'}
 async function placeOrder(){const isBuyNow=checkoutItems!==null;const itemsToOrder=currentItems().map(x=>({...x}));if(!itemsToOrder.length)return formMessage('Your bag is empty. Add a product first.',true);let name=document.getElementById('customerName').value.trim(),phone=document.getElementById('customerPhone').value.trim().replace(/[\s-]/g,''),address=document.getElementById('customerAddress').value.trim(),payment=document.querySelector('input[name=payment]:checked').value,sender=document.getElementById('senderPhone').value.trim(),trx=document.getElementById('transactionId').value.trim(),area=document.getElementById('deliveryArea').value,fee=deliveryFee();if(!name||!phone||!address)return formMessage('Please enter your name, phone number and delivery address.',true);if(!/^01[3-9]\d{8}$/.test(phone))return formMessage('Enter a valid Bangladesh mobile number (01XXXXXXXXX).',true);if(payment!=='cod'&&(!sender||!trx))return formMessage('For bKash/Nagad, enter sender number and transaction ID.',true);if(payment==='cod'&&!checkoutSettings.cod_enabled||payment==='bkash'&&!checkoutSettings.bkash_enabled||payment==='nagad'&&!checkoutSettings.nagad_enabled)return formMessage('This payment method is currently unavailable. Please choose another.',true);
 const btn=document.getElementById('placeOrderBtn');btn.disabled=true;btn.textContent='SUBMITTING ORDER…';
-try{const dbItems=[];for(const x of itemsToOrder){if(String(x.id).startsWith('demo'))throw new Error('DEMO_PRODUCTS');const {data:vs,error:ve}=await db.from('product_variants').select('id,stock').eq('product_id',x.id).eq('color',x.colour).eq('size',x.size).limit(1);if(ve)throw ve;if(!vs||!vs.length)throw new Error('VARIANT_MISSING');if(Number(vs[0].stock||0)<x.qty)throw new Error('INSUFFICIENT_STOCK');dbItems.push({variant_id:vs[0].id,quantity:x.qty})}
+try{const dbItems=[];for(const x of itemsToOrder){if(String(x.id).startsWith('demo'))throw new Error('DEMO_PRODUCTS');const { data: variants, error: variantError } = await db
+  .from('product_variants')
+  .select('id, product_id, color, size, stock')
+  .eq('product_id', x.id);
+
+if (variantError) throw variantError;
+
+const selectedVariant = (variants || []).find(v =>
+  normalizeVariantLabel(v.color) === normalizeVariantLabel(x.colour) &&
+  normalizeVariantLabel(v.size) === normalizeVariantLabel(x.size)
+);
+
+if (!selectedVariant) {
+  throw new Error('VARIANT_MISSING');
+}
+
+if (Number(selectedVariant.stock || 0) < x.qty) {
+  throw new Error('INSUFFICIENT_STOCK');
+}
+
+dbItems.push({
+  variant_id: selectedVariant.id,
+  quantity: x.qty
+});
 const {data,error}=await db.rpc('place_store_order',{p_customer_name:name,p_phone:phone,p_address:address,p_payment_method:payment,p_payment_sender:payment==='cod'?null:sender,p_transaction_id:payment==='cod'?null:trx,p_items:dbItems,p_delivery_area:area,p_delivery_fee:fee});if(error)throw error;let oid = data?.order_id || data?.id || data;
 let displayOrderCode = String(oid);
 
