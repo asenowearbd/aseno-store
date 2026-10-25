@@ -1,387 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#171b15"><title>ASENO.WEAR.BD | Premium Streetwear</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#171b15">
+<title>ASENO.WEAR.BD | Premium Streetwear</title>
 <style>
 :root{--bg:#f5f3eb;--ink:#20251c;--olive:#343d2b;--muted:#77796e;--line:#deded2}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}a{color:inherit;text-decoration:none}
 .topbar{background:var(--olive);color:#f5f3eb;text-align:center;padding:9px;font-size:11px;letter-spacing:1.5px}header{display:flex;align-items:center;justify-content:space-between;padding:19px 5%;border-bottom:1px solid var(--line)}.logo{font-size:28px;font-weight:900;letter-spacing:5px}.logo small{display:block;font-size:9px;letter-spacing:4px;text-align:center;margin-top:4px}.nav{display:flex;gap:20px;font-size:12px}.cartbtn{border:1px solid var(--ink);background:transparent;padding:10px 14px;font-size:12px}
 .hero{background:#20271c;color:#f7f5ec;padding:60px 7% 55px}.eyebrow{font-size:10px;letter-spacing:3px;color:#c5cbb5}.hero h1{font-size:clamp(43px,9vw,88px);line-height:.94;letter-spacing:-3px;margin:23px 0;max-width:680px}.hero p{color:#d3d6cb;max-width:410px;line-height:1.8;font-size:14px}.btn{display:inline-block;background:var(--bg);color:var(--ink);border:0;padding:15px 23px;font-weight:bold;font-size:11px;letter-spacing:1px;margin-top:18px}.hero-note{margin-top:40px;font-size:10px;letter-spacing:2px;color:#c5cbb5}
 section{padding:43px 5%}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:22px}.sectionhead h2{font-size:25px;margin:0 0 7px}.sectionhead p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}.count{font-size:10px;letter-spacing:1px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.product{min-width:0}.productart{position:relative;aspect-ratio:4/5;background:#e8e6dc;display:flex;align-items:center;justify-content:center;overflow:hidden}.shirt{width:68%;height:68%}.shirt svg{width:100%;height:100%}.productphoto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.tag{position:absolute;top:10px;left:10px;background:#f5f3eb;padding:7px 8px;font-size:8px;letter-spacing:1px;z-index:1}.arttext{position:absolute;bottom:13px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:3px;color:#888}.productinfo{padding:13px 0 19px}.productname{font-size:13px;font-weight:700;margin-bottom:6px}.productdesc{font-size:10px;color:var(--muted);line-height:1.5;min-height:28px}.price{font-size:14px;font-weight:700;margin:10px 0}.colours{display:flex;gap:7px;margin:10px 0}.swatch{width:17px;height:17px;border-radius:50%;border:1px solid #aaa;display:inline-block}.quick{width:100%;background:transparent;border:1px solid var(--ink);padding:12px 5px;font-size:10px;letter-spacing:1px}.quick:hover{background:var(--ink);color:white}
 .custombox{background:#e7e6db;padding:28px;margin-top:10px}.custombox h3{font-size:24px;margin:0 0 9px}.custombox p{font-size:13px;color:#62665a;line-height:1.7;max-width:520px}.custombox .btn{background:var(--olive);color:white}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.feature{border-top:1px solid var(--line);padding:18px 0}.feature strong{font-size:11px;letter-spacing:1px}.feature p{font-size:11px;color:var(--muted);line-height:1.6}footer{background:#20271c;color:#f5f3eb;padding:35px 5%}footer .logo{font-size:24px}footer p{font-size:11px;color:#c5cbb5;line-height:1.8}.footerrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footlinks{display:flex;gap:15px;font-size:11px;align-items:center}
-.overlay{display:none;position:fixed;inset:0;background:#0008;z-index:9}.overlay.show{display:block}.panel{position:fixed;right:0;top:0;bottom:0;width:min(460px,100%);background:var(--bg);z-index:10;padding:22px;overflow:auto;transform:translateX(105%);transition:.25s}.panel.show{transform:translateX(0)}.panelhead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}.close{background:transparent;border:0;font-size:25px}.field{display:block;margin:15px 0}.field label{display:block;font-size:11px;font-weight:bold;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--line);background:white;border-radius:0}.field small{color:var(--muted);font-size:10px}.choice{display:flex;flex-wrap:wrap;gap:8px}.choice button{padding:10px 13px;border:1px solid var(--line);background:transparent;font-size:11px}.choice button.selected{background:var(--olive);color:white}.choice button:disabled{opacity:.48;cursor:not-allowed;text-decoration:line-through;background:#e8e6dc;color:#77796e}.stock-label{display:block;font-size:10px;margin-top:5px;color:#477047}.stock-label.out{color:#b3261e;font-weight:bold}.stock-summary{font-size:10px;color:var(--muted);margin-top:7px}.panelprice{font-size:22px;font-weight:bold;margin:20px 0}.primary{width:100%;padding:15px;background:var(--olive);color:white;border:0;font-weight:bold;letter-spacing:1px;margin-top:10px}.secondary{width:100%;padding:13px;background:transparent;border:1px solid var(--ink);margin-top:9px}.cartitem{padding:15px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.7}.cartitem button{border:0;background:transparent;text-decoration:underline;font-size:10px}.total{display:flex;justify-content:space-between;font-weight:bold;margin:20px 0}.payoption{display:block;background:#e9e8df;padding:12px;margin:8px 0;font-size:12px}.notice{display:none;padding:12px;margin:12px 0;background:#e4e9dc;font-size:12px;line-height:1.5}.notice.error{background:#f2dfd9}.notice.success{background:#e4e9dc}.tracklink{display:inline-block;margin-top:8px;text-decoration:underline;font-weight:bold}#notice{position:fixed;bottom:15px;left:5%;right:5%;background:#20271c;color:white;padding:15px;text-align:center;font-size:12px;z-index:20;display:none}
-/* Product gallery */
-.product-gallery{margin:12px 0 18px}
-.product-gallery>img{display:block;width:100%;max-height:320px;object-fit:contain;background:#e8e6dc}
-.gallery-thumbs{display:flex;gap:8px;overflow-x:auto;padding:8px 1px}
-.gallery-thumb{flex:0 0 62px;padding:2px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer}
-.gallery-thumb img{display:block;width:56px;height:56px;object-fit:cover}
-.gallery-thumb.selected{border:2px solid #343d2b;padding:1px}
-@media(min-width:900px){.hero{padding-top:85px;padding-bottom:75px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:520px){header{padding:15px 4%}.logo{font-size:23px;letter-spacing:3px}.nav{gap:10px;font-size:10px}.nav a:nth-child(2){display:none}.cartbtn{padding:9px}.hero{padding:48px 6%}.hero h1{letter-spacing:-2px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}section{padding:34px 4%}.sectionhead h2{font-size:21px}.productname{font-size:12px}.custombox{padding:23px 18px}.features{grid-template-columns:1fr}}
-</style></head>
+.overlay{display:none;position:fixed;inset:0;background:#0008;z-index:9}.overlay.show{display:block}.panel{position:fixed;right:0;top:0;bottom:0;width:min(460px,100%);background:var(--bg);z-index:10;padding:22px;overflow:auto;transform:translateX(105%);transition:.25s}.panel.show{transform:translateX(0)}.panelhead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}.close{background:transparent;border:0;font-size:25px}.field{display:block;margin:15px 0}.field label{display:block;font-size:11px;font-weight:bold;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--line);background:white;border-radius:0}.field small{color:var(--muted);font-size:10px}.choice{display:flex;flex-wrap:wrap;gap:8px}.choice button{padding:10px 13px;border:1px solid var(--line);background:transparent;font-size:11px}.choice button.selected{background:var(--olive);color:white}.choice button:disabled{opacity:.48;text-decoration:line-through;background:#e8e6dc;color:#77796e}.stock-label{display:block;font-size:10px;margin-top:5px;color:#477047}.stock-label.out{color:#b3261e;font-weight:bold}.panelprice{font-size:22px;font-weight:bold;margin:20px 0}.primary{width:100%;padding:15px;background:var(--olive);color:white;border:0;font-weight:bold;letter-spacing:1px;margin-top:10px}.secondary{width:100%;padding:13px;background:transparent;border:1px solid var(--ink);margin-top:9px}.cartitem{padding:15px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.7}.cartitem button{border:0;background:transparent;text-decoration:underline;font-size:10px}.total{display:flex;justify-content:space-between;font-weight:bold;margin:20px 0}.payoption{display:block;background:#e9e8df;padding:12px;margin:8px 0;font-size:12px}.notice{display:none;padding:12px;margin:12px 0;background:#e4e9dc;font-size:12px;line-height:1.5}.notice.error{background:#f2dfd9}.notice.success{background:#e4e9dc}.tracklink{display:inline-block;margin-top:8px;text-decoration:underline;font-weight:bold}#notice{position:fixed;bottom:15px;left:5%;right:5%;background:#20271c;color:white;padding:15px;text-align:center;font-size:12px;z-index:20;display:none}
+.product-gallery{margin:12px 0 18px}.product-gallery>img{display:block;width:100%;max-height:320px;object-fit:contain;background:#e8e6dc}.gallery-thumbs{display:flex;gap:8px;overflow-x:auto;padding:8px 1px}.gallery-thumb{flex:0 0 62px;padding:2px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer}.gallery-thumb img{display:block;width:56px;height:56px;object-fit:cover}.gallery-thumb.selected{border:2px solid #343d2b;padding:1px}
+.aseno-socials{display:flex;flex-wrap:wrap;gap:22px;align-items:center;margin:24px 0}.aseno-socials a{box-sizing:border-box;width:76px;height:76px;display:flex;align-items:center;justify-content:center;border:2px solid #8b8d82;border-radius:0;color:#d1d3ca;text-decoration:none;flex-shrink:0}.aseno-socials a:hover{border-color:#fff;color:#fff}.aseno-socials svg{width:38px;height:38px;display:block}.aseno-whatsapp-float{position:fixed;right:20px;bottom:22px;z-index:8;width:60px;height:60px;border-radius:50%;background:#25D366;color:white;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 5px 18px #0004}.aseno-whatsapp-float svg{width:36px;height:36px;fill:currentColor}
+@media(min-width:900px){.hero{padding-top:85px;padding-bottom:75px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:520px){header{padding:15px 4%}.logo{font-size:23px;letter-spacing:3px}.nav{gap:10px;font-size:10px}.nav a:nth-child(2){display:none}.cartbtn{padding:9px}.hero{padding:48px 6%}.hero h1{letter-spacing:-2px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}section{padding:34px 4%}.sectionhead h2{font-size:21px}.productname{font-size:12px}.custombox{padding:23px 18px}.features{grid-template-columns:1fr}.aseno-socials{gap:12px}.aseno-socials a{width:54px;height:54px}.aseno-socials svg{width:29px;height:29px}.aseno-whatsapp-float{width:56px;height:56px;right:15px;bottom:18px}}
+</style>
+</head>
 <body>
 <div class="topbar">PREMIUM STREETWEAR · MADE FOR YOUR EVERYDAY</div>
 <header><a class="logo" href="#">ASENO<small>WEAR · BD</small></a><nav class="nav"><a href="#solid">SHOP</a><a href="#designs">DESIGNS</a><a href="#custom">CUSTOM PRINT</a><a href="track-order.html">TRACK ORDER</a></nav><button class="cartbtn" onclick="openCart()">BAG (<span id="cartcount">0</span>)</button></header>
-<main><section class="hero"><div class="eyebrow">ASENO / EVERYDAY UNIFORM</div><h1>SIMPLE.<br>CLEAN.<br>TIMELESS.</h1><p>Premium streetwear designed for your everyday rotation. Find your fit, choose your colour, make it yours.</p><a class="btn" href="#solid">EXPLORE COLLECTION ↘</a><div class="hero-note">SOLID BASICS · ORIGINAL DESIGNS · CUSTOM PRINTS</div></section>
+<main>
+<section class="hero"><div class="eyebrow">ASENO / EVERYDAY UNIFORM</div><h1>SIMPLE.<br>CLEAN.<br>TIMELESS.</h1><p>Premium streetwear designed for your everyday rotation. Find your fit, choose your colour, make it yours.</p><a class="btn" href="#solid">EXPLORE COLLECTION ↘</a><div class="hero-note">SOLID BASICS · ORIGINAL DESIGNS · CUSTOM PRINTS</div></section>
 <section id="solid"><div class="sectionhead"><div><h2>THE ESSENTIALS</h2><p>Clean fits. Everyday colours.</p></div><span class="count">01 / SOLID</span></div><div class="grid" id="solidgrid"><p>Loading collection…</p></div></section>
-<section id="designs"><div class="sectionhead"><div><h2>ASENO DESIGNS</h2><p>Graphic tees with a statement.</p></div><span class="count">02 / GRAPHIC</span></div><div class="grid" id="designgrid"></div></section>
+<section id="designs"><div class="sectionhead"><div><h2>ASENO DESIGNS</h2><p>Graphic tees with a statement.</p></div><span class="count">02 / GRAPHIC</span></div><div class="grid" id="designgrid"><p>Loading designs…</p></div></section>
 <section id="custom"><div class="custombox"><div class="eyebrow">YOUR IDEA. YOUR T-SHIRT.</div><h3>MAKE IT YOURS.</h3><p>Have a design in mind? Order a custom printed T-shirt. Share your artwork and preferred colour with us on WhatsApp. Custom orders start at ৳600.</p><a class="btn" href="https://wa.me/8801890542860?text=Hi%20ASENO%2C%20I%20want%20to%20order%20a%20custom%20printed%20T-shirt." target="_blank" rel="noopener">REQUEST CUSTOM PRINT ↗</a></div></section>
-<section><div class="sectionhead"><div><h2>THE ASENO STANDARD</h2><p>Less noise. More character.</p></div></div><div class="features"><div class="feature"><strong>01 / EVERYDAY FIT</strong><p>Relaxed silhouettes for your daily rotation.</p></div><div class="feature"><strong>02 / YOUR STYLE</strong><p>Choose your colour, size and design.</p></div><div class="feature"><strong>03 / MADE FOR YOU</strong><p>Custom print options for your own ideas.</p></div></div></section></main>
+<section><div class="sectionhead"><div><h2>THE ASENO STANDARD</h2><p>Less noise. More character.</p></div></div><div class="features"><div class="feature"><strong>01 / EVERYDAY FIT</strong><p>Relaxed silhouettes for your daily rotation.</p></div><div class="feature"><strong>02 / YOUR STYLE</strong><p>Choose your colour, size and design.</p></div><div class="feature"><strong>03 / MADE FOR YOU</strong><p>Custom print options for your own ideas.</p></div></div></section>
+</main>
 <footer><div class="footerrow"><div><div class="logo">ASENO</div><p>SIMPLE. CLEAN. TIMELESS.<br>Premium streetwear from Bangladesh.</p></div><div class="footlinks"><a href="#solid">Shop</a><a href="#designs">Designs</a><a href="#custom">Custom prints</a><a href="track-order.html">Track order</a></div></div><p>For order assistance, contact: 01890542860</p><p>© <span id="year"></span> ASENO. All rights reserved.</p></footer>
 <div class="overlay" id="overlay" onclick="closePanels()"></div>
 <aside class="panel" id="productpanel"><div class="panelhead"><strong>YOUR SELECTION</strong><button class="close" onclick="closePanels()">×</button></div><div id="productform"></div></aside>
 <aside class="panel" id="cartpanel"><div class="panelhead"><strong>YOUR BAG & CHECKOUT</strong><button class="close" onclick="closePanels()">×</button></div><div id="cartitems"></div><div class="total"><span>PRODUCT SUBTOTAL</span><span id="cartsubtotal">৳0</span></div>
-<div class="field"><label>DELIVERY AREA *</label><select id="deliveryArea" onchange="updateCart()"><option value="chattogram_city">Chattogram City — ৳80</option><option value="outside_chattogram">Outside Chattogram — ৳130</option></select></div>
-<div class="total"><span>DELIVERY FEE</span><span id="deliveryFee">৳80</span></div><div class="total"><span>GRAND TOTAL</span><span id="carttotal">৳480</span></div>
+<div class="field"><label>DELIVERY AREA *</label><select id="deliveryArea" onchange="updateCart()"><option value="chattogram_city">Chattogram City — ৳80</option><option value="outside_chattogram">Outside Chattogram — ৳130</option></select></div><div class="total"><span>DELIVERY FEE</span><span id="deliveryFee">৳80</span></div><div class="total"><span>GRAND TOTAL</span><span id="carttotal">৳480</span></div>
 <h3>DELIVERY DETAILS</h3><div class="field"><label>FULL NAME *</label><input id="customerName" autocomplete="name" placeholder="Your full name"></div><div class="field"><label>PHONE NUMBER *</label><input id="customerPhone" autocomplete="tel" placeholder="01XXXXXXXXX"></div><div class="field"><label>DELIVERY ADDRESS *</label><textarea id="customerAddress" rows="3" placeholder="House, road, area, city"></textarea></div>
-<h3>PAYMENT METHOD</h3><label class="payoption"><input type="radio" name="payment" value="cod" checked onchange="paymentChanged()"> Cash on Delivery</label><label class="payoption"><input type="radio" name="payment" value="bkash" onchange="paymentChanged()"> bKash</label><label class="payoption"><input type="radio" name="payment" value="nagad" onchange="paymentChanged()"> Nagad</label>
+<h3>PAYMENT METHOD</h3><label class="payoption" id="codOption"><input type="radio" name="payment" value="cod" checked onchange="paymentChanged()"> Cash on Delivery</label><label class="payoption" id="bkashOption"><input type="radio" name="payment" value="bkash" onchange="paymentChanged()"> bKash</label><label class="payoption" id="nagadOption"><input type="radio" name="payment" value="nagad" onchange="paymentChanged()"> Nagad</label>
 <div id="mobilePayment" style="display:none"><p style="font-size:12px;line-height:1.6">Send the product subtotal to <strong id="paymentNumber">01978081478</strong> using Send Money, then fill in these details. <span id="senderPaymentHelp"></span> Your payment will be manually verified.</p><div class="field"><label>SENDER MOBILE NUMBER *</label><input id="senderPhone" placeholder="Number used to pay"></div><div class="field"><label>TRANSACTION ID *</label><input id="transactionId" placeholder="Enter transaction ID"></div></div>
 <div id="checkoutNotice" class="notice"></div><div id="orderSuccess" class="notice" style="display:none"></div><button class="primary" id="placeOrderBtn" onclick="placeOrder()">PLACE ORDER</button><button class="secondary" onclick="closePanels()">CONTINUE SHOPPING</button><p style="font-size:10px;color:#77796e;line-height:1.7">COD: pay product subtotal + delivery fee on delivery. bKash/Nagad: pay product subtotal in advance; pay delivery fee on delivery.</p></aside><div id="notice"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+'use strict';
 const db=window.supabase.createClient('https://rksonvrxckilhbgdkfbk.supabase.co','sb_publishable_yvsxXpmXI-7Okxf0xMU6gQ_kbitp4DG');
 const defaultProducts=[
 {id:'demo1',name:'Solid Oversized Tee',category:'SOLID ESSENTIAL',price:400,description:'Minimal everyday essential.',colours:['Black','White','Maroon','Acid Wash Black']},
 {id:'demo2',name:'Wifey Graphic Tee',category:'ASENO DESIGN',price:550,description:'A statement graphic from ASENO.',colours:['Black','White','Acid Wash Black']},
 {id:'demo3',name:'Sniper Graphic Tee',category:'ASENO DESIGN',price:550,description:'Bold artwork. Relaxed streetwear.',colours:['Black','White','Maroon']},
 {id:'demo4',name:'Automotive Graphic Tee',category:'ASENO DESIGN',price:550,description:'Automotive-inspired graphic design.',colours:['Black','White','Acid Wash Black']}];
-let products=[...defaultProducts],cart=[],active=null,selectedColour='',selectedSize='M',qty=1,activeVariants=[],stockLoading=false,checkoutItems=null,checkoutSettings={delivery_fee_city:80,delivery_fee_outside:130,cod_enabled:true,bkash_enabled:true,nagad_enabled:true,bkash_number:'01978081478',nagad_number:'01978081478'};
+let products=[...defaultProducts],cart=[],active=null,selectedColour='',selectedSize='',qty=1,activeVariants=[],stockLoading=false,checkoutItems=null;
+let checkoutSettings={delivery_fee_city:80,delivery_fee_outside:130,cod_enabled:true,bkash_enabled:true,nagad_enabled:true,bkash_number:'01978081478',nagad_number:'01978081478'};
 const colourHex={Black:'#24251f',White:'#faf9f4',Maroon:'#681e32','Acid Wash Black':'#44463f'};
 function money(n){return '৳'+Number(n||0).toLocaleString('en-BD',{maximumFractionDigits:2})}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function shirtArt(colour,design){let graphic=design==='Wifey'?'<text x="100" y="145" font-size="20" text-anchor="middle" fill="#f4a4c0" font-family="Georgia" font-style="italic">Wifey</text>':design==='Sniper'?'<text x="100" y="145" font-size="13" text-anchor="middle" fill="#eee" font-weight="bold">SNIPER</text>':design==='Automotive'?'<text x="100" y="145" font-size="11" text-anchor="middle" fill="#eee" font-weight="bold">86 / DRIVE</text>':'';return `<svg viewBox="0 0 200 210"><path d="M64 26 L81 18 Q100 33 119 18 L136 26 L175 53 L153 84 L133 72 L137 190 L63 190 L67 72 L47 84 L25 53 Z" fill="${colourHex[colour]||'#33352d'}" stroke="#2223" stroke-width="1.5"/><path d="M81 18 Q100 51 119 18" fill="none" stroke="#9997" stroke-width="2"/>${graphic}</svg>`}
-function card(p){let cs=p.colours||['Black','White','Maroon','Acid Wash Black'],c=cs[0],d=/wifey/i.test(p.name)?'Wifey':/sniper/i.test(p.name)?'Sniper':/automotive|86/i.test(p.name)?'Automotive':'';let imgs=productImages(p);let art=imgs.length?`<img class="productphoto" src="${esc(imgs[0])}" alt="${esc(p.name)}" onerror="this.style.display='none'">`:`<div class="shirt">${shirtArt(c,d)}</div><span class="arttext">ASENO / ${esc(c.toUpperCase())}</span>`;return `<article class="product"><div class="productart"><span class="tag">${esc(p.category||'ASENO COLLECTION')}</span>${art}</div><div class="productinfo"><div class="productname">${esc(p.name)}</div><div class="productdesc">${esc(p.description||'Premium ASENO streetwear.')}</div><div class="colours">${cs.slice(0,4).map(c=>`<span class="swatch" title="${esc(c)}" style="background:${colourHex[c]||'#444'}"></span>`).join('')}</div><div class="price">${money(p.price)}</div><button class="quick" onclick="openProduct('${esc(p.id)}')">SELECT OPTIONS +</button></div></article>`}
-function render(){let solid=products.filter(p=>['SOLID ESSENTIAL','tshirt','solid'].includes(p.category));let designs=products.filter(p=>!solid.includes(p));document.getElementById('solidgrid').innerHTML=solid.length?solid.map(card).join(''):'<p>No essentials available yet.</p>';document.getElementById('designgrid').innerHTML=designs.length?designs.map(card).join(''):'<p>New designs coming soon.</p>';document.getElementById('year').textContent=new Date().getFullYear()}
-function productImages(p){return [...new Set([p?.image_url,...(Array.isArray(p?.image_urls)?p.image_urls:[])].filter(url=>typeof url==='string'&&url.trim()))].slice(0,6)}
-function showGalleryImage(index){const images=productImages(active),main=document.getElementById('productGalleryMain');if(!main||!images[index])return;main.src=images[index];document.querySelectorAll('.gallery-thumb').forEach((button,i)=>{button.classList.toggle('selected',i===index);button.setAttribute('aria-pressed',i===index?'true':'false')})}
+function normalizeVariantLabel(v){return String(v??'').trim().replace(/\s+/g,' ').toLocaleLowerCase()}
+function productImages(p){return [...new Set([p?.image_url,...(Array.isArray(p?.image_urls)?p.image_urls:[])].filter(u=>typeof u==='string'&&u.trim()))].slice(0,6)}
+function shirtArt(colour,design){let graphic=design==='Wifey'?'<text x="100" y="145" font-size="20" text-anchor="middle" fill="#f4a4c0" font-family="Georgia" font-style="italic">Wifey</text>':design==='Sniper'?'<text x="100" y="145" font-size="13" text-anchor="middle" fill="#eee" font-weight="bold">SNIPER</text>':design==='Automotive'?'<text x="100" y="145" font-size="11" text-anchor="middle" fill="#eee" font-weight="bold">86 / DRIVE</text>':'';return `<svg viewBox="0 0 200 210" aria-hidden="true"><path d="M64 26 L81 18 Q100 33 119 18 L136 26 L175 53 L153 84 L133 72 L137 190 L63 190 L67 72 L47 84 L25 53 Z" fill="${colourHex[colour]||'#33352d'}" stroke="#2223" stroke-width="1.5"/><path d="M81 18 Q100 51 119 18" fill="none" stroke="#9997" stroke-width="2"/>${graphic}</svg>`}
+function card(p){let cs=p.colours||[],c=cs[0]||'Black',d=/wifey/i.test(p.name)?'Wifey':/sniper/i.test(p.name)?'Sniper':/automotive|86/i.test(p.name)?'Automotive':'';let imgs=productImages(p);let art=imgs.length?`<img class="productphoto" src="${esc(imgs[0])}" alt="${esc(p.name)}" onerror="this.style.display='none'">`:`<div class="shirt">${shirtArt(c,d)}</div><span class="arttext">ASENO / ${esc(c.toUpperCase())}</span>`;return `<article class="product"><div class="productart"><span class="tag">${esc(p.category||'ASENO COLLECTION')}</span>${art}</div><div class="productinfo"><div class="productname">${esc(p.name)}</div><div class="productdesc">${esc(p.description||'Premium ASENO streetwear.')}</div><div class="colours">${cs.slice(0,4).map(c=>`<span class="swatch" title="${esc(c)}" style="background:${colourHex[c]||'#444'}"></span>`).join('')}</div><div class="price">${money(p.price)}</div><button class="quick" onclick="openProduct('${esc(p.id)}')">SELECT OPTIONS +</button></div></article>`}
+function render(){const solid=products.filter(p=>['SOLID ESSENTIAL','tshirt','solid'].includes(String(p.category||'').toLowerCase())||String(p.category||'').toUpperCase()==='SOLID ESSENTIAL');const designs=products.filter(p=>!solid.includes(p));document.getElementById('solidgrid').innerHTML=solid.length?solid.map(card).join(''):'<p>No essentials available yet.</p>';document.getElementById('designgrid').innerHTML=designs.length?designs.map(card).join(''):'<p>New designs coming soon.</p>';document.getElementById('year').textContent=new Date().getFullYear()}
+function toast(s){const n=document.getElementById('notice');n.textContent=s;n.style.display='block';clearTimeout(window.asenoNoticeTimer);window.asenoNoticeTimer=setTimeout(()=>n.style.display='none',3500)}
+function variantFor(colour,size){return activeVariants.find(v=>normalizeVariantLabel(v.color)===normalizeVariantLabel(colour)&&normalizeVariantLabel(v.size)===normalizeVariantLabel(size))}
+function stockFor(colour,size){const v=variantFor(colour,size);return v?Math.max(0,Number(v.stock)||0):0}
+function sizesForColour(colour){const key=normalizeVariantLabel(colour);return [...new Map(activeVariants.filter(v=>normalizeVariantLabel(v.color)===key&&String(v.size??'').trim()).map(v=>{const s=String(v.size).trim().replace(/\s+/g,' ');return [normalizeVariantLabel(s),s]})).values()]}
+function showGalleryImage(index){const images=productImages(active),main=document.getElementById('productGalleryMain');if(!main||!images[index])return;main.src=images[index];document.querySelectorAll('.gallery-thumb').forEach((b,i)=>{b.classList.toggle('selected',i===index);b.setAttribute('aria-pressed',i===index?'true':'false')})}
+async function openProduct(id){
+ active=products.find(p=>String(p.id)===String(id));if(!active)return;
+ selectedColour='';selectedSize='';qty=1;activeVariants=[];stockLoading=true;
+ const imgs=productImages(active);
+ document.getElementById('productform').innerHTML=`<h2>${esc(active.name)}</h2><p style="font-size:12px;color:#77796e">${esc(active.description||'Premium ASENO streetwear.')}</p>${imgs.length?`<div class="product-gallery"><img id="productGalleryMain" src="${esc(imgs[0])}" alt="${esc(active.name)}">${imgs.length>1?`<div class="gallery-thumbs" aria-label="Product photos">${imgs.map((u,i)=>`<button type="button" class="gallery-thumb ${i===0?'selected':''}" aria-pressed="${i===0?'true':'false'}" onclick="showGalleryImage(${i})" aria-label="View product photo ${i+1}"><img src="${esc(u)}" alt=""></button>`).join('')}</div>`:''}</div>`:''}<div class="field"><label>COLOUR</label><div class="choice" id="colourChoices">Loading stock…</div></div><div class="field"><label>SIZE</label><div class="choice" id="sizeChoices"></div><p id="stockMessage" class="stock-label">Checking availability…</p></div><div class="field"><label>QUANTITY</label><div class="choice"><button onclick="changeQty(-1)">−</button><button id="qtyval" type="button">1</button><button onclick="changeQty(1)">+</button></div></div><div class="panelprice" id="productprice">${money(active.price)}</div><button class="primary" id="addToBagButton" onclick="addToCart()" disabled>ADD TO BAG</button><button class="secondary" id="buyNowButton" onclick="buyNow()" disabled>BUY IT NOW</button>`;
+ document.getElementById('overlay').classList.add('show');document.getElementById('productpanel').classList.add('show');
+ try{
+  const {data,error}=await db.from('product_variants').select('id,product_id,color,size,stock').eq('product_id',active.id);
+  if(error)throw error;
+  activeVariants=data||[];stockLoading=false;
+  if(!activeVariants.length){renderStockOptions();return}
+  const colours=[...new Map(activeVariants.filter(v=>String(v.color??'').trim()).map(v=>{const c=String(v.color).trim().replace(/\s+/g,' ');return [normalizeVariantLabel(c),c]})).values()];
+  selectedColour=colours.find(c=>sizesForColour(c).some(s=>stockFor(c,s)>0))||colours[0]||'';
+  selectedSize=sizesForColour(selectedColour).find(s=>stockFor(selectedColour,s)>0)||sizesForColour(selectedColour)[0]||'';
+  renderStockOptions();
+ }catch(e){console.error('Stock lookup failed:',e);stockLoading=false;document.getElementById('colourChoices').innerHTML='<span class="stock-label out">Stock unavailable</span>';document.getElementById('sizeChoices').innerHTML='';document.getElementById('stockMessage').textContent='Could not check stock. Please refresh and try again.';setProductButtons(false)}
+}
+function setProductButtons(enabled){const a=document.getElementById('addToBagButton'),b=document.getElementById('buyNowButton');if(a)a.disabled=!enabled;if(b)b.disabled=!enabled}
+function renderStockOptions(){
+ const colourBox=document.getElementById('colourChoices'),sizeBox=document.getElementById('sizeChoices'),msg=document.getElementById('stockMessage');if(!colourBox||!sizeBox)return;
+ const colours=[...new Map(activeVariants.filter(v=>String(v.color??'').trim()).map(v=>{const c=String(v.color).trim().replace(/\s+/g,' ');return [normalizeVariantLabel(c),c]})).values()];
+ if(!colours.length){colourBox.innerHTML='<span class="stock-label out">No colours available</span>';sizeBox.innerHTML='';if(msg){msg.className='stock-label out';msg.textContent='No colour/size stock configured. Please contact ASENO.'}selectedColour='';selectedSize='';setProductButtons(false);return}
+ if(!colours.some(c=>normalizeVariantLabel(c)===normalizeVariantLabel(selectedColour)))selectedColour=colours[0];else selectedColour=colours.find(c=>normalizeVariantLabel(c)===normalizeVariantLabel(selectedColour));
+ colourBox.innerHTML=colours.map(c=>{const inStock=sizesForColour(c).some(s=>stockFor(c,s)>0),sel=normalizeVariantLabel(c)===normalizeVariantLabel(selectedColour);return `<button type="button" class="${sel?'selected':''}" ${inStock?'':'disabled'} onclick="chooseColour('${esc(c).replace(/'/g,'&#39;')}')">${esc(c)}${inStock?'':'<span class="stock-label out">SOLD OUT</span>'}</button>`}).join('');
+ const sizes=sizesForColour(selectedColour);
+ if(!sizes.length){sizeBox.innerHTML='<span class="stock-label out">No sizes available</span>';selectedSize='';if(msg){msg.className='stock-label out';msg.textContent='No sizes configured for this colour.'}setProductButtons(false);return}
+ if(!sizes.some(s=>normalizeVariantLabel(s)===normalizeVariantLabel(selectedSize))||stockFor(selectedColour,selectedSize)<=0)selectedSize=sizes.find(s=>stockFor(selectedColour,s)>0)||sizes[0];else selectedSize=sizes.find(s=>normalizeVariantLabel(s)===normalizeVariantLabel(selectedSize));
+ sizeBox.innerHTML=sizes.map(s=>{const n=stockFor(selectedColour,s),sel=normalizeVariantLabel(s)===normalizeVariantLabel(selectedSize);return `<button type="button" class="${sel?'selected':''}" ${n>0?'':'disabled'} onclick="chooseSize('${esc(s).replace(/'/g,'&#39;')}')">${esc(s)}<span class="stock-label ${n>0?'':'out'}">${n>0?`IN STOCK · ${n} available`:'SOLD OUT'}</span></button>`}).join('');
+ const available=stockFor(selectedColour,selectedSize);qty=available>0?Math.max(1,Math.min(qty,available)):1;
+ if(msg){msg.className='stock-label'+(available>0?'':' out');msg.textContent=available>0?`IN STOCK · ${available} available`:'OUT OF STOCK'}
+ const q=document.getElementById('qtyval'),price=document.getElementById('productprice');if(q)q.textContent=qty;if(price)price.textContent=money(Number(active?.price||0)*qty);setProductButtons(!stockLoading&&available>0)
+}
+function chooseColour(c){selectedColour=c;selectedSize='';qty=1;renderStockOptions()}
+function chooseSize(s){selectedSize=s;qty=1;renderStockOptions()}
+function changeQty(n){const available=stockFor(selectedColour,selectedSize);if(available<=0)return;qty=Math.max(1,Math.min(available,qty+n));const q=document.getElementById('qtyval'),p=document.getElementById('productprice');if(q)q.textContent=qty;if(p)p.textContent=money(Number(active.price)*qty)}
+function addToCart(){if(!active||stockLoading){toast('Please wait while stock loads.');return}const available=stockFor(selectedColour,selectedSize);if(available<=0){toast('Sorry, this colour/size is sold out.');renderStockOptions();return}const found=cart.find(x=>String(x.id)===String(active.id)&&normalizeVariantLabel(x.colour)===normalizeVariantLabel(selectedColour)&&normalizeVariantLabel(x.size)===normalizeVariantLabel(selectedSize)),already=found?found.qty:0;if(already+qty>available){toast(`Only ${available} item(s) available for this size and colour.`);return}if(found)found.qty+=qty;else cart.push({id:active.id,name:active.name,price:Number(active.price),colour:selectedColour,size:selectedSize,qty});checkoutItems=null;updateCart();closePanels();toast('Added to your bag.')}
+function currentItems(){return checkoutItems||cart}
+function deliveryFee(){const a=document.getElementById('deliveryArea')?.value||'chattogram_city';return Number(a==='chattogram_city'?checkoutSettings.delivery_fee_city:checkoutSettings.delivery_fee_outside)}
+function updateCart(){const items=currentItems(),subtotal=items.reduce((a,x)=>a+Number(x.price)*x.qty,0),fee=deliveryFee();document.getElementById('cartcount').textContent=cart.reduce((a,x)=>a+x.qty,0);document.getElementById('cartsubtotal').textContent=money(subtotal);document.getElementById('deliveryFee').textContent=money(fee);document.getElementById('carttotal').textContent=money(subtotal+fee);document.getElementById('cartitems').innerHTML=items.length?items.map((x,i)=>`<div class="cartitem"><strong>${esc(x.name)}</strong><br>Colour: ${esc(x.colour)} · Size: ${esc(x.size)} · Qty: ${x.qty}<br>${money(x.price*x.qty)} <button onclick="removeCheckoutItem(${i})">Remove</button></div>`).join(''):'<p style="color:#77796e;font-size:13px">Your bag is empty.</p>';paymentChanged(false)}
+function removeCheckoutItem(i){if(checkoutItems){checkoutItems.splice(i,1);if(!checkoutItems.length)checkoutItems=null}else cart.splice(i,1);updateCart()}
+function buyNow(){if(!active||stockLoading||stockFor(selectedColour,selectedSize)<=0)return;checkoutItems=[{id:active.id,name:active.name,price:Number(active.price),colour:selectedColour,size:selectedSize,qty}];closePanels();openCart();toast('Buy It Now — checkout this item directly.')}
+function openCart(){updateCart();document.getElementById('overlay').classList.add('show');document.getElementById('cartpanel').classList.add('show')}
+function closePanels(){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'))}
+function paymentChanged(showNotice=true){const checked=document.querySelector('input[name=payment]:checked'),p=checked?.value||'cod';document.getElementById('mobilePayment').style.display=p==='cod'?'none':'block';if(showNotice)document.getElementById('checkoutNotice').style.display='none';const n=p==='bkash'?checkoutSettings.bkash_number:checkoutSettings.nagad_number;document.getElementById('paymentNumber').textContent=n||'Contact ASENO';document.getElementById('senderPaymentHelp').textContent=p==='cod'?'':`Send product subtotal ${money(currentItems().reduce((a,x)=>a+x.price*x.qty,0))} to the ${p==='bkash'?'bKash':'Nagad'} number above. Pay delivery fee on delivery.`}
+function formMessage(t,err=false){const n=document.getElementById('checkoutNotice');n.textContent=t;n.className='notice'+(err?' error':'');n.style.display='block';document.getElementById('orderSuccess').style.display='none'}
+async function placeOrder(){
+ const itemsToOrder=currentItems().map(x=>({...x}));if(!itemsToOrder.length)return formMessage('Your bag is empty. Add a product first.',true);
+ const name=document.getElementById('customerName').value.trim(),phone=document.getElementById('customerPhone').value.trim().replace(/[\s-]/g,''),address=document.getElementById('customerAddress').value.trim(),payment=document.querySelector('input[name=payment]:checked')?.value||'cod',sender=document.getElementById('senderPhone').value.trim(),trx=document.getElementById('transactionId').value.trim();
+ if(!name||!phone||!address)return formMessage('Please enter your name, phone number and delivery address.',true);
+ if(!/^01[3-9]\d{8}$/.test(phone))return formMessage('Enter a valid Bangladesh mobile number (01XXXXXXXXX).',true);
+ if(payment!=='cod'&&(!sender||!trx))return formMessage('For bKash/Nagad, enter sender number and transaction ID.',true);
+ if((payment==='cod'&&!checkoutSettings.cod_enabled)||(payment==='bkash'&&!checkoutSettings.bkash_enabled)||(payment==='nagad'&&!checkoutSettings.nagad_enabled))return formMessage('This payment method is currently unavailable. Please choose another.',true);
+ const btn=document.getElementById('placeOrderBtn');btn.disabled=true;btn.textContent='SUBMITTING ORDER…';
+ try{
+  const dbItems=[];
+  for(const x of itemsToOrder){
+   if(String(x.id).startsWith('demo'))throw new Error('DEMO_PRODUCTS');
+   const {data:variants,error:variantError}=await db.from('product_variants').select('id,product_id,color,size,stock').eq('product_id',x.id);
+   if(variantError)throw variantError;
+   const v=(variants||[]).find(v=>normalizeVariantLabel(v.color)===normalizeVariantLabel(x.colour)&&normalizeVariantLabel(v.size)===normalizeVariantLabel(x.size));
+   if(!v)throw new Error('VARIANT_MISSING');
+   if(Number(v.stock||0)<x.qty)throw new Error('INSUFFICIENT_STOCK');
+   dbItems.push({variant_id:v.id,quantity:x.qty});
+  }
+  // Match the known 7-parameter place_store_order function. Delivery area/fee must be handled by the database function or updated there separately.
+  const {data,error}=await db.rpc('place_store_order',{p_customer_name:name,p_phone:phone,p_address:address,p_payment_method:payment,p_payment_sender:payment==='cod'?null:sender,p_transaction_id:payment==='cod'?null:trx,p_items:dbItems});
+  if(error)throw error;
+  const oid=data?.order_id??data?.id??data;
+  if(oid===null||oid===undefined||oid==='')throw new Error('ORDER_ID_MISSING');
+  let displayOrderCode=String(oid);
+  try{const {data:od,error:oe}=await db.from('orders').select('order_code').eq('id',oid).maybeSingle();if(!oe&&od?.order_code)displayOrderCode=od.order_code}catch(e){console.warn('Order code lookup failed',e)}
+  if(!checkoutItems)cart=[];checkoutItems=null;updateCart();
+  ['customerName','customerPhone','customerAddress','senderPhone','transactionId'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('checkoutNotice').style.display='none';
+  const success=document.getElementById('orderSuccess');success.style.display='block';success.className='notice success';
+  const subtotal=itemsToOrder.reduce((a,x)=>a+x.price*x.qty,0),fee=deliveryFee();
+  success.innerHTML=`<strong>Order placed successfully!</strong><br>Your Order ID:<br><strong style="word-break:break-all">${esc(displayOrderCode)}</strong><br>Product subtotal: ${money(subtotal)}<br>Delivery fee shown: ${money(fee)}<br>Grand total shown: ${money(subtotal+fee)}<br>Save this ID and use it with your phone number to track your order.<br><a class="tracklink" href="track-order.html">TRACK YOUR ORDER ↗</a>`;
+  await loadProducts();
+ }catch(e){console.error('Order submission failed:',e);const m=e.message==='DEMO_PRODUCTS'?'These are preview products, not database products. Add real products and colour/size stock in Admin Panel before placing an online order.':e.message==='VARIANT_MISSING'?'This product colour/size is not configured in stock yet. Please contact ASENO.':e.message==='INSUFFICIENT_STOCK'?'Sorry, the selected colour/size no longer has enough stock. Please update your bag and try again.':e.message==='ORDER_ID_MISSING'?'The database did not return an order ID. Please check the order function before trying again.':e.message||'Order could not be submitted. No order was confirmed.';formMessage(m,true)}
+ finally{btn.disabled=false;btn.textContent='PLACE ORDER'}
+}
 async function loadProducts(){
  try{
   const {data,error}=await db.from('products').select('id,name,description,category,price,image_url,image_urls,is_active').eq('is_active',true).order('created_at',{ascending:true});
   if(error)throw error;
   if(data&&data.length){
    const ids=data.map(p=>p.id);
-   const {data:variants,error:variantError}=await db.from('product_variants').select('id,product_id,color,size,stock').in('product_id',ids);
-   if(variantError)throw variantError;
-   const allVariants=variants||[];
-   products=data.map(p=>{
-    const pv=allVariants.filter(v=>String(v.product_id)===String(p.id));
-    const actualColours=[...new Set(pv.map(v=>v.color).filter(Boolean))];
-    return {...p,category:p.category==='tshirt'?'SOLID ESSENTIAL':p.category==='custom'?'ASENO DESIGN':p.category,colours:actualColours,variants:pv};
-   });
-  }
+   const {data:variants,error:ve}=await db.from('product_variants').select('id,product_id,color,size,stock').in('product_id',ids);
+   if(ve)throw ve;
+   products=data.map(p=>{const pv=(variants||[]).filter(v=>String(v.product_id)===String(p.id));const cs=[...new Set(pv.map(v=>v.color).filter(Boolean))];return {...p,category:p.category==='tshirt'?'SOLID ESSENTIAL':p.category==='custom'?'ASENO DESIGN':p.category,colours:cs,variants:pv}});
+  }else{products=[]}
   render();
- }catch(e){console.error('ASENO products/stock load failed:',e);render();toast('Could not load live stock. Please refresh or check database permissions.');}
+ }catch(e){console.error('ASENO products load failed:',e);products=[];render();toast('Could not load products from the store database. Check Supabase connection, table permissions, and active products.')}
 }
-function toast(s){let n=document.getElementById('notice');n.textContent=s;n.style.display='block';clearTimeout(window.nt);window.nt=setTimeout(()=>n.style.display='none',3500)}
-function normalizeVariantLabel(value) {
-  return String(value ?? '')
-    .trim()
-    .replace(/\s+/g, ' ')
-    .toLocaleLowerCase();
-}
-
-function sizesForColour(colour) {
-  const selectedColour = normalizeVariantLabel(colour);
-
-  return [
-    ...new Set(
-      activeVariants
-        .filter(v =>
-          normalizeVariantLabel(v.color) === selectedColour
-        )
-        .map(v => String(v.size ?? '').trim())
-        .filter(Boolean)
-    )
-  ];
-}
-
-function variantFor(colour, size) {
-  const normalizedColour = normalizeVariantLabel(colour);
-  const normalizedSize = normalizeVariantLabel(size);
-
-  return activeVariants.find(v =>
-    normalizeVariantLabel(v.color) === normalizedColour &&
-    normalizeVariantLabel(v.size) === normalizedSize
-  );
-}
-
-function stockFor(colour, size) {
-  const variant = variantFor(colour, size);
-
-  return variant
-    ? Math.max(0, Number(variant.stock) || 0)
-    : 0;
-}
-async function openProduct(id){
- active=products.find(p=>String(p.id)===String(id));if(!active)return;
- selectedColour='';selectedSize='M';qty=1;activeVariants=[];stockLoading=true;
- const galleryImages=productImages(active);
- document.getElementById('productform').innerHTML=`<h2>${esc(active.name)}</h2><p style="font-size:12px;color:#77796e">${esc(active.description||'Premium ASENO streetwear.')}</p>${galleryImages.length?`<div class="product-gallery"><img id="productGalleryMain" src="${esc(galleryImages[0])}" alt="${esc(active.name)}">${galleryImages.length>1?`<div class="gallery-thumbs" aria-label="Product photos">${galleryImages.map((url,i)=>`<button type="button" class="gallery-thumb ${i===0?'selected':''}" aria-pressed="${i===0?'true':'false'}" onclick="showGalleryImage(${i})" aria-label="View product photo ${i+1}"><img src="${esc(url)}" alt=""></button>`).join('')}</div>`:''}</div>`:''}<div class="field"><label>COLOUR</label><div class="choice" id="colourChoices">Loading stock…</div></div><div class="field"><label>SIZE</label><div class="choice" id="sizeChoices"></div><p id="stockMessage" class="stock-label">Checking availability…</p></div><div class="field"><label>QUANTITY</label><div class="choice"><button onclick="changeQty(-1)">−</button><button id="qtyval">1</button><button onclick="changeQty(1)">+</button></div></div><div class="panelprice" id="productprice">${money(active.price)}</div><button class="primary" id="addToBagButton" onclick="addToCart()" disabled>ADD TO BAG</button><button class="secondary" id="buyNowButton" onclick="buyNow()" disabled>BUY IT NOW</button>`;
- document.getElementById('overlay').classList.add('show');document.getElementById('productpanel').classList.add('show');
+async function loadCheckoutSettings(){
  try{
-  const {data,error}=await db.from('product_variants').select('id,product_id,color,size,stock').eq('product_id',active.id);
+  const {data,error}=await db.from('store_settings').select('delivery_fee_city,delivery_fee_outside,cod_enabled,bkash_enabled,nagad_enabled,bkash_number,nagad_number').order('id',{ascending:true}).limit(1).maybeSingle();
   if(error)throw error;
-  activeVariants=data||[];stockLoading=false;
-  const dbColours=[...new Set(activeVariants.map(v=>v.color).filter(Boolean))];
-  active.colours=dbColours;
-  if(!activeVariants.length){document.getElementById('colourChoices').innerHTML='<span class="stock-label out">No colour/size stock configured</span>';document.getElementById('sizeChoices').innerHTML='';document.getElementById('stockMessage').textContent='Please contact ASENO.';return;}
-  selectedColour =
-  dbColours.find(colour =>
-    sizesForColour(colour).some(size =>
-      stockFor(colour, size) > 0
-    )
-  ) || dbColours[0];
-
-const availableSizes = sizesForColour(selectedColour);
-
-selectedSize =
-  availableSizes.find(size =>
-    stockFor(selectedColour, size) > 0
-  ) || availableSizes[0] || '';
-
-renderStockOptions();
- }catch(e){console.error('Stock lookup failed:',e);stockLoading=false;document.getElementById('colourChoices').innerHTML='<span class="stock-label out">Stock unavailable</span>';document.getElementById('sizeChoices').innerHTML='';document.getElementById('stockMessage').textContent='Could not check stock. Please refresh and try again.';document.getElementById('addToBagButton').disabled=true;}
+  if(data)checkoutSettings={...checkoutSettings,...data};
+  const area=document.getElementById('deliveryArea');area.options[0].text=`Chattogram City — ${money(checkoutSettings.delivery_fee_city)}`;area.options[1].text=`Outside Chattogram — ${money(checkoutSettings.delivery_fee_outside)}`;
+  document.getElementById('codOption').style.display=checkoutSettings.cod_enabled?'block':'none';document.getElementById('bkashOption').style.display=checkoutSettings.bkash_enabled?'block':'none';document.getElementById('nagadOption').style.display=checkoutSettings.nagad_enabled?'block':'none';
+  const chosen=document.querySelector('input[name=payment]:checked');
+  if(!chosen||!checkoutSettings[chosen.value+'_enabled']){const first=['cod','bkash','nagad'].find(p=>checkoutSettings[p+'_enabled']);document.querySelectorAll('input[name=payment]').forEach(r=>r.checked=r.value===first)}
+  paymentChanged(false);updateCart();
+ }catch(e){console.warn('Could not load checkout settings; using defaults.',e);updateCart()}
 }
-function normalizeVariantLabel(value) {
-  return String(value ?? '')
-    .trim()
-    .replace(/\s+/g, ' ')
-    .toLocaleLowerCase();
-}
-
-function variantFor(colour, size) {
-  const normalizedColour = normalizeVariantLabel(colour);
-  const normalizedSize = normalizeVariantLabel(size);
-
-  return activeVariants.find(v =>
-    normalizeVariantLabel(v.color) === normalizedColour &&
-    normalizeVariantLabel(v.size) === normalizedSize
-  );
-}
-
-function stockFor(colour, size) {
-  const variant = variantFor(colour, size);
-
-  return variant
-    ? Math.max(0, Number(variant.stock) || 0)
-    : 0;
-}
-
-function sizesForColour(colour) {
-  const normalizedColour = normalizeVariantLabel(colour);
-
-  return [
-    ...new Set(
-      activeVariants
-        .filter(v =>
-          normalizeVariantLabel(v.color) === normalizedColour &&
-          String(v.size ?? '').trim()
-        )
-        .map(v => String(v.size).trim().replace(/\s+/g, ' '))
-    )
-  ];
-}
-
-function renderStockOptions() {
-  const colourBox = document.getElementById('colourChoices');
-  const sizeBox = document.getElementById('sizeChoices');
-
-  if (!colourBox || !sizeBox) return;
-
-  const colours = [
-    ...new Map(
-      activeVariants
-        .map(v => String(v.color ?? '').trim().replace(/\s+/g, ' '))
-        .filter(Boolean)
-        .map(colour => [normalizeVariantLabel(colour), colour])
-    ).values()
-  ];
-
-  if (!colours.length) {
-    colourBox.innerHTML =
-      '<span class="stock-label out">No colours available</span>';
-
-    sizeBox.innerHTML = '';
-    selectedColour = '';
-    selectedSize = '';
-    return;
-  }
-
-  if (!colours.some(colour =>
-    normalizeVariantLabel(colour) ===
-    normalizeVariantLabel(selectedColour)
-  )) {
-    selectedColour = colours[0];
-  } else {
-    selectedColour = colours.find(colour =>
-      normalizeVariantLabel(colour) ===
-      normalizeVariantLabel(selectedColour)
-    );
-  }
-
-  const availableSizes = sizesForColour(selectedColour);
-
-  colourBox.innerHTML = colours.map(colour => {
-    const colourSizes = sizesForColour(colour);
-
-    const inStock = colourSizes.some(size =>
-      stockFor(colour, size) > 0
-    );
-
-    const isSelected =
-      normalizeVariantLabel(colour) ===
-      normalizeVariantLabel(selectedColour);
-
-    return `
-      <button
-        type="button"
-        class="${isSelected ? 'selected' : ''}"
-        ${inStock ? '' : 'disabled'}
-        onclick="chooseColour('${esc(colour)}')">
-        ${esc(colour)}
-        ${inStock
-          ? ''
-          : '<span class="stock-label out">SOLD OUT</span>'}
-      </button>
-    `;
-  }).join('');
-
-  if (!availableSizes.length) {
-    sizeBox.innerHTML =
-      '<span class="stock-label out">No sizes available</span>';
-
-    selectedSize = '';
-    return;
-  }
-
-  if (!availableSizes.some(size =>
-    normalizeVariantLabel(size) ===
-    normalizeVariantLabel(selectedSize)
-  )) {
-    selectedSize =
-      availableSizes.find(size =>
-        stockFor(selectedColour, size) > 0
-      ) || availableSizes[0];
-  } else {
-    selectedSize = availableSizes.find(size =>
-      normalizeVariantLabel(size) ===
-      normalizeVariantLabel(selectedSize)
-    );
-  }
-
-  sizeBox.innerHTML = availableSizes.map(size => {
-    const available = stockFor(selectedColour, size);
-
-    const isSelected =
-      normalizeVariantLabel(size) ===
-      normalizeVariantLabel(selectedSize);
-
-    return `
-      <button
-        type="button"
-        class="${isSelected ? 'selected' : ''}"
-        ${available > 0 ? '' : 'disabled'}
-        onclick="chooseSize('${esc(size)}')">
-        ${esc(size)}
-        ${available > 0
-          ? `<span class="stock-label">IN STOCK · ${available} available</span>`
-          : '<span class="stock-label out">SOLD OUT</span>'}
-      </button>
-    `;
-  }).join('');
-}
-function chooseColour(c){selectedColour=c;qty=1;renderStockOptions()}
-function chooseSize(sz){selectedSize=sz;qty=1;renderStockOptions()}
-function changeQty(n){const available=stockFor(selectedColour,selectedSize);if(available<=0)return;qty=Math.max(1,Math.min(available,qty+n));document.getElementById('qtyval').textContent=qty;document.getElementById('productprice').textContent=money(active.price*qty)}
-function addToCart(){
- if(!active||stockLoading){toast('Please wait while stock loads.');return;}
- const available=stockFor(selectedColour,selectedSize);if(available<=0){toast('Sorry, this colour/size is sold out.');renderStockOptions();return;}
- const found=cart.find(x=>String(x.id)===String(active.id)&&x.colour===selectedColour&&x.size===selectedSize),already=found?found.qty:0;
- if(already+qty>available){toast(`Only ${available} item(s) available for this size and colour.`);return;}
- if(found)found.qty+=qty;else cart.push({id:active.id,name:active.name,price:Number(active.price),colour:selectedColour,size:selectedSize,qty});updateCart();closePanels();toast('Added to your bag.');
-}
-function currentItems(){return checkoutItems||cart}function deliveryFee(){const a=document.getElementById('deliveryArea')?.value||'chattogram_city';return Number(a==='chattogram_city'?checkoutSettings.delivery_fee_city:checkoutSettings.delivery_fee_outside)}function updateCart(){const items=currentItems(),subtotal=items.reduce((a,x)=>a+x.price*x.qty,0),fee=deliveryFee();document.getElementById('cartcount').textContent=cart.reduce((a,x)=>a+x.qty,0);document.getElementById('cartsubtotal').textContent=money(subtotal);document.getElementById('deliveryFee').textContent=money(fee);document.getElementById('carttotal').textContent=money(subtotal+fee);document.getElementById('cartitems').innerHTML=items.length?items.map((x,i)=>`<div class="cartitem"><strong>${esc(x.name)}</strong><br>Colour: ${esc(x.colour)} · Size: ${esc(x.size)} · Qty: ${x.qty}<br>${money(x.price*x.qty)} <button onclick="removeCheckoutItem(${i})">Remove</button></div>`).join(''):'<p style="color:#77796e;font-size:13px">Your bag is empty.</p>'}function removeCheckoutItem(i){if(checkoutItems){checkoutItems.splice(i,1);if(!checkoutItems.length)checkoutItems=null;}else cart.splice(i,1);updateCart()}function buyNow(){if(!active||stockLoading||stockFor(selectedColour,selectedSize)<=0)return;checkoutItems=[{id:active.id,name:active.name,price:Number(active.price),colour:selectedColour,size:selectedSize,qty}];closePanels();openCart();toast('Buy It Now — checkout this item directly.')}
-function removeItem(i){cart.splice(i,1);updateCart()}function openCart(){updateCart();document.getElementById('overlay').classList.add('show');document.getElementById('cartpanel').classList.add('show')}function closePanels(){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'))}
-function paymentChanged(){let p=document.querySelector('input[name=payment]:checked').value;document.getElementById('mobilePayment').style.display=p==='cod'?'none':'block';document.getElementById('checkoutNotice').style.display='none';const n=p==='bkash'?checkoutSettings.bkash_number:checkoutSettings.nagad_number;document.getElementById('paymentNumber').textContent=n||'Contact ASENO';document.getElementById('senderPaymentHelp').textContent=p==='cod'?'':`Send product subtotal ${money(currentItems().reduce((a,x)=>a+x.price*x.qty,0))} to the ${p==='bkash'?'bKash':'Nagad'} number above. Pay delivery fee on delivery.`}
-function formMessage(t,err=false){let n=document.getElementById('checkoutNotice');n.textContent=t;n.className='notice'+(err?' error':'');n.style.display='block';if(!err&&document.getElementById('orderSuccess'))document.getElementById('orderSuccess').style.display='none'}
-async function placeOrder(){const isBuyNow=checkoutItems!==null;const itemsToOrder=currentItems().map(x=>({...x}));if(!itemsToOrder.length)return formMessage('Your bag is empty. Add a product first.',true);let name=document.getElementById('customerName').value.trim(),phone=document.getElementById('customerPhone').value.trim().replace(/[\s-]/g,''),address=document.getElementById('customerAddress').value.trim(),payment=document.querySelector('input[name=payment]:checked').value,sender=document.getElementById('senderPhone').value.trim(),trx=document.getElementById('transactionId').value.trim(),area=document.getElementById('deliveryArea').value,fee=deliveryFee();if(!name||!phone||!address)return formMessage('Please enter your name, phone number and delivery address.',true);if(!/^01[3-9]\d{8}$/.test(phone))return formMessage('Enter a valid Bangladesh mobile number (01XXXXXXXXX).',true);if(payment!=='cod'&&(!sender||!trx))return formMessage('For bKash/Nagad, enter sender number and transaction ID.',true);if(payment==='cod'&&!checkoutSettings.cod_enabled||payment==='bkash'&&!checkoutSettings.bkash_enabled||payment==='nagad'&&!checkoutSettings.nagad_enabled)return formMessage('This payment method is currently unavailable. Please choose another.',true);
-const btn=document.getElementById('placeOrderBtn');btn.disabled=true;btn.textContent='SUBMITTING ORDER…';
-try{const dbItems=[];for(const x of itemsToOrder){if(String(x.id).startsWith('demo'))throw new Error('DEMO_PRODUCTS');const { data: variants, error: variantError } = await db
-  .from('product_variants')
-  .select('id, product_id, color, size, stock')
-  .eq('product_id', x.id);
-
-if (variantError) throw variantError;
-
-const selectedVariant = (variants || []).find(v =>
-  normalizeVariantLabel(v.color) === normalizeVariantLabel(x.colour) &&
-  normalizeVariantLabel(v.size) === normalizeVariantLabel(x.size)
-);
-
-if (!selectedVariant) {
-  throw new Error('VARIANT_MISSING');
-}
-
-if (Number(selectedVariant.stock || 0) < x.qty) {
-  throw new Error('INSUFFICIENT_STOCK');
-}
-
-dbItems.push({
-  variant_id: selectedVariant.id,
-  quantity: x.qty
-});
-const {data,error}=await db.rpc('place_store_order',{p_customer_name:name,p_phone:phone,p_address:address,p_payment_method:payment,p_payment_sender:payment==='cod'?null:sender,p_transaction_id:payment==='cod'?null:trx,p_items:dbItems,p_delivery_area:area,p_delivery_fee:fee});if(error)throw error;let oid = data?.order_id || data?.id || data;
-let displayOrderCode = String(oid);
-
-try {
-  const { data: orderData, error: orderError } = await db
-    .from('orders')
-    .select('order_code')
-    .eq('id', oid)
-    .single();
-
-  if (!orderError && orderData?.order_code) {
-    displayOrderCode = orderData.order_code;
-  }
-} catch (error) {
-  console.error('Order code lookup failed:', error);
-}
-
-if (!isBuyNow) cart = [];
-checkoutItems = null;
-updateCart();['customerName','customerPhone','customerAddress','senderPhone','transactionId'].forEach(id=>document.getElementById(id).value='');document.getElementById('checkoutNotice').style.display='none';const success=document.getElementById('orderSuccess');success.style.display='block';success.className='notice success';success.innerHTML=`<strong>Order placed successfully!</strong><br>Your Order ID:<br><strong style="word-break:break-all">${esc(displayOrderCode)}</strong><br>Product subtotal: ${money(itemsToOrder.reduce((a,x)=>a+x.price*x.qty,0))}<br>Delivery fee: ${money(fee)}<br>Grand total: ${money(itemsToOrder.reduce((a,x)=>a+x.price*x.qty,0)+fee)}<br>Save this ID and use it with your phone number to track your order.<br><a class="tracklink" href="track-order.html">TRACK YOUR ORDER ↗</a>`;await loadProducts()}catch(e){console.error(e);let msg=e.message==='DEMO_PRODUCTS'?'These are preview products, not database products. Add real products and colour/size stock in Admin Panel before placing an online order.':e.message==='VARIANT_MISSING'?'This product colour/size is not configured in stock yet. Please contact ASENO.':e.message==='INSUFFICIENT_STOCK'?'Sorry, the selected colour/size no longer has enough stock. Please update your bag and try again.':(e.message||'').includes('Store settings missing')?'Store settings are missing. Please contact ASENO.':(e.message||'').includes('Delivery fee mismatch')?'Delivery fee changed. Please refresh the page and try again.':'Order could not be submitted. Please confirm checkout SQL is installed and product stock is configured. No order was confirmed.';formMessage(msg,true)}finally{btn.disabled=false;btn.textContent='PLACE ORDER'}}
-async function loadCheckoutSettings(){try{const {data,error}=await db.from('store_settings').select('delivery_fee_city,delivery_fee_outside,cod_enabled,bkash_enabled,nagad_enabled,bkash_number,nagad_number').order('id',{ascending:true}).limit(1).maybeSingle();if(error)throw error;if(data){checkoutSettings={...checkoutSettings,...data};const a=document.getElementById('deliveryArea');a.options[0].text=`Chattogram City — ${money(checkoutSettings.delivery_fee_city)}`;a.options[1].text=`Outside Chattogram — ${money(checkoutSettings.delivery_fee_outside)}`;document.querySelector('label.payoption input[value="cod"]').closest('label').style.display=checkoutSettings.cod_enabled?'block':'none';document.querySelector('label.payoption input[value="bkash"]').closest('label').style.display=checkoutSettings.bkash_enabled?'block':'none';document.querySelector('label.payoption input[value="nagad"]').closest('label').style.display=checkoutSettings.nagad_enabled?'block':'none';if(!checkoutSettings.cod_enabled)document.querySelector('input[name=payment]:checked').checked=false;if(!checkoutSettings.cod_enabled){const first=document.querySelector('input[name=payment]');if(first)first.checked=true;paymentChanged();}}updateCart();}catch(e){console.warn('Could not load checkout settings; using defaults.',e)}}
+function removeItem(i){cart.splice(i,1);updateCart()}
 render();updateCart();loadProducts();loadCheckoutSettings();
-</script><style>
-.aseno-socials {display:flex;flex-wrap:wrap;gap:22px;align-items:center;margin:24px 0}
-.aseno-socials a{box-sizing:border-box;width:76px;height:76px;display:flex;align-items:center;justify-content:center;border:2px solid #454545;border-radius:0;color:#bdbdbd;text-decoration:none;flex-shrink:0}
-.aseno-socials a:hover{border-color:#999;color:#fff}.aseno-socials svg{width:38px;height:38px;display:block}
-.aseno-whatsapp-float{position:fixed;right:20px;bottom:22px;z-index:99999;width:60px;height:60px;border-radius:50%;background:#25D366;color:white;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 5px 18px #0004}
-.aseno-whatsapp-float svg{width:36px;height:36px;fill:currentColor}
-@media(max-width:600px){.aseno-socials{gap:12px}.aseno-socials a{width:54px;height:54px}.aseno-socials svg{width:29px;height:29px}.aseno-whatsapp-float{width:56px;height:56px;right:15px;bottom:18px}}
-</style>
-<script>
-(function(){
+(function setupSocials(){
  const message='https://wa.me/8801890542860?text=Hi%20ASENO%2C%20I%20need%20help%20with%20an%20order.';
- function setup(){
-  const footer=document.querySelector('footer');
-  if(footer&&!document.querySelector('.aseno-socials')){
-   const box=document.createElement('div');box.className='aseno-socials';box.setAttribute('aria-label','ASENO social media');
-   box.innerHTML=`
-    <a href="https://www.instagram.com/aseno.__?exln=MW9sbXdnbDA1ZXNjZw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
-    <a href="https://www.facebook.com/share/1C8JvbCPcX/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.3V13h2.8v8z"/></svg></a>
-    <a href="https://www.tiktok.com/@aseno.__?_r=1&_t=ZS-9Ai3BNNCDcy" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 7.1a6.5 6.5 0 0 1-4.1-1.5v8.1a6.2 6.2 0 1 1-5.4-6.1v3.3a2.9 2.9 0 1 0 2.1 2.8V2.5h3.3c.2 2.1 1.9 3.9 4.1 4.1z"/></svg></a>
-    <a href="${message}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.5A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8.5 8.2c.3-.6.6-.6.9-.6h.4c.2 0 .4.1.5.4l.8 1.9c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6.4.8 1.1 1.5 1.8 2 .7.5 1.4.8 1.8.9.3.1.5.1.7-.2l.8-1c.2-.2.4-.3.6-.1l1.8.9c.3.1.4.3.4.5 0 .4-.2 1.2-.8 1.6-.6.4-1.3.6-2 .4-1.1-.2-2.4-.8-3.8-2-1.6-1.4-2.6-3.1-2.9-4.2-.3-1.1 0-2 .5-2.4Z"/></svg></a>`;
-   footer.appendChild(box);
-  }
-  if(!document.querySelector('.aseno-whatsapp-float')){
-   const wa=document.createElement('a');wa.className='aseno-whatsapp-float';wa.href=message;wa.target='_blank';wa.rel='noopener noreferrer';wa.setAttribute('aria-label','Chat with ASENO on WhatsApp');
-   wa.innerHTML=`<svg viewBox="0 0 32 32"><path d="M16 .8A15 15 0 0 0 3.1 23.5L1 31l7.7-2A15.1 15.1 0 1 0 16 .8Zm0 27.4a12.3 12.3 0 0 1-6.2-1.7l-.5-.3-4.6 1.2 1.2-4.5-.3-.5A12.3 12.3 0 1 1 16 28.2Zm6.8-9.2c-.4-.2-2.1-1-2.4-1.1-.3-.1-.6-.2-.8.2-.2.4-.9 1.1-1.1 1.3-.2.2-.4.3-.8.1-.4-.2-1.5-.5-2.9-1.8-1.1-1-1.8-2.1-2-2.5-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.5 0-.7l-1.1-2.6c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.8 5.2.8.3 1.4.5 1.9.7.8.2 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.2-.3-.3-.7-.5Z"/></svg>`;
-   document.body.appendChild(wa);
-  }
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+ const footer=document.querySelector('footer');
+ if(footer&&!document.querySelector('.aseno-socials')){const box=document.createElement('div');box.className='aseno-socials';box.setAttribute('aria-label','ASENO social media');box.innerHTML=`
+ <a href="https://www.instagram.com/aseno.__/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+ <a href="https://www.facebook.com/share/1C8JvbCPcX/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.3V13h2.8v8z"/></svg></a>
+ <a href="https://www.tiktok.com/@aseno.__" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 7.1a6.5 6.5 0 0 1-4.1-1.5v8.1a6.2 6.2 0 1 1-5.4-6.1v3.3a2.9 2.9 0 1 0 2.1 2.8V2.5h3.3c.2 2.1 1.9 3.9 4.1 4.1z"/></svg></a>
+ <a href="${message}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.5A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8.5 8.2c.3-.6.6-.6.9-.6h.4c.2 0 .4.1.5.4l.8 1.9c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6.4.8 1.1 1.5 1.8 2 .7.5 1.4.8 1.8.9.3.1.5.1.7-.2l.8-1c.2-.2.4-.3.6-.1l1.8.9c.3.2.4.3.4.5 0 .4-.2 1.2-.8 1.6-.6.4-1.3.6-2 .4-1.1-.2-2.4-.8-3.8-2-1.6-1.4-2.6-3.1-2.9-4.2-.3-1.1 0-2 .5-2.4Z"/></svg></a>`;footer.appendChild(box)}
+ if(!document.querySelector('.aseno-whatsapp-float')){const wa=document.createElement('a');wa.className='aseno-whatsapp-float';wa.href=message;wa.target='_blank';wa.rel='noopener noreferrer';wa.setAttribute('aria-label','Chat with ASENO on WhatsApp');wa.innerHTML='<svg viewBox="0 0 32 32"><path d="M16 .8A15 15 0 0 0 3.1 23.5L1 31l7.7-2A15.1 15.1 0 1 0 16 .8Zm0 27.4a12.3 12.3 0 0 1-6.2-1.7l-.5-.3-4.6 1.2 1.2-4.5-.3-.5A12.3 12.3 0 1 1 16 28.2Zm6.8-9.2c-.4-.2-2.1-1-2.4-1.1-.3-.1-.6-.2-.8.2-.2.4-.9 1.1-1.1 1.3-.2.2-.4.3-.8.1-.4-.2-1.5-.5-2.9-1.8-1.1-1-1.8-2.1-2-2.5-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.5 0-.7l-1.1-2.6c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.8 5.2.8.3 1.4.5 1.9.7.8.2 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.2-.3-.3-.7-.5Z"/></svg>';document.body.appendChild(wa)}
 })();
-</script></body></html>
-<!-- Auto deploy test -->
+</script>
+</body>
+</html>
