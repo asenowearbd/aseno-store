@@ -90,10 +90,12 @@ document.getElementById('trackForm').addEventListener('submit', async function(e
 
     result.appendChild(details);
   } catch (err) {
-    console.error('Order tracking failed:', err);
-    result.textContent =
-      'Could not check order right now. Please try again later.';
-  } finally {
+  console.error('Order tracking failed:', err);
+
+  result.textContent =
+    'Tracking error: ' +
+    (err?.message || JSON.stringify(err) || 'Unknown error');
+} finally {
     button.disabled = false;
   }
 });
