@@ -127,11 +127,30 @@ async function placeOrder(){
   }
   // Match the known 7-parameter place_store_order function. Delivery area/fee must be handled by the database function or updated there separately.
   const {data,error}=await db.rpc('place_store_order',{p_customer_name:name,p_phone:phone,p_address:address,p_payment_method:payment,p_payment_sender:payment==='cod'?null:sender,p_transaction_id:payment==='cod'?null:trx,p_items:dbItems});
-  if(error)throw error;
-  const oid=data?.order_id??data?.id??data;
-  if(oid===null||oid===undefined||oid==='')throw new Error('ORDER_ID_MISSING');
-  let displayOrderCode=String(oid);
-  try{const {data:od,error:oe}=await db.from('orders').select('order_code').eq('id',oid).maybeSingle();if(!oe&&od?.order_code)displayOrderCode=od.order_code}catch(e){console.warn('Order code lookup failed',e)}
+  if(error)throw error;const oid = data?.order_id ?? data?.id ?? data?.order?.id ?? data;
+
+if (oid === null || oid === undefined || oid === '') {
+  throw new Error('ORDER_ID_MISSING');
+}
+
+let displayOrderCode =
+  data?.order_code ?? data?.order?.order_code ?? '';
+
+if (!displayOrderCode) {
+  const { data: od, error: oe } = await db
+    .from('orders')
+    .select('order_code')
+    .eq('id', oid)
+    .maybeSingle();
+
+  if (!oe && od?.order_code) {
+    displayOrderCode = od.order_code;
+  }
+}
+
+if (!displayOrderCode) {
+  displayOrderCode = 'Order code unavailable';
+}
   if(!checkoutItems)cart=[];checkoutItems=null;updateCart();
   ['customerName','customerPhone','customerAddress','senderPhone','transactionId'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('checkoutNotice').style.display='none';
